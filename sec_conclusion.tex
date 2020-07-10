@@ -1,0 +1,71 @@
+% !TEX root = main.tex
+
+\section{Conclusions}\label{sec:conclusion}
+% You generally cover three things in the Conclusions section, and each of these usually merits a separate subsection:
+
+% 1. Conclusions
+% 2. Summary of Contributions
+% 3. Future Research
+
+% Conclusions are not a rambling summary of the thesis: they are short, concise statements of the inferences that you have made because of your work. It helps to organize these as short numbered paragraphs, ordered from most to least important. All conclusions should be directly related to the research question stated in Section 4. Examples:
+
+% 1. The problem stated in Section 4 has been solved: as shown in Sections ? to ??, an algorithm capable of handling large-scale Zylon problems in reasonable time has been developed.
+% 2. The principal mechanism needed in the improved Zylon algorithm is the Grooty mechanism.
+% 3. Etc.
+
+% The Summary of Contributions will be much sought and carefully read by the examiners. Here you list the contributions of new knowledge that your thesis makes. Of course, the thesis itself must substantiate any claims made here. There is often some overlap with the Conclusions, but that's okay. Concise numbered paragraphs are again best. Organize from most to least important. Examples:
+
+% 1. Developed a much quicker algorithm for large-scale Zylon problems.
+% 2. Demonstrated the first use of the Grooty mechanism for Zylon calculations.
+% 3. Etc.
+
+% The Future Research subsection is included so that researchers picking up this work in future have the benefit of the ideas that you generated while you were working on the project. Again, concise numbered paragraphs are usually best. 
+
+\textbf{TO DO: FEASIBILITY STUDY BECAUSE OF LIMITED AMOUNT OF DATA}
+
+\subsection{Conclusions}
+-got these results, because...\\
+-importance on preprocessing\\
+-initial results may be slightly better that normal, but the nature of data collection is limiting, need to be used in continuance\\ 
+
+% \begin{itemize}
+%     \item Ranking can be useful but only with enough data
+%     \item X method performs better / is more useful than Y
+%     \item Combining techniques give these different results
+%     \item Context of industrial code
+% \end{itemize}
+
+
+\subsection{Summary of Contributions}
+ 
+ This thesis provides the following contributions:
+ \begin{itemize}
+     \item Building a workflow to extract information by making use of the Clang toolset and version history (SVN).
+     \item Evaluating SA ranking techniques on an industrial codebase.
+     \item Evaluating preprocessing techniques to deal with highly imbalanced and noisy data.
+     \item Detailed report of ML workflow (not a lot of information on most papers)
+     \item Comparing different approaches on a common codebase.
+     \item Exploring the utility of combining different methods.
+ \end{itemize}
+ 
+% -building workflow to extract information\\
+% -evaluation on industrial code\\
+% -comparison of utility between tools\\
+% -evaluation of an ensemble technique
+
+\subsection{Future Research}
+
+%Analyze the parts where the prediction fails?
+
+Future research can be focused on different aspects, the most important being reliable data collection. A classifier is as good as the data it was trained on, so new ways to collect actionable alerts in a more precise way are crucial to achieving better performance. Information Retrieval or Natural Language Processing techniques can be applied for example on bug messages/descriptions to have a clearer connection between a bug and an alert (did the alert really predict the bug?).
+
+Given also the limited amount of data, new or improved approaches that can generalize easily are needed. In that regard, research can focus on the type of features extracted from the code or version history that are discriminative enough to make correct classification even with limited data. FEATURE ENGINEERING, high cardinality, categorical data
+
+Furthermore, given the diverse nature of alerts current tools have, from finding bugprone construct, stylistic alerts, library-oriented alerts, to security or performace-oriented checks, different methods can be tailored that maximise performance within these subsets of alerts. For example, a simple method like Z-Ranking (\cite{z-ranking}) can be more suited to predict stylistic alerts than others.
+
+In addition, a way to continuously improve the ML algorithms needs to be put in place. Even though the initial performance may not be spectacular, if new resolved alerts are tracked consistently, performance will also rise accordingly. A rather naive implementation is to give warnings an identifier and include them in the commit messages if they were useful.
+
+% -data collection assumptions, make it more reliable?\\
+% -better track resolved alerts (google tricorder example)
+% -information retrieval on bug messages
+% TO DO
