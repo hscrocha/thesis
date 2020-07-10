@@ -6,27 +6,26 @@ Caitlin Sadowski, Edward Aftandilian, Alex Eagle, Liam Miller-Cushon, and Ciera
 \newblock Lessons from building static analysis tools at google.
 \newblock {\em Communications of the ACM}, 61:58--66, 03 2018.
 
-\bibitem{clang_ast}
-\href{https://clang.llvm.org/docs/IntroductionToTheClangAST.html}{Clang AST}.
-
-\bibitem{clang_tidy}
-\href{https://clang.llvm.org/extra/clang-tidy/}{Clang Tidy}.
-
-\bibitem{correlation_exploitation}
-Ted Kremenek, Ken Ashcraft, Junfeng Yang, and Dawson Engler.
-\newblock Correlation exploitation in error ranking.
-\newblock {\em ACM SIGSOFT Software Engineering Notes}, 29, 09 2004.
-
 \bibitem{z-ranking}
 Ted Kremenek and Dawson Engler.
 \newblock Z-ranking: Using statistical analysis to counter the impact of static
   analysis approximations.
 \newblock volume 2694, pages 295--315, 06 2003.
 
-\bibitem{pomegranate}
-Jacob Schreiber.
-\newblock Pomegranate: fast and flexible probabilistic modeling in python.
-\newblock {\em Journal of Machine Learning Research}, 18(164):1--6, 2018.
+\bibitem{correlation_exploitation}
+Ted Kremenek, Ken Ashcraft, Junfeng Yang, and Dawson Engler.
+\newblock Correlation exploitation in error ranking.
+\newblock {\em ACM SIGSOFT Software Engineering Notes}, 29, 09 2004.
+
+\bibitem{static_profiling}
+Cathal Boogerd and Leon Moonen.
+\newblock Prioritizing software inspection results using static profiling.
+\newblock 08 2006.
+
+\bibitem{which_warnings}
+Sunghun Kim and Michael Ernst.
+\newblock Which warnings should i fix first?
+\newblock pages 45--54, 01 2007.
 
 \bibitem{actionable_sa}
 Joe Ruthruff, John Penix, J.~Morgenthaler, S.~Elbaum, and Gregg Rothermel.
@@ -34,60 +33,31 @@ Joe Ruthruff, John Penix, J.~Morgenthaler, S.~Elbaum, and Gregg Rothermel.
   experimental approach.
 \newblock pages 341--350, 01 2008.
 
+\bibitem{alert_patterns}
+Quinn Hanam, Lin Tan, Reid Holmes, and Patrick Lam.
+\newblock Finding patterns in static analysis alerts: Improving actionable
+  alert ranking.
+\newblock In {\em Proceedings of the 11th Working Conference on Mining Software
+  Repositories}, MSR 2014, pages 152--161, New York, NY, USA, 2014. ACM.
+
+\bibitem{incremental_sa}
+Radhika Venkatasubramanyam and Shrinath Gupta.
+\newblock An automated approach to detect violations with high confidence in
+  incremental code using a learning system.
+\newblock {\em 36th International Conference on Software Engineering, ICSE
+  Companion 2014 - Proceedings}, 05 2014.
+
 \bibitem{model_building_actionable}
 Sarah Heckman and Laurie Williams.
 \newblock A model building process for identifying actionable static analysis
   alerts.
 \newblock pages 161--170, 04 2009.
 
-\bibitem{scikit-learn}
-F.~Pedregosa, G.~Varoquaux, A.~Gramfort, V.~Michel, B.~Thirion, O.~Grisel,
-  M.~Blondel, P.~Prettenhofer, R.~Weiss, V.~Dubourg, J.~Vanderplas, A.~Passos,
-  D.~Cournapeau, M.~Brucher, M.~Perrot, and E.~Duchesnay.
-\newblock Scikit-learn: Machine learning in {P}ython.
-\newblock {\em Journal of Machine Learning Research}, 12:2825--2830, 2011.
-
-\bibitem{imblearn}
-Guillaume Lema{{\^i}}tre, Fernando Nogueira, and Christos~K. Aridas.
-\newblock Imbalanced-learn: A python toolbox to tackle the curse of imbalanced
-  datasets in machine learning.
-\newblock {\em Journal of Machine Learning Research}, 18(17):1--5, 2017.
-
-\bibitem{which_warnings}
-Sunghun Kim and Michael Ernst.
-\newblock Which warnings should i fix first?
-\newblock pages 45--54, 01 2007.
-
 \bibitem{automatic_training_set}
 Guangtai Liang, Ling Wu, Qian Wu, Qianxiang Wang, Tao Xie, and Hong Mei.
 \newblock Automatic construction of an effective training set for prioritizing
   static analysis warnings.
 \newblock pages 93--102, 01 2010.
-
-\bibitem{prediction_method}
-Emanuel Giger, Marco D'Ambros, Martin Pinzger, and Harald Gall.
-\newblock Method-level bug prediction.
-\newblock pages 171--180, 09 2012.
-
-\bibitem{performance_method_bug}
-Luca Pascarella, Fabio Palomba, and Alberto Bacchelli.
-\newblock On the performance of method-level bug prediction: A negative result.
-\newblock {\em Journal of Systems and Software}, 161:110493, 2020.
-
-\bibitem{mining_metrics}
-Nachiappan Nagappan, Thomas Ball, and Andreas Zeller.
-\newblock Mining metrics to predict component failures.
-\newblock volume 2006, pages 452--461, 01 2006.
-
-\bibitem{static_profiling}
-Cathal Boogerd and Leon Moonen.
-\newblock Prioritizing software inspection results using static profiling.
-\newblock 08 2006.
-
-\bibitem{predict_deeplearning}
-Song Wang, Taiyue Liu, and Lin Tan.
-\newblock Automatically learning semantic features for defect prediction.
-\newblock pages 297--308, 05 2016.
 
 \bibitem{multiple_classification}
 Lori Flynn, William Snavely, David Svoboda, Nathan VanHoudnos, Richard Qin,
@@ -114,6 +84,40 @@ T.~{Muske} and A.~{Serebrenik}.
 \newblock In {\em 2016 IEEE 16th International Working Conference on Source
   Code Analysis and Manipulation (SCAM)}, pages 157--166, Oct 2016.
 
+\bibitem{comparative_heckman}
+Sarah Heckman and Laurie Williams.
+\newblock A comparative evaluation of static analysis actionable alert
+  identification techniques.
+\newblock In {\em Proceedings of the 9th International Conference on Predictive
+  Models in Software Engineering}, PROMISE ’13, New York, NY, USA, 2013.
+  Association for Computing Machinery.
+
+\bibitem{compare_framework}
+S.~{Allier}, N.~{Anquetil}, A.~{Hora}, and S.~{Ducasse}.
+\newblock A framework to compare alert ranking algorithms.
+\newblock In {\em 2012 19th Working Conference on Reverse Engineering}, pages
+  277--285, 2012.
+
+\bibitem{mining_metrics}
+Nachiappan Nagappan, Thomas Ball, and Andreas Zeller.
+\newblock Mining metrics to predict component failures.
+\newblock volume 2006, pages 452--461, 01 2006.
+
+\bibitem{prediction_method}
+Emanuel Giger, Marco D'Ambros, Martin Pinzger, and Harald Gall.
+\newblock Method-level bug prediction.
+\newblock pages 171--180, 09 2012.
+
+\bibitem{predict_deeplearning}
+Song Wang, Taiyue Liu, and Lin Tan.
+\newblock Automatically learning semantic features for defect prediction.
+\newblock pages 297--308, 05 2016.
+
+\bibitem{dl_jit_prediction}
+Xinli Yang, David Lo, Xin Xia, Yun Zhang, and Jianling Sun.
+\newblock Deep learning for just-in-time defect prediction.
+\newblock pages 17--26, 08 2015.
+
 \bibitem{analysis_sa_usage}
 Moritz Beller, Radjino Bholanath, Shane Mcintosh, and Andy Zaidman.
 \newblock Analyzing the state of static analysis: A large-scale evaluation in
@@ -131,23 +135,57 @@ Andrew Habib and Michael Pradel.
 \newblock How many of all bugs do we find? a study of static bug detectors.
 \newblock pages 317--328, 09 2018.
 
-\bibitem{alert_patterns}
-Quinn Hanam, Lin Tan, Reid Holmes, and Patrick Lam.
-\newblock Finding patterns in static analysis alerts: Improving actionable
-  alert ranking.
-\newblock In {\em Proceedings of the 11th Working Conference on Mining Software
-  Repositories}, MSR 2014, pages 152--161, New York, NY, USA, 2014. ACM.
+\bibitem{clang_ast}
+\href{https://clang.llvm.org/docs/IntroductionToTheClangAST.html}{Clang AST}.
 
-\bibitem{dl_jit_prediction}
-Xinli Yang, David Lo, Xin Xia, Yun Zhang, and Jianling Sun.
-\newblock Deep learning for just-in-time defect prediction.
-\newblock pages 17--26, 08 2015.
+\bibitem{clang_tidy}
+\href{https://clang.llvm.org/extra/clang-tidy/}{Clang Tidy}.
 
-\bibitem{incremental_sa}
-Radhika Venkatasubramanyam and Shrinath Gupta.
-\newblock An automated approach to detect violations with high confidence in
-  incremental code using a learning system.
-\newblock {\em 36th International Conference on Software Engineering, ICSE
-  Companion 2014 - Proceedings}, 05 2014.
+\bibitem{noise_defect}
+S.~{Kim}, H.~{Zhang}, R.~{Wu}, and L.~{Gong}.
+\newblock Dealing with noise in defect prediction.
+\newblock In {\em 2011 33rd International Conference on Software Engineering
+  (ICSE)}, pages 481--490, 2011.
+
+\bibitem{pomegranate}
+Jacob Schreiber.
+\newblock Pomegranate: fast and flexible probabilistic modeling in python.
+\newblock {\em Journal of Machine Learning Research}, 18(164):1--6, 2018.
+
+\bibitem{scikit-learn}
+F.~Pedregosa, G.~Varoquaux, A.~Gramfort, V.~Michel, B.~Thirion, O.~Grisel,
+  M.~Blondel, P.~Prettenhofer, R.~Weiss, V.~Dubourg, J.~Vanderplas, A.~Passos,
+  D.~Cournapeau, M.~Brucher, M.~Perrot, and E.~Duchesnay.
+\newblock Scikit-learn: Machine learning in {P}ython.
+\newblock {\em Journal of Machine Learning Research}, 12:2825--2830, 2011.
+
+\bibitem{imblearn}
+Guillaume Lema{{\^i}}tre, Fernando Nogueira, and Christos~K. Aridas.
+\newblock Imbalanced-learn: A python toolbox to tackle the curse of imbalanced
+  datasets in machine learning.
+\newblock {\em Journal of Machine Learning Research}, 18(17):1--5, 2017.
+
+\bibitem{performance_method_bug}
+Luca Pascarella, Fabio Palomba, and Alberto Bacchelli.
+\newblock On the performance of method-level bug prediction: A negative result.
+\newblock {\em Journal of Systems and Software}, 161:110493, 2020.
+
+\bibitem{comparison_metrics}
+C.~Ferri, J.~Hernández-Orallo, and R.~Modroiu.
+\newblock An experimental comparison of performance measures for
+  classification.
+\newblock {\em Pattern Recognition Letters}, 30(1):27 -- 38, 2009.
+
+\bibitem{iba_metric}
+Vicente García, R.~Mollineda, and José Sánchez.
+\newblock Index of balanced accuracy: A performance measure for skewed class
+  distributions.
+\newblock volume 5524, pages 441--448, 06 2009.
+
+\bibitem{balancing_comparison}
+Gustavo Batista, Ronaldo Prati, and Maria-Carolina Monard.
+\newblock A study of the behavior of several methods for balancing machine
+  learning training data.
+\newblock {\em SIGKDD Explorations}, 6:20--29, 06 2004.
 
 \end{thebibliography}
