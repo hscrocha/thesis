@@ -93,15 +93,105 @@ The nature of automatic data extraction, without a reliable oracle pointing at t
 
 \subsection{Data overview}
 
-\textbf{TODO: Analyze of large portion of revisions and produce statistics}
-\textbf{TODO: List which alert types were considered}
-\textbf{TODO: Bug statistics for bug related lines}
+\textbf{TODO: Analyze of large portion of revisions and produce statistics}\\
+\textbf{TODO: Bug statistics for bug related lines?}\\
 
-There are X packages, Y files, Z lines of code.\\
-Analyzed X revisions, from Y date to Z date.\\
-There are these alerts per type.\\
-Open/closed alerts statistics.\\
-Alert distribution per type/package (graphs).\\
+A typical release in the \textit{OMP's} codebase consists of around \textit{27.000} \textit{.cpp} files containing over \textit{4.000.000} lines and coded by more than 300 developers (in its entire history). The following section will provide a numerical overview of a portion of revisions analyzed from one of its releases \textbf{(TODO: be more precise: There are X packages, Y files, Z lines of code. Analyzed X revisions, from Y date to Z date.)}.
+
+
+\begin{figure}[H]
+	\begin{subfigure}{\textwidth}
+		\centering
+		\includegraphics[scale=0.3]{./src/data_analysis/category_barh.jpg}
+		\caption{Alert categories for collected alerts}\label{}
+	\end{subfigure}\\
+	\begin{subfigure}{.5\textwidth}
+		\centering
+		\includegraphics[scale=0.3]{./src/data_analysis/open_close_alerts.jpg}
+		\caption{Number of open and closed alerts}\label{}
+	\end{subfigure}%
+	\begin{subfigure}{.5\textwidth}
+		\centering
+		\includegraphics[scale=0.3]{./src/data_analysis/closed_category_barh.jpg}
+		\caption{Number of closed alerts per category}\label{}
+	\end{subfigure}  
+\end{figure}
+
+As can be seen from the plots, there is a mismatch between the number of open/closed alerts, as well as alerts categories (some of them are under represented like clang/cert).
+
+
+\begin{figure}[H]
+	\begin{subfigure}{0.5\textwidth}
+		\centering
+		\includegraphics[scale=0.3]{./src/data_analysis/alerts_packages_barh.jpg}
+		\caption{Number of alerts in the 30 most represented packages}\label{}
+	\end{subfigure}%
+	\begin{subfigure}{0.5\textwidth}
+		\centering
+		\includegraphics[scale=0.3]{./src/data_analysis/alerts_packages_area.jpg}
+		\caption{Plot of number of alerts per package}\label{}
+	\end{subfigure}\\
+	\begin{subfigure}{\textwidth}
+		\centering
+		\includegraphics[scale=0.3]{./src/data_analysis/alerts_files_barh.jpg}
+		\caption{Number of alerts in the 30 most represented files}\label{}
+	\end{subfigure}%
+%	\begin{subfigure}{0.5\textwidth}
+%		\centering
+%		\includegraphics[scale=0.2]{./src/data_analysis/alerts_files_area.jpg}
+%		\caption{Plot of number of alerts per file}\label{}
+%	\end{subfigure}  
+\end{figure}
+
+Regarding the distribution of the alerts in packages and files, we see similar trends: some of the packages/files contain a big chunk of the total alerts and most of them contain little to no alerts. 
+
+ \begin{figure}[H]
+	\begin{subfigure}{0.5\textwidth}
+ 		\centering
+ 		\includegraphics[scale=0.2]{./src/data_analysis/closed_types_barh.jpg}
+ 		\caption{Number of open alerts in the 30 most represented types}\label{}
+ 	\end{subfigure}%
+ 	\begin{subfigure}{0.5\textwidth}
+ 		\centering
+ 		\includegraphics[scale=0.2]{./src/data_analysis/open_type_barh.jpg}
+ 		\caption{Number of closed alerts in the 30 most represented types}\label{}
+ 	\end{subfigure}
+	\begin{subfigure}{0.5\textwidth}
+		\centering
+		\includegraphics[scale=0.2]{./src/data_analysis/closed_packages_barh.jpg}
+		\caption{Number of open alerts in the 30 most represented packages}\label{}
+	\end{subfigure}%
+	\begin{subfigure}{0.5\textwidth}
+		\centering
+		\includegraphics[scale=0.2]{./src/data_analysis/open_package_barh.jpg}
+		\caption{Number of closed alerts in the 30 most represented packages}\label{}
+	\end{subfigure}\\
+	\begin{subfigure}{0.5\textwidth}
+		\centering
+		\includegraphics[scale=0.2]{./src/data_analysis/closed_files_barh.jpg}
+		\caption{Number of open alerts in the 30 most represented files}\label{}
+	\end{subfigure}%
+	\begin{subfigure}{0.5\textwidth}
+		\centering
+		\includegraphics[scale=0.2]{./src/data_analysis/open_file_barh.jpg}
+		\caption{Number of closed alerts in the 30 most represented files}\label{}
+	\end{subfigure}\\
+\end{figure}
+
+
+\begin{figure}[H]
+	\begin{subfigure}{\textwidth}
+		\centering
+		\includegraphics[scale=0.4]{./src/data_analysis/packages_ratio_scatter.jpg}
+		\caption{Scatter plot of open/closed alerts ratio per package (removed some outliers)}\label{}
+	\end{subfigure}\\
+	\begin{subfigure}{\textwidth}
+		\centering
+		\includegraphics[scale=0.4]{./src/data_analysis/files_ratio_scatter.jpg}
+		\caption{Scatter plot of open/closed alerts ratio per file (removed some outliers)}\label{}
+	\end{subfigure}%
+\end{figure}
+
 
 
 \subsection{Dealing with unbalanced and noisy data}
@@ -130,7 +220,7 @@ As explained on the literature review (\cref{literature}), Feedback Rank is base
 
 \textbf{TODO: add graph of alert distribution for the project, similar to this paper}
 
-The initial configuration of the network can learned from historical data (extracted as explained on \cref{data_collection}). Feedback Rank is supposed to be an online ranking system, if we inspect a report and know its value, the probabilities of the parents are re-calculated.
+The initial configuration of the network can learned from historical data (extracted as explained on \cref{data_collection}). According to the original authors Feedback Rank is supposed to be an online ranking system: if we inspect a report and know its value, the probabilities of the parents are re-calculated. In this implementation, a static version is used.
 
 To construct the BN, the Pomegranate library was used (\cite{pomegranate}), trained with the extracted alert data from the version history.
 

@@ -1,0 +1,31 @@
+\begin{table}
+\centering
+\caption{20 highest ratios of closed alerts per file}
+\label{ratio_files}
+\begin{tabular}{lrrr}
+\toprule
+                                           feature &  ratio &  closedAlerts &  openAlerts \\
+\midrule
+ omtls\_buckets\_normalbucketcreationstrategy\_tes... &  99.85 &          2053 &           3 \\
+                     ccob\_transportrequirement.cpp &  99.47 &           374 &           2 \\
+           omfct\_forecasterremotedatacomponent.cpp &  99.42 &           172 &           1 \\
+ omtls\_tqv\_semiincrementalbufferingjoinmodelsta... &  98.91 &            91 &           1 \\
+         omcut\_cp\_stationbufferconstraint\_test.cpp &  98.75 &           554 &           7 \\
+      omtls\_tqv\_incrementalaggregatemodelstate.cpp &  98.44 &            63 &           1 \\
+                      omtls\_tqv\_pendingchanges.cpp &  97.83 &            45 &           1 \\
+                          omtls\_pvutilmessages.cpp &  97.50 &            39 &           1 \\
+                           omtls\_buckethorizon.cpp &  97.20 &           104 &           3 \\
+ omolap\_datasources\_client\_proxypivotablefctdat... &  96.15 &            25 &           1 \\
+                  omccui\_cilistingreportconfig.cpp &  96.03 &           121 &           5 \\
+       omtls\_tqv\_engineconfigurationserializer.cpp &  95.65 &            22 &           1 \\
+           omtls\_tqv\_incrementaljoinmodelstate.cpp &  95.45 &            21 &           1 \\
+          omtls\_tqv\_contributionstoragefactory.cpp &  95.23 &           739 &          37 \\
+                              omfct\_datasource.cpp &  95.07 &           656 &          34 \\
+ omtls\_datastore\_persistentdatastoreformatwrite... &  95.00 &            19 &           1 \\
+                              gpd\_objectiodata.cpp &  94.99 &          5250 &         277 \\
+                           arch\_tokendispenser.cpp &  94.44 &           102 &           6 \\
+                          omsch\_solvermessages.cpp &  94.44 &            17 &           1 \\
+                                   cccw\_corrug.cpp &  94.44 &         17010 &        1001 \\
+\bottomrule
+\end{tabular}
+\end{table}
