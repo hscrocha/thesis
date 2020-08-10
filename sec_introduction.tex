@@ -5,31 +5,30 @@
 
 % +Positive aspects of SA and usages (google, fb etc...), their need (huge amounts of code), etc...\\
 
-The amount of code that is being produced is increasing with time. That brings multiple challenges in the software engineering landscape, one of which is assuring adequate code quality. In this context, automatic approaches such as static analysis can be really useful and time saving in detecting and preventing potential bugs. Its usefulness has been acknowledged also by big tech companies, such as Google with its Tricorder architecture (\cite{sa_google}) or Facebook with its Infer static analyzer.
+The amount of code that is being produced is increasing with time. That brings multiple challenges in the software engineering landscape, one of which is assuring adequate code quality. In this context, automatic approaches such as static analysis can be really useful and time saving in detecting and preventing potential bugs. Its usefulness has been acknowledged also by big tech companies, such as Google with its Tricorder architecture (\cite{sa_google}) or Facebook with its Infer static analyzer (\cite{infer}).
 Another reason to adopt SA techniques, is that the cost of repairing a defect is much lower when that defect is found early in the development cycle (generally accepted principle).
 
 Even though it is a promising technique, in practice static SA results are far from perfect. Since the software under analysis is not executed, static analysis tools must speculate on what the actual program behavior will be, thus mistakes are inevitable. Heuristics or approximations are commonly used to determine properties for a given code construct, which may lead to inaccurate assumptions. A tool can also deliberately introduce approximations for scalability or speed, potentially resulting in an outbreak of errors.
 
 Given the ever increasing amount of code and the tendency of SA tools to over-estimate possible faulty program behaviours, there is a need to improve the output of these tools. The above problem can be addressed either by increasing the precision of the analysis (and thus decrease the efficiency) or by post-processing the alarms effectively after they are generated, according to specific criteria.
-The classic approach most tools use for prioritizing and filtering results is to statically classify the results based on severity levels. They are oblivious of the actual code that is being analyzed and of the location or frequency of a given defect. Furthermore, it has been shown that if developers lose trust in the beginning, they then tend to ignore the output of these tools altogether (\textbf{TO DO: CITE}).
+The classic approach most tools use for prioritizing and filtering results is to statically classify the results based on severity levels. They are oblivious of the actual code that is being analyzed and of the location or frequency of a given defect. Furthermore, it has been shown that if developers lose trust in the beginning, they then tend to ignore the output of these tools altogether (\cite{sa_google}).
 
 Different approaches have been proposed to improve the output of SA tools. Optimally, the initial error reports should be those most likely to be real errors. Alerts can be strategically prioritized for examination, by tracking warnings through a series of software versions, revealing which SA rules are more important and which parts of the software are more problematic. 
 % Furthermore, alerts can be grouped/clustered in basis of their similarity, so that users can check only a few and then can easily determine if the rest of the errors are also worth inspecting.\\
-An understanding of how developers react on these alerts can help improve the utility of these tools. Alerts can be divided into two categories: actionable alerts (AA) to define a SA alert that the programmer would act on to resolve and unactionable alerts (UA) to define a SA alert that the programmer would not act on to resolve (\textbf{TO DO: CITE}). An unactionable alert may be: a trivial concern to fix, less likely to manifest at runtime, or incorrectly identified due to the limitations of the tool. We want thus to prioritize the AAs and hide the UAs.
+An understanding of how developers react on these alerts can help improve the utility of these tools. Alerts can be divided into two categories: actionable alerts (AA) to define a SA alert that the programmer would act on to resolve and unactionable alerts (UA) to define a SA alert that the programmer would not act on to resolve (\cite{comparative_heckman}, \cite{actionable_sa}). An unactionable alert may be: a trivial concern to fix, less likely to manifest at runtime, or incorrectly identified due to the limitations of the tool. We want thus to prioritize the AAs and hide the UAs.
 
-Another approach is to prioritize alerts that in the past have pointed at bugs (\textbf{TO DO: CITE}). By tracking back the bugs up to a certain revision in the past, we can collect code lines that were changed during bug(\textbf{TO DO: CITE}) fixes. Subsequently, we can pinpoint which alerts warned about those specific parts of code and prioritize accordingly.
+Another approach is to prioritize alerts that in the past have pointed at bugs (\cite{which_warnings}, \cite{automatic_training_set}). By tracking back the bugs up to a certain revision in the past, we can collect code lines that were changed during bug fixes. Subsequently, we can pinpoint which alerts warned about those specific parts of code and prioritize accordingly.
 
-Given that for a relatively large project, the number of SA alerts can be prohibitive, the ultimate goal is to maximize the utility of time spent analyzing these alerts. Ranking schemes do not reduce alert investigation burdens if the aim is to check them all. Instead, they solve the problem by showing alerts that are most likely to be real/useful, so that developers can spend time by inspecting the most important ones.
-% , but the number of alarms to investigate is not reduced with ranking.
+For a relatively large project, the number of SA alerts can be prohibitive, which is one of the reasons developers avoid these tools (\cite{why_dont_use}). The ultimate goal is not to analyze all of them, but to maximize the utility of time spent analyzing these alerts. Ranking schemes do not reduce alert investigation burdens if the aim is to check them all. Instead, they solve the problem by showing alerts that are most likely to be real/useful, so that developers can spend time by inspecting the most important ones.
 
-Different approaches have been proposed in the literature but few have tried to do a comparison in terms of the utility of each method. Comparison is done among open source Java software and has the following problems... (\textbf{TO DO: FILL IN}). Also, these methods can be combined with the aim of achieving better results. It is important to do so because different techniques can be better suited to different types of alerts or can compensate for each others weaknesses.
+Different approaches have been proposed in the literature but few have tried to do a comparison in terms of the utility of each method. Among those few, comparison is mainly done between open source Java software where a good amount of data can be extracted. In our case, we asses the utility of different approaches inside an industrial C++ codebase, where static analysis has been abandoned due to poor performance. Also, it is interesting to explore if these methods can be combined with the aim of achieving better results. Different techniques can be better suited to different types of alerts or can compensate for each others weaknesses if combined.
 
 % (depending also on the information that can be extracted from the source code).
 
 % -what is this student's research question?
 % -is it a good question? (has it been answered before? is it a useful question to work on?) 
 
-Given an industrial code base, where SA tools have been abandoned because of the large amount of false positives, the goal of this thesis is to test the feasibility of successfully applying these ranking approaches even in a context with limited amount of data.
+Given an industrial code base, where SA tools have been abandoned because of the large amount of false positives, the goal of this thesis is to test the feasibility of successfully applying these ranking approaches even in a context with limited amount of (or noisy) data.
 
 % The research questions can be formulated as follows:
 % \begin{itemize}
@@ -44,12 +43,6 @@ Given an industrial code base, where SA tools have been abandoned because of the
 The rest of this thesis will be structured in the following sections... (\textbf{TODO})
 
 % \textbf{TO DO: duality, actionable alert and bug predicition alerts}
-
-% \textbf{TO DO: add class/method to each alert}
-
-% \textbf{TO DO: Collect line from alert}
-
-% \textbf{TO DO: Try clang automatic fixes}
 
 
 % Arguments/information gotten from papers that can be used for the thesis introduction.

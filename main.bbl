@@ -6,6 +6,41 @@ Caitlin Sadowski, Edward Aftandilian, Alex Eagle, Liam Miller-Cushon, and Ciera
 \newblock Lessons from building static analysis tools at google.
 \newblock {\em Communications of the ACM}, 61:58--66, 03 2018.
 
+\bibitem{infer}
+\href{https://fbinfer.com/}{Infer static analyzer}.
+
+\bibitem{comparative_heckman}
+Sarah Heckman and Laurie Williams.
+\newblock A comparative evaluation of static analysis actionable alert
+  identification techniques.
+\newblock In {\em Proceedings of the 9th International Conference on Predictive
+  Models in Software Engineering}, PROMISE ’13, New York, NY, USA, 2013.
+  Association for Computing Machinery.
+
+\bibitem{actionable_sa}
+Joe Ruthruff, John Penix, J.~Morgenthaler, S.~Elbaum, and Gregg Rothermel.
+\newblock Predicting accurate and actionable static analysis warnings: An
+  experimental approach.
+\newblock pages 341--350, 01 2008.
+
+\bibitem{which_warnings}
+Sunghun Kim and Michael Ernst.
+\newblock Which warnings should i fix first?
+\newblock pages 45--54, 01 2007.
+
+\bibitem{automatic_training_set}
+Guangtai Liang, Ling Wu, Qian Wu, Qianxiang Wang, Tao Xie, and Hong Mei.
+\newblock Automatic construction of an effective training set for prioritizing
+  static analysis warnings.
+\newblock pages 93--102, 01 2010.
+
+\bibitem{why_dont_use}
+Brittany Johnson, Yoonki Song, Emerson Murphy-Hill, and Robert Bowdidge.
+\newblock Why don’t software developers use static analysis tools to find
+  bugs?
+\newblock In {\em Proceedings of the 2013 International Conference on Software
+  Engineering}, ICSE ’13, page 672–681. IEEE Press, 2013.
+
 \bibitem{z-ranking}
 Ted Kremenek and Dawson Engler.
 \newblock Z-ranking: Using statistical analysis to counter the impact of static
@@ -21,17 +56,6 @@ Ted Kremenek, Ken Ashcraft, Junfeng Yang, and Dawson Engler.
 Cathal Boogerd and Leon Moonen.
 \newblock Prioritizing software inspection results using static profiling.
 \newblock 08 2006.
-
-\bibitem{which_warnings}
-Sunghun Kim and Michael Ernst.
-\newblock Which warnings should i fix first?
-\newblock pages 45--54, 01 2007.
-
-\bibitem{actionable_sa}
-Joe Ruthruff, John Penix, J.~Morgenthaler, S.~Elbaum, and Gregg Rothermel.
-\newblock Predicting accurate and actionable static analysis warnings: An
-  experimental approach.
-\newblock pages 341--350, 01 2008.
 
 \bibitem{alert_patterns}
 Quinn Hanam, Lin Tan, Reid Holmes, and Patrick Lam.
@@ -52,12 +76,6 @@ Sarah Heckman and Laurie Williams.
 \newblock A model building process for identifying actionable static analysis
   alerts.
 \newblock pages 161--170, 04 2009.
-
-\bibitem{automatic_training_set}
-Guangtai Liang, Ling Wu, Qian Wu, Qianxiang Wang, Tao Xie, and Hong Mei.
-\newblock Automatic construction of an effective training set for prioritizing
-  static analysis warnings.
-\newblock pages 93--102, 01 2010.
 
 \bibitem{multiple_classification}
 Lori Flynn, William Snavely, David Svoboda, Nathan VanHoudnos, Richard Qin,
@@ -83,14 +101,6 @@ T.~{Muske} and A.~{Serebrenik}.
 \newblock Survey of approaches for handling static analysis alarms.
 \newblock In {\em 2016 IEEE 16th International Working Conference on Source
   Code Analysis and Manipulation (SCAM)}, pages 157--166, Oct 2016.
-
-\bibitem{comparative_heckman}
-Sarah Heckman and Laurie Williams.
-\newblock A comparative evaluation of static analysis actionable alert
-  identification techniques.
-\newblock In {\em Proceedings of the 9th International Conference on Predictive
-  Models in Software Engineering}, PROMISE ’13, New York, NY, USA, 2013.
-  Association for Computing Machinery.
 
 \bibitem{compare_framework}
 S.~{Allier}, N.~{Anquetil}, A.~{Hora}, and S.~{Ducasse}.
@@ -147,6 +157,12 @@ S.~{Kim}, H.~{Zhang}, R.~{Wu}, and L.~{Gong}.
 \newblock In {\em 2011 33rd International Conference on Software Engineering
   (ICSE)}, pages 481--490, 2011.
 
+\bibitem{balancing_comparison}
+Gustavo Batista, Ronaldo Prati, and Maria-Carolina Monard.
+\newblock A study of the behavior of several methods for balancing machine
+  learning training data.
+\newblock {\em SIGKDD Explorations}, 6:20--29, 06 2004.
+
 \bibitem{pomegranate}
 Jacob Schreiber.
 \newblock Pomegranate: fast and flexible probabilistic modeling in python.
@@ -181,11 +197,5 @@ Vicente García, R.~Mollineda, and José Sánchez.
 \newblock Index of balanced accuracy: A performance measure for skewed class
   distributions.
 \newblock volume 5524, pages 441--448, 06 2009.
-
-\bibitem{balancing_comparison}
-Gustavo Batista, Ronaldo Prati, and Maria-Carolina Monard.
-\newblock A study of the behavior of several methods for balancing machine
-  learning training data.
-\newblock {\em SIGKDD Explorations}, 6:20--29, 06 2004.
 
 \end{thebibliography}

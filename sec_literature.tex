@@ -5,18 +5,19 @@ This section will consist of research papers focused on these main topics:
 \begin{itemize}
     \item \textit{Ranking static analysis alerts}: some of the most known (cited) approaches to rank alerts.
     \begin{itemize}
-        \item Using a single SA tool
-        \item Combining multiple tools
-        \item Looking at survey papers that describe the state of the research and state of the art techniques.
-        \item Comparative studies evaluating different methods.
+        \item Using a single SA tool (\cref{sec:single_tool}).
+        \item Combining multiple tools  (\cref{sec:multiple_tools}).
+        \item Looking at survey papers that describe the state of the research and state of the art techniques (\cref{sec:lit_review}).
+        \item Comparative studies evaluating different methods (\cref{sec:comparative_studies}).
     \end{itemize}
-    \item \textit{Bug prediction}: Rank the alerts in problematic parts of code higher.
-    \item Information on \textit{real world usage of SA tools}, problems and suggested solutions.
+    \item \textit{Bug prediction}: Rank the alerts in problematic parts of code higher (\cref{sec:bug_prediction}).
+    \item Information on \textit{real world usage of SA tools}, problems and suggested solutions (\cref{sec:tools_practice})
 \end{itemize}
 
  \subsection{Dealing with False Positives}
 
  \subsubsection{Single Tool}
+ \label{sec:single_tool}
 
  Kremenek and Engler \cite{z-ranking} introduce \textit{Z-ranking}, a statistical model to rank the error reports of SA tools. They make a distinction between successful and failed checks (those that satisfy a checked property and those that violate it). The underlying observation is that the most reliable error reports are those that generated few failed checks and many successful checks, since the actual amount of bugs in code is relatively small. An explosion of failed checks is a likely indicator that something is going wrong with the analysis. Reports are sorted based on the calculated \textit{z-test} statistic (based on the relative frequency of successful and failed checks).
 
@@ -215,6 +216,7 @@ This section will consist of research papers focused on these main topics:
 
 
  \subsubsection{Multiple Tools}
+ \label{sec:multiple_tools}
 
  Flynn et al. \cite{multiple_classification} use \textit{Alert Fusion} (unifying alert information from different tools) and different classifiers to classify alerts as expected true positive (e-TP), expected true negative (e-TN) and indeterminate (I). The e-TP alerts are separately prioritized for code repair and the I-alerts are automatically ranked based on classifier confidence and a cost metric to fix the code flaw. 
 
@@ -255,6 +257,7 @@ This section will consist of research papers focused on these main topics:
 
 
  \subsubsection{Literature review papers}
+ \label{sec:lit_review}
 
  Heckman and Williams \cite{literature_actionable} perform a systematic review of \textit{Actionable Alert Identification Techniques} (AAIT). The goal is to make an informed decision which AAIT to pair to an SA tool, in order to present relevant warnings to the tool users. An actionable alert is defined as an important, fixable anomaly. Different studies have estimated the amount of unactionable alerts ranging from 35\% to 91\%. The authors divide the tools into different categories, based on input type, approach used, and evaluation method.
 
@@ -293,7 +296,8 @@ This section will consist of research papers focused on these main topics:
 
 
 \subsubsection{Comparative studies}
-
+\label{sec:comparative_studies}
+ 
 Heckman and Williams \cite{comparative_heckman} perform a comparative study of six alert ranking techniques on the \textit{Faultbench} dataset: (a) Actionable Prioritization models that are based on the assumption that alerts sharing a type/location are like to be all actionable or non-actionable, (b) Alert Type Lifetime models that prioritize alert types by their average lifetime (important alerts are fixed quickly), (c) Check 'n Crash that automatically generates unit test cases and checks if the test fails (alert is then considered actionable), (d) History-Based Warning Prioritization models that uses commit messages and code changes in the source code repository to prioritize alert types, (e) Logistic Regression models that are trained on thirty-three alert characteristics and predict the probability of an alert being actionable, (f) Systematic Actionable Alert Identification that collects a number of alert characteristics and tries to find the best subset of these characteristics and the best machine learning models that optimizes accuracy and precision.
 
 On each of the three test projects of the benchmark, there is a different winner (based on accuracy), with Systematic Actionable Alert Identification and Logistic Regression models that generally perform better. There is also a trend where precision and recall decrease with the amount of analyzed revisions (70, 80 or 90\%). That can be explained by the fact that the balance between actionable and unactionable alerts is heavily shifted to the later. This trend can also be explained by the fact that these techniques can be better at identifying unactionable alerts than actionable alerts.
@@ -305,6 +309,7 @@ They found out that Aware and FeedbackRank perform significantly better than the
 
 
  \subsection{Bug Prediction}
+ \label{sec:bug_prediction}
 
  Nagappan et al. \cite{mining_metrics} use code complexity metrics to predict the likelihood of \textit{post-release} defects for new entities (failures that occurred in the field six months after the release). Although, according to their findings, these metrics are correlated to failure prone entities, there is no universal set of metrics that produces the best results. As a consequence, principal component analysis is used to choose the optimal set of features for a particular project. Information from bug databases and historical data is used to select the appropriate metrics.
 
@@ -399,6 +404,8 @@ They found out that Aware and FeedbackRank perform significantly better than the
 
 
  \subsection{Static Analysis tools in practice}
+ \label{sec:tools_practice}
+
 
  Beller et al. \cite{analysis_sa_usage} conduct a large scale evaluation of how SA tools are used in practice in open-source systems. They study the prevalence of SA tools, their configurations and how they evolve.
 
