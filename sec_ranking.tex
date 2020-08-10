@@ -451,21 +451,230 @@ The second step consists of balancing the amount of actionable and not actionabl
 
 \subsection{Results of individual tools}
 
-\subsubsection{Random test set}
-\subsubsection{Release based testing}
-\subsubsection{Alert ratio}
-\subsubsection{Average false positives to inspect}
+Experiments were run by training methods on the first 80\% items of the dataset and testing on the remaining 20\%.
+
+\subsubsection{Actionable Alerts}
+
+Different balancing algorithms were applied to the training set and \textit{Random Forest} was used as a classifier, yielding the following results of the test set (*):
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{@{}ccccccc@{}}
+		\toprule
+		& \textbf{Precision} & \textbf{Recall} & \textbf{Specificity} & \textbf{F1-Score} & \textbf{Geometric} & \textbf{IBA}  \\ \midrule
+		\textit{Random Over Sampler}  & 88\%               & 87\%            & 75\%                 & 86\%              & 79\%               & 63\%          \\
+		\textit{Random Under Sampler} & 91\%               & 90\%            & 82\%                 & 90\%              & 85\%               & 73\%          \\
+		\textit{SMOTE}                & \textbf{94\%}      & \textbf{94\%}   & \textbf{90\%}        & \textbf{94\%}     & \textbf{92\%}      & \textbf{85\%} \\
+		\textit{ADASYN}               & 90\%               & 90\%            & 81\%                 & 89\%              & 85\%               & 72\%          \\
+		\textit{SMOTEENN}             & 89\%               & 88\%            & 77\%                 & 87\%              & 81\%               & 66\%          \\
+		\textit{SMOTETomek}           & 89\%               & 88\%            & 77\%                 & 87\%              & 81\%               & 67\%          \\ \bottomrule
+	\end{tabular}
+\end{table}
+
+\textit{(*) calculated using the balanced classification report of imblearn}
 
 
-% results of each tool\\
-% how to prepare a fair dataset:  normal vs release based\\
-% personal feedback
+\begin{figure}[H]
+	\begin{subfigure}{\textwidth}
+		\centering
+		\includegraphics[scale=0.3]{./src/actAlerts/actalerts_smote_cm.png}
+		\caption{Confusion matrix of test set for SMOTE balanced training set}\label{}
+	\end{subfigure}\\
+	\begin{subfigure}{.5\textwidth}
+		\centering
+		\includegraphics[scale=0.3]{./src/actAlerts/actalerts_smote_roc.png}
+		\caption{ROC Curve for SMOTE balanced training set}\label{}
+	\end{subfigure}%
+	\begin{subfigure}{.5\textwidth}
+		\centering
+		\includegraphics[scale=0.3]{./src/actAlerts/actalerts_smote_pr.png}
+		\caption{Precision/Recall curve for SMOTE balanced training set}\label{}
+	\end{subfigure}  
+\end{figure}
+
+Alerts are ranked based on the probabiliy score produced by the classifier for the prediction target (actionable or not).
+In order to evaluate the ranking, two metrics are used to compare the ranked alerts with a random order. The experiments are run multiple times (by shuffling the random order and calculating the metrics again).\\
+
+The order produced by the Random Forest classifer always outperforms the random order.
+\begin{table}[H]
+	\centering
+	\begin{tabular}{@{}lll@{}}
+		\toprule
+		& \textbf{S(R) metric} & \textbf{Average FP to TP} \\ \midrule
+		\textit{Better than random (Top 1000 alerts)} & 1000 out of 1000     & 1000 out of 1000          \\
+		\textit{Better than random (All alerts)}      & 10 out of 10         & 10 out of 10              \\ \bottomrule
+	\end{tabular}
+\end{table}
+
+Furthermore, the order of the ranked alerts if compared against the random and perfect order by using the cumulative graph.
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.4]{./src/actAlerts/cumulative_graph_all.png}
+	\caption{Cumulative graph for all sorted alerts}
+	\label{}
+\end{figure}
 
 
-% \section{Other approaches}
+\subsection{Method Bug Prediction}
 
-% \subsection{Other stuff}
-% execution analysis?\\
-% ir for bug messages
+Different balancing algorithms were applied to the training set and \textit{Random Forest} was used as a classifier. The following results show the score of the classifier in predicting if a method will be buggy in the future:
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{@{}ccccccc@{}}
+		\toprule
+		& \textbf{Precision} & \textbf{Recall} & \textbf{Specificity} & \textbf{F1-Score} & \textbf{Geometric} & \textbf{IBA}  \\ \midrule
+		\textit{Random Over Sampler}  & \textbf{70\%}      & \textbf{70\%}   & \textbf{55\%}        & \textbf{70\%}     & \textbf{60\%}      & \textbf{37\%} \\
+		\textit{Random Under Sampler} & 65\%               & 70\%            & 39\%                 & 66\%              & 42\%               & 18\%          \\
+		\textit{SMOTE}                & 68\%               & 70\%            & 48\%                 & 69\%              & 53\%               & 29\%          \\
+		\textit{ADASYN}               & 67\%               & 70\%            & 45\%                 & 68\%              & 51\%               & 26\%          \\
+		\textit{SMOTEENN}             & 66\%               & 70\%            & 41\%                 & 67\%              & 45\%               & 21\%          \\
+		\textit{SMOTETomek}           & 68\%               & 70\%            & 47\%                 & 69\%              & 52\%               & 28\%          \\ \bottomrule
+	\end{tabular}
+\end{table}
+
+\begin{figure}[H]
+	\begin{subfigure}{\textwidth}
+		\centering
+		\includegraphics[scale=0.3]{./src/methodBug/methodbug_rover_cm.png}
+		\caption{Confusion matrix of test set for Random Oversampling balanced training set}\label{}
+	\end{subfigure}\\
+	\begin{subfigure}{.5\textwidth}
+		\centering
+		\includegraphics[scale=0.3]{./src/methodBug/methodbug_rover_roc.png}
+		\caption{ROC Curve for Random Oversampling balanced training set}\label{}
+	\end{subfigure}%
+	\begin{subfigure}{.5\textwidth}
+		\centering
+		\includegraphics[scale=0.3]{./src/methodBug/methodbug_rover_pr.png}
+		\caption{Precision/Recall curve for Random Oversampling balanced training set}\label{}
+	\end{subfigure}  
+\end{figure}
 
 
+After calculating the probability of a method being buggy on the test set, we merge that set with the one containing actionable alerts. The goal is to see if ranking alerts higher when they belong to a bug prone method is useful in terms of predicting if that alert will be actionable in the future.
+
+Alerts are ranked based on the probabiliy score produced by the classifier for the prediction target (buggy or not).
+In order to evaluate the ranking, two metrics are used to compare the ranked alerts with a random order. The experiments are run multiple times (by shuffling the random order and calculating the metrics again).\\
+
+Alerts ranked by bug-prone method probability do not over-perform the random order in the first few alerts, but outperform the random order in the overall dataset.
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{@{}lll@{}}
+		\toprule
+		& \textbf{S(R) metric} & \textbf{Average FP to TP} \\ \midrule
+		\textit{Better than random (Top 100 alerts)}  & 13 out of 1000       & 775 out of 1000           \\
+		\textit{Better than random (Top 1000 alerts)} & 996 out of 1000      & 1000 out of 1000          \\
+		\textit{Better than random (All alerts)}      & 10 out of 10         & 9 out of 10               \\ \bottomrule
+	\end{tabular}
+\end{table}
+
+
+The order of the ranked alerts if compared against the random and perfect order by using the cumulative graph for different thresholds, the first 100, 1000 and all alerts.
+
+\begin{figure}[H]
+	\begin{subfigure}{\textwidth}
+		\centering
+		\includegraphics[scale=0.3]{./src/methodBug/methodbug_cumulative_graph_top100.png}
+		\caption{Cumulative graph for the first 100 alerts}\label{}
+	\end{subfigure}\\
+	\begin{subfigure}{.5\textwidth}
+		\centering
+		\includegraphics[scale=0.3]{./src/methodBug/methodbug_cumulative_graph_top1000.png}
+		\caption{Cumulative graph for the first 1000 alerts}\label{}
+	\end{subfigure}%
+	\begin{subfigure}{.5\textwidth}
+		\centering
+		\includegraphics[scale=0.3]{./src/methodBug/methodbug_cumulative_graph_all.png}
+		\caption{Cumulative graph for all alerts}\label{}
+	\end{subfigure}  
+\end{figure}
+
+From the results we can conclude that ranking alerts based on the method being bug-prone does not provide good results. That does not mean that this method is meaningless. Its main purpose is to give extra attention to alerts belonging to buggy methods, which if acted upon may improve code quality and lower the probability of the method causing a bug in the future.
+
+\subsection{Feedback Rank}
+
+\textit{(*) These experiments were run on a small subset of the dataset. The Bayes Network was trained on 10000 samples and tested on 1000. The reason being the abnormally high runtime (factor 100 or more than other approaches).}
+
+Different balancing algorithms were applied to the training set and \textit{Bayes Network} was used as a classifier. The following results show the score of the classifier:
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{ccccccc}
+		\hline
+		& \textbf{Precision} & \textbf{Recall} & \textbf{Specificity} & \textbf{F1-Score} & \textbf{Geometric} & \textbf{IBA}  \\ \hline
+		\textit{Random Over Sampler}  & 56\%               & 53\%            & 56\%                 & 52\%              & 51\%               & 26\%          \\
+		\textit{Random Under Sampler} & 57\%               & 54\%            & 57\%                 & 52\%              & 52\%               & 27\%          \\
+		\textit{None}                 & \textbf{58\%}      & \textbf{56\%}   & \textbf{57\%}        & \textbf{54\%}     & \textbf{53\%}      & \textbf{28\%}
+	\end{tabular}
+\end{table}
+
+
+\begin{figure}[H]
+	\begin{subfigure}{\textwidth}
+		\centering
+		\includegraphics[scale=0.3]{./src/fbRank/fbrank_nob_cm.png}
+		\caption{Confusion matrix of test set for unbalanced training set}\label{}
+	\end{subfigure}\\
+	\begin{subfigure}{.5\textwidth}
+		\centering
+		\includegraphics[scale=0.3]{./src/fbRank/fbrank_cumulative_graph_top100.png}
+		\caption{Cumulative graph for the first 100 alerts}\label{}
+	\end{subfigure}%
+	\begin{subfigure}{.5\textwidth}
+		\centering
+		\includegraphics[scale=0.3]{./src/fbRank/fbrank_cumulative_graph_top1000.png}
+		\caption{Cumulative graph for the first 1000 alerts}\label{}
+	\end{subfigure}  
+\end{figure}
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{@{}lll@{}}
+		\toprule
+		& \textbf{S(R) metric} & \textbf{Average FP to TP} \\ \midrule
+		\textit{Better than random (Top 100 alerts)}  & 1000 out of 1000       & 63 out of 1000           \\
+		\textit{Better than random (Top 1000 alerts)} & 958 out of 1000      & 859 out of 1000          \\ \bottomrule
+	\end{tabular}
+\end{table}
+
+From the metrics as well as the cumulative graph, we can see that Feedback Rank does not perform well on the reduced dataset it was tested on.
+
+
+\subsection{Bug-Related Lines}
+
+Since this method only calculates weights for alert types, it does not predict if a particular alert is actionable or not. As a consequence, only the ranking is evaluated.
+
+The algorithm ranks alerts types based on two input weight parameters ($\alpha,\beta$). Based on experimental evaluation the following respective values were chosen: $\alpha=0.7, 
+\beta=0.3$.
+
+\begin{figure}[H]
+	\begin{subfigure}{\textwidth}
+		\centering
+		\includegraphics[scale=0.3]{./src/brls/brls_cumulative_graph_top100.png}
+		\caption{Cumulative graph for the first 100 alerts}\label{}
+	\end{subfigure}\\
+	\begin{subfigure}{.5\textwidth}
+		\centering
+		\includegraphics[scale=0.3]{./src/brls/brls_cumulative_graph_top1000.png}
+		\caption{Cumulative graph for the first 1000 alerts}\label{}
+	\end{subfigure}%
+	\begin{subfigure}{.5\textwidth}
+		\centering
+		\includegraphics[scale=0.3]{./src/brls/brls_cumulative_graph_all.png}
+		\caption{Cumulative graph for all alerts}\label{}
+	\end{subfigure}  
+\end{figure}
+
+The algorithm performs well for the first 100 alerts, but then the performance decreases. 
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{@{}lll@{}}
+		\toprule
+		& \textbf{S(R) metric} & \textbf{Average FP to TP} \\ \midrule
+		\textit{Better than random (Top 100 alerts)}  & 1000 out of 1000       & 993 out of 1000           \\
+		\textit{Better than random (Top 1000 alerts)} & 0 out of 1000      & 996 out of 1000          \\ \bottomrule
+	\end{tabular}
+\end{table}

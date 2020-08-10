@@ -32,10 +32,10 @@
 \BOOKMARK [3][-]{subsubsection.5.9.1}{Evaluation Metrics}{subsection.5.9}% 32
 \BOOKMARK [3][-]{subsubsection.5.9.2}{Preparing the dataset}{subsection.5.9}% 33
 \BOOKMARK [2][-]{subsection.5.10}{Results of individual tools}{section.5}% 34
-\BOOKMARK [3][-]{subsubsection.5.10.1}{Random test set}{subsection.5.10}% 35
-\BOOKMARK [3][-]{subsubsection.5.10.2}{Release based testing}{subsection.5.10}% 36
-\BOOKMARK [3][-]{subsubsection.5.10.3}{Alert ratio}{subsection.5.10}% 37
-\BOOKMARK [3][-]{subsubsection.5.10.4}{Average false positives to inspect}{subsection.5.10}% 38
+\BOOKMARK [3][-]{subsubsection.5.10.1}{Actionable Alerts}{subsection.5.10}% 35
+\BOOKMARK [2][-]{subsection.5.11}{Method Bug Prediction}{section.5}% 36
+\BOOKMARK [2][-]{subsection.5.12}{Feedback Rank}{section.5}% 37
+\BOOKMARK [2][-]{subsection.5.13}{Bug-Related Lines}{section.5}% 38
 \BOOKMARK [1][-]{section.6}{Threats to Validity}{}% 39
 \BOOKMARK [1][-]{section.7}{Conclusions}{}% 40
 \BOOKMARK [2][-]{subsection.7.1}{Conclusions}{section.7}% 41
