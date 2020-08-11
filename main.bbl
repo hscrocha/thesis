@@ -9,6 +9,27 @@ Caitlin Sadowski, Edward Aftandilian, Alex Eagle, Liam Miller-Cushon, and Ciera
 \bibitem{infer}
 \href{https://fbinfer.com/}{Infer static analyzer}.
 
+\bibitem{dawson2010}
+Maurice Dawson, Darrell Burrell, Emad Rahim, and Stephen Brewster.
+\newblock Integrating software assurance into the software development life
+  cycle (sdlc).
+\newblock {\em Journal of Information Systems Technology and Planning},
+  3:49--53, 01 2010.
+
+\bibitem{clarke2016}
+Paul Clarke, Rory~V. O’Connor, and Brian Leavy.
+\newblock A complexity theory viewpoint on the software development process and
+  situational context.
+\newblock In {\em Proceedings of the International Conference on Software and
+  Systems Process}, ICSSP ’16, page 86–90, New York, NY, USA, 2016.
+  Association for Computing Machinery.
+
+\bibitem{winters2020}
+Titus Winters, Tom Manshreck, and Hyrum Wright.
+\newblock {\em Software Engineering at Google: Lessons Learned from Programming
+  Over Time}.
+\newblock O'Reilly Media, 1st edition edition, march 2020.
+
 \bibitem{comparative_heckman}
 Sarah Heckman and Laurie Williams.
 \newblock A comparative evaluation of static analysis actionable alert
@@ -40,6 +61,18 @@ Brittany Johnson, Yoonki Song, Emerson Murphy-Hill, and Robert Bowdidge.
   bugs?
 \newblock In {\em Proceedings of the 2013 International Conference on Software
   Engineering}, ICSE ’13, page 672–681. IEEE Press, 2013.
+
+\bibitem{compare_framework}
+S.~{Allier}, N.~{Anquetil}, A.~{Hora}, and S.~{Ducasse}.
+\newblock A framework to compare alert ranking algorithms.
+\newblock In {\em 2012 19th Working Conference on Reverse Engineering}, pages
+  277--285, 2012.
+
+\bibitem{noise_defect}
+S.~{Kim}, H.~{Zhang}, R.~{Wu}, and L.~{Gong}.
+\newblock Dealing with noise in defect prediction.
+\newblock In {\em 2011 33rd International Conference on Software Engineering
+  (ICSE)}, pages 481--490, 2011.
 
 \bibitem{z-ranking}
 Ted Kremenek and Dawson Engler.
@@ -102,12 +135,6 @@ T.~{Muske} and A.~{Serebrenik}.
 \newblock In {\em 2016 IEEE 16th International Working Conference on Source
   Code Analysis and Manipulation (SCAM)}, pages 157--166, Oct 2016.
 
-\bibitem{compare_framework}
-S.~{Allier}, N.~{Anquetil}, A.~{Hora}, and S.~{Ducasse}.
-\newblock A framework to compare alert ranking algorithms.
-\newblock In {\em 2012 19th Working Conference on Reverse Engineering}, pages
-  277--285, 2012.
-
 \bibitem{mining_metrics}
 Nachiappan Nagappan, Thomas Ball, and Andreas Zeller.
 \newblock Mining metrics to predict component failures.
@@ -150,12 +177,6 @@ Andrew Habib and Michael Pradel.
 
 \bibitem{clang_tidy}
 \href{https://clang.llvm.org/extra/clang-tidy/}{Clang Tidy}.
-
-\bibitem{noise_defect}
-S.~{Kim}, H.~{Zhang}, R.~{Wu}, and L.~{Gong}.
-\newblock Dealing with noise in defect prediction.
-\newblock In {\em 2011 33rd International Conference on Software Engineering
-  (ICSE)}, pages 481--490, 2011.
 
 \bibitem{balancing_comparison}
 Gustavo Batista, Ronaldo Prati, and Maria-Carolina Monard.
