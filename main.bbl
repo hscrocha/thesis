@@ -196,12 +196,6 @@ F.~Pedregosa, G.~Varoquaux, A.~Gramfort, V.~Michel, B.~Thirion, O.~Grisel,
 \newblock Scikit-learn: Machine learning in {P}ython.
 \newblock {\em Journal of Machine Learning Research}, 12:2825--2830, 2011.
 
-\bibitem{imblearn}
-Guillaume Lema{{\^i}}tre, Fernando Nogueira, and Christos~K. Aridas.
-\newblock Imbalanced-learn: A python toolbox to tackle the curse of imbalanced
-  datasets in machine learning.
-\newblock {\em Journal of Machine Learning Research}, 18(17):1--5, 2017.
-
 \bibitem{performance_method_bug}
 Luca Pascarella, Fabio Palomba, and Alberto Bacchelli.
 \newblock On the performance of method-level bug prediction: A negative result.
@@ -218,5 +212,11 @@ Vicente García, R.~Mollineda, and José Sánchez.
 \newblock Index of balanced accuracy: A performance measure for skewed class
   distributions.
 \newblock volume 5524, pages 441--448, 06 2009.
+
+\bibitem{imblearn}
+Guillaume Lema{{\^i}}tre, Fernando Nogueira, and Christos~K. Aridas.
+\newblock Imbalanced-learn: A python toolbox to tackle the curse of imbalanced
+  datasets in machine learning.
+\newblock {\em Journal of Machine Learning Research}, 18(17):1--5, 2017.
 
 \end{thebibliography}

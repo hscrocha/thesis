@@ -5,208 +5,6 @@
 
 % This part of the thesis is much more free-form. It may have one or several sections and subsections. But it all has only one purpose: to convince the examiners that you answered the question or solved the problem that you set for yourself in Section 4. So show what you did that is relevant to answering the question or solving the problem: if there were blind alleys and dead ends, do not include these, unless specifically relevant to the demonstration that you answered the thesis question. 
 
-Given the company context, a single tool approach was chosen as to not introduce extra dependencies/complexity (in contrast to combining different SA tools). 
-
-The different techniques that were tested are:
-\begin{itemize}
-    \item Using a Bayes Network for prioritizing alerts depending on location information.
-    \item Predicting actionable alerts using ML algorithms based on different code/change metrics.
-    \item Prioritizing alerts that point at bugs: analyze the code history to see which alerts pointed to fixed bugs and try to extract patterns from that.
-    \item Detecting bug-prone methods and prioritizing alerts to those parts of code.
-    \item Combining the three aforementioned methods, where each one focuses on a particular part of the dataset/alert types.
-\end{itemize}
-
-% Why were these choices made (single tool)?
-% Different techniques for different types of alerts (code guidelines vs classical analyzer).
-% In this section we present the results of different approaches for ranking static analysis alerts, applied in an industrial codebase.
-
-\subsection{Collecting data}
-
-% Clang tidy - why?\\
-Clang AST (\cite{clang_ast}) and Clang Tidy (\cite{clang_tidy}) was used to analyze the code. It was chosen is because it's a reliable open source tool, extensible and most importantly supported by the codebase of the company.
-
-\subsubsection{Clang AST}
-Since some of the algorithms need metric data from the code, the Clang AST was chosen to extract that information. Assuming that the project can be successfully compiled, Clang can provide an API on top of the parsed AST.  
-
-All information about the AST for a translation unit is bundled up in the class \textit{ASTContext}, which allows traversal of the whole translation unit.
-
-Clang’s AST nodes are modeled on a class hierarchy that does not have a common ancestor and that consists of three main node types: Declarations, Statements (including Expressions) and Types (each with its own large inheritance hierarchy).
-
-In order to traverse the AST, Clang offers two approaches:
-\begin{itemize}
-	\item \textbf{RecursiveASTVisitor}: A recursive visitor based approach, which allows you to run custom actions based on the node that is visited.
-	\item \textbf{AST Matchers}: An approach that allows you to define what nodes you want to match by using a domain specific language.
-\end{itemize}
-
-\subsubsection{Clang Tidy}
-
-Clang Tidy is a modular C++ linter tool which provides an extensible framework for diagnosing and fixing typical programming errors, like style violations, interface misuse, or bugs that can be deduced via static analysis (\cite{clang_tidy}). 
-
-In addition to its Static Analyzer checks, Clang Tidy contains a large list of other checks ranging from those that target bugprone code constructs, to CERT Secure Coding Guidelines, C++ Core Guidelines etc...
-
-Clang Tidy can be configured by selecting the type of checks to be executed or by restricting the parts of code where to carry out such checks.
-
-The following checks were regarded as relevant and used during code analysis:
-\begin{itemize}
-	\item Clang Static Analyzer checks
-	\item Checks related to C++ Core Guidelines
-	\item Checks that target bugprone code constructs
-	\item Checks related to CERT Secure Coding Guidelines
-	\item Checks related to Boost library
-\end{itemize}
-
-\subsubsection{Workflow for collecting information \label{data_collection}}
-
-By exploiting the extensibility of Clang Tidy (ability to define new checks) and the power of the Clang AST (collecting information from code), the metrics needed by the ML algorithms can themselves be implemented as checks and thus be extracted automatically when analyzing the codebase. This is a flexible approach which allows to build automatic processing of alerts by integrating alert as well as metric collection within a single toolchain.
-
-In order to make processing alerts easier, the C++ interface code of Clang Tidy was slightly changed to output information in a more suited format (line number instead of bit offset from start of file), hide not useful information, and output alerts only from the file under analysis (not from imported headers).
-
-Starting by the provided open source \href{https://github.com/llvm-mirror/clang-tools-extra/blob/master/clang-tidy/tool/run-clang-tidy.py}{python scripts}, a workflow can be built in python to automatically collect alerts and metrics. In order to crawl the code history of the project, different script were implemented in python to automatically guide the workflow and process the output of SVN (version control system used at the company).
-
-The high level workflow for collecting data consists of the following steps:
-\begin{itemize}
-    \item Start by selecting a base revision in the code history.
-    \item Fully analyze that revision of the codebase (collect all alerts output by Clang Tidy).
-    \item Repeat for desired number of iterations (revisions):
-        \begin{itemize}
-            \item Checkout next revision, detect changed parts of code, collect surrounding information (author, changed methods, etc...).
-            \item Run Clang Tidy only on the changed parts of code.
-            \item Collect any new alerts and metrics.
-        \end{itemize} 
-\end{itemize}
-
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.2]{./src/collect_info.png}
-	\caption{Collecting alerts and other information}
-\end{figure}
-
-\subsubsection{Assumptions made for collected data}
-Some algorithms use the notion of Actionable Alerts for processing the output of SA tools. Actionable Alerts (AA) are alerts that are deemed important by developers in the past (alerts that they acted on). In order to automatically label alerts as such (no existing information that can point to that), an important and risky assumption has to be made: alerts that disappear during code changes (revisions/commits) are considered as actionable, the rest is not. 
-
-This assumptions, though necessary, is risky because not all alerts disappear as a result of direct and targeted change by developers. Their disappearance can be caused by other unknown factors (those related to deleted files are not taken into account). Data generated using this approach can contain a lot of false positives and potentially damage the performance of the used ML algorithms.
-
-Another algorithm uses alerts pointing at past bugs as a way to prioritize future alerts. Also in this case an assumption is needed: the alerts that pointed to past bugs, were directly related to that bug. This may not always be true and can cause the aforementioned problems as a result.
-
-The nature of automatic data extraction, without a reliable oracle pointing at the right decisions, leads to impure data and penalizes the efficiency of ML algorithms, but unfortunately it is an indispensable trade-off to be made.
-
-\subsection{Data overview}
-
-\textbf{TODO: Analyze of large portion of revisions and produce statistics}\\
-\textbf{TODO: Bug statistics for bug related lines?}\\
-
-A typical release in the \textit{OMP's} codebase consists of around \textit{27.000} \textit{.cpp} files containing over \textit{4.000.000} lines and coded by more than 300 developers (in its entire history). The following section will provide a numerical overview of a portion of revisions analyzed from one of its releases \textbf{(TODO: be more precise: There are X packages, Y files, Z lines of code. Analyzed X revisions, from Y date to Z date.)}.
-
-
-\begin{figure}[H]
-	\begin{subfigure}{\textwidth}
-		\centering
-		\includegraphics[scale=0.3]{./src/data_analysis/category_barh.jpg}
-		\caption{Alert categories for collected alerts}\label{}
-	\end{subfigure}\\
-	\begin{subfigure}{.5\textwidth}
-		\centering
-		\includegraphics[scale=0.3]{./src/data_analysis/open_close_alerts.jpg}
-		\caption{Number of open and closed alerts}\label{}
-	\end{subfigure}%
-	\begin{subfigure}{.5\textwidth}
-		\centering
-		\includegraphics[scale=0.3]{./src/data_analysis/closed_category_barh.jpg}
-		\caption{Number of closed alerts per category}\label{}
-	\end{subfigure}  
-\end{figure}
-
-As can be seen from the plots, there is a mismatch between the number of open/closed alerts, as well as alerts categories (some of them are under represented like clang/cert).
-
-
-\begin{figure}[H]
-	\begin{subfigure}{0.5\textwidth}
-		\centering
-		\includegraphics[scale=0.3]{./src/data_analysis/alerts_packages_barh.jpg}
-		\caption{Number of alerts in the 30 most represented packages}\label{}
-	\end{subfigure}%
-	\begin{subfigure}{0.5\textwidth}
-		\centering
-		\includegraphics[scale=0.3]{./src/data_analysis/alerts_packages_area.jpg}
-		\caption{Plot of number of alerts per package}\label{}
-	\end{subfigure}\\
-	\begin{subfigure}{\textwidth}
-		\centering
-		\includegraphics[scale=0.3]{./src/data_analysis/alerts_files_barh.jpg}
-		\caption{Number of alerts in the 30 most represented files}\label{}
-	\end{subfigure}%
-%	\begin{subfigure}{0.5\textwidth}
-%		\centering
-%		\includegraphics[scale=0.2]{./src/data_analysis/alerts_files_area.jpg}
-%		\caption{Plot of number of alerts per file}\label{}
-%	\end{subfigure}  
-\end{figure}
-
-Regarding the distribution of the alerts in packages and files, we see similar trends: some of the packages/files contain a big chunk of the total alerts and most of them contain little to no alerts. 
-
- \begin{figure}[H]
-	\begin{subfigure}{0.5\textwidth}
- 		\centering
- 		\includegraphics[scale=0.2]{./src/data_analysis/closed_types_barh.jpg}
- 		\caption{Number of open alerts in the 30 most represented types}\label{}
- 	\end{subfigure}%
- 	\begin{subfigure}{0.5\textwidth}
- 		\centering
- 		\includegraphics[scale=0.2]{./src/data_analysis/open_type_barh.jpg}
- 		\caption{Number of closed alerts in the 30 most represented types}\label{}
- 	\end{subfigure}
-	\begin{subfigure}{0.5\textwidth}
-		\centering
-		\includegraphics[scale=0.2]{./src/data_analysis/closed_packages_barh.jpg}
-		\caption{Number of open alerts in the 30 most represented packages}\label{}
-	\end{subfigure}%
-	\begin{subfigure}{0.5\textwidth}
-		\centering
-		\includegraphics[scale=0.2]{./src/data_analysis/open_package_barh.jpg}
-		\caption{Number of closed alerts in the 30 most represented packages}\label{}
-	\end{subfigure}\\
-	\begin{subfigure}{0.5\textwidth}
-		\centering
-		\includegraphics[scale=0.2]{./src/data_analysis/closed_files_barh.jpg}
-		\caption{Number of open alerts in the 30 most represented files}\label{}
-	\end{subfigure}%
-	\begin{subfigure}{0.5\textwidth}
-		\centering
-		\includegraphics[scale=0.2]{./src/data_analysis/open_file_barh.jpg}
-		\caption{Number of closed alerts in the 30 most represented files}\label{}
-	\end{subfigure}\\
-\end{figure}
-
-
-\begin{figure}[H]
-	\begin{subfigure}{\textwidth}
-		\centering
-		\includegraphics[scale=0.4]{./src/data_analysis/packages_ratio_scatter.jpg}
-		\caption{Scatter plot of open/closed alerts ratio per package (removed some outliers)}\label{}
-	\end{subfigure}\\
-	\begin{subfigure}{\textwidth}
-		\centering
-		\includegraphics[scale=0.4]{./src/data_analysis/files_ratio_scatter.jpg}
-		\caption{Scatter plot of open/closed alerts ratio per file (removed some outliers)}\label{}
-	\end{subfigure}%
-\end{figure}
-
-
-
-\subsection{Dealing with unbalanced and noisy data}
-
-Our automatically collected data suffers from two main problems, heavy imbalance and noise. 
-
-Kim et al. \cite{noise_defect} propose a method for dealing with noisy data in the context of defect prediction algorithms. They also provide guidelines for acceptable noise levels and study the impact of different amounts of noise on the prediction performance.
-They found out that performance, in terms of f-measure, is affected more by the presence of false positives and that the tested algorithms were robust to the presence of false negatives. When noise levels reach 20-35\% of both FP and FN, the performance decreases significantly, especially on small datasets.
-The proposed algorithm for cleaning noisy data by \cite{noise_defect}, calculates the ratio of the top \textit{N} most similar instances of each item that have a different class label. If that ratio exceeds a certain threshold, then that item is considered as noisy.
-
-Batista et al. \cite{balancing_comparison}, perform a comparative evaluation of different dataset balancing techniques. They claim that imbalance alone is not the only reason for poor classifier results, but that it is also related to noisy/overlapping data. According to their experiments, over-sampling methods perform generally better and \textit{SMOTE} + Tomek/ENN provide good results for datasets with few positive examples.
-
-Given the nature of our approach to detecting actionable alerts, it seems plausible that the amount of false positives will be non negligible, and thus there is a high risk that there will be a significant performance impact. Since, the number of examples of the positive class is also rather limited, there seems to be a necessity to apply a combination of balancing and cleaning to the dataset.
-
-\textbf{TO DO: maybe insert before and after graph for data cleaning/balancing?}
 
 \subsection{Feedback Rank and Z-Score}
 
@@ -216,19 +14,20 @@ Given the nature of our approach to detecting actionable alerts, it seems plausi
 Feedback Rank (\cite{correlation_exploitation}) combined with Z-Score (\cite{z-ranking}) is a simple technique which ranks alerts on the probability of them being true/actionable. It consists of three basic features: package, file, function of the alert being analyzed (though may be extended as needed).
 By constructing a Bayesian Network based on these three features and the history of the project (which alerts have been proven valuable) it produces a probability ranking about which alerts are most useful.
 
-As explained on the literature review (\cref{literature}), Feedback Rank is based on the assumption that bugs and false positives are clustered by code locality. The alerts are divided into two major regions, one that contains mostly true positive, and one that contains mostly false positives. A Bayesian Network (BN) is used to calculate the probabilities of an alert or cluster of alerts belonging to a certain region.
+As explained on the literature review (\cref{lit:fbrank}), Feedback Rank is based on the assumption that bugs and false positives are clustered by code locality. The alerts are divided into two major regions, one that contains mostly true positive, and one that contains mostly false positives. A Bayesian Network (BN) is used to calculate the probabilities of an alert or cluster of alerts belonging to a certain region.
 
-\textbf{TODO: add graph of alert distribution for the project, similar to this paper}
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.2]{./src/bayes_example.png}
+	\caption{Example of a simple Bayes Network for predicting 3 alerts}
+\end{figure}
 
 The initial configuration of the network can learned from historical data (extracted as explained on \cref{data_collection}). According to the original authors Feedback Rank is supposed to be an online ranking system: if we inspect a report and know its value, the probabilities of the parents are re-calculated. In this implementation, a static version is used.
 
 To construct the BN, the Pomegranate library was used (\cite{pomegranate}), trained with the extracted alert data from the version history.
 
-\textbf{TO DO: used as static, explain zranking assumption, add prediction/train time}
-
-
 \subsubsection{Z-Score}
-To break ties when the probabilities provided by the BN are equal between alerts, the Z-Score metric is used based on the number of alerts on the same file. Z-Score is used in Z-Ranking (\cite{z-ranking}), which makes use of the observation that the most reliable error reports are those that generated few failed checks and many successful checks, since the actual amount of bugs in code is relatively small. 
+To break ties when the probabilities provided by the BN are equal between alerts, the Z-Score metric is used based on the number of alerts on the same file. Z-Score is used in Z-Ranking (\cite{z-ranking}), which makes use of the observation that the most reliable error reports are those that generated few failed checks and many successful checks, since the actual amount of bugs in code is relatively small (see \cref{lit:zranking} for more details). 
 
 The \textit{z-test} statistic, which measures how far an observed value is from the real population, in this case produces a large positive \textit{z-score} when there are few errors and many successes, and a large negative \textit{z-score} when there are few successes and many errors.
 
@@ -249,45 +48,88 @@ The scikit-learn library was used to perform ML experiments (\cite{scikit-learn}
 
 \subsubsection{Alert Characteristics}
 
-The collected ACs can be classified in five main categories: alert information, source code metrics, version history, churn metrics, and aggregate characteristics.
+The collected features can be classified in four main categories: alert information, source code metrics, churn metrics and version history information.
 
-\paragraph{Alert information:} (a) package name (or folder), (b) file name, (c) file extension, (d) alert type, (e) alert category (security, core guidelines...), (f) method signature.
+%
+%\paragraph{Alert information:} (a) package name (or folder), (b) file name, (c) file extension, (d) alert type, (e) alert category (security, core guidelines...), (f) method signature.
+%
+%\paragraph{Source code metrics:} (a) number of statements, (b) number of methods, (c) number of classes, (d) cyclomatic complexity.
+%
+%\paragraph{Version history:} (a) alert open revision, (b) developers who made changes from the open revision of an alert to revision under analysis, (c) file creation revision, (d) file deletion revision, (e) latest modification revision.
+%
+%\paragraph{Churn metrics:} (a) added lines, (b) deleted lines, (c) growth (added-deleted), (d) total modified (added+deleted), (e) percent modified.
+%
+%\paragraph{Aggregate characteristics:} (a) total alerts for revision, (b) total open alerts for revision, (c) alert lifetime, (d) file age, (e) alerts for artifact (method, file, package), (f) staleness (amount of time since last change of file, method, package).
 
-\paragraph{Source code metrics:} (a) number of statements, (b) number of methods, (c) number of classes, (d) cyclomatic complexity.
+\begin{table}[H]
+	\centering
+	\begin{tabular}{@{}ll@{}}
+		\toprule
+		\textbf{Feature}            & \textbf{Description}                                               \\ \midrule
+		\textit{category}           & Alert category                                                     \\
+		\textit{type}               & Alert type                                                         \\
+		\textit{function}           & Name of function where alert is located                            \\
+		\textit{class}              & Name of class where alert is located                               \\
+		\textit{file}               & Name of file where alert is located                                \\
+		\textit{package}            & Name of folder where alert is located                              \\
+		\textit{openRevision}       & Revision number when alert appeared (default base revision)        \\
+		\textit{alertLifetime}      & current revision number - open revision number for alert           \\
+		\textit{}                   &                                                                    \\
+		\textit{functionSize}       & Number of statements in function where alert is located            \\
+		\textit{fileSize}           & Number of statements in file where alert is located                \\
+		\textit{nrFunctions}        & Number of functions in file                                        \\
+		\textit{nrClasses}          & Number of classes in file                                          \\
+		\textit{nrParameters}       & Number of parameters in function where alert is located            \\
+		\textit{functionComplexity} & Cyclomatic completicy of function where alert is located           \\
+		\textit{}                   &                                                                    \\
+		\textit{addedFile}          & number of lines added to file in this revision                     \\
+		\textit{deletedFile}        & number of lines deleted from file in this revision                 \\
+		\textit{modifiedFile}       & addedFile + deletedFile                                            \\
+		\textit{growthFile}         & addedFile - deletedFile                                            \\
+		\textit{addedTotal}         & number of lines added in this revision                             \\
+		\textit{deletedTotal}       & number of lines deleted in this revision                           \\
+		\textit{modifiedTotal}      & addedTotal + deletedTotal                                          \\
+		\textit{growthTotal}        & addedTotal - deletedTotal                                          \\
+		\textit{}                   &                                                                    \\
+		\textit{firstChangeFile}    & Revision number of first file change (default base revision)       \\
+		\textit{lastChangeFile}     & Revision number of last file change (default base revision)        \\
+		\textit{firstChangePackage} & Revision number of first change in package (default base revision) \\
+		\textit{lastChangePackage}  & Revision number of last change in package (default base revision)  \\
+		\textit{fileAge}            & lastChangeFile - firstChangeFile                                   \\
+		\textit{fileStaleness}      & current revision - last change revision for file                   \\
+		\textit{packageStaleness}   & current revision - last change revision for package                \\
+		\textit{lastKnownDev}       & Last developer to change file                                      \\
+		\textit{mostPresentDev}     & Developer that made most changes to file                           \\ \bottomrule
+	\end{tabular}
+\end{table}
 
-\paragraph{Version history:} (a) alert open revision, (b) developers who made changes from the open revision of an alert to revision under analysis, (c) file creation revision, (d) file deletion revision, (e) latest modification revision.
 
-\paragraph{Churn metrics:} (a) added lines, (b) deleted lines, (c) growth (added-deleted), (d) total modified (added+deleted), (e) percent modified.
-
-\paragraph{Aggregate characteristics:} (a) total alerts for revision, (b) total open alerts for revision, (c) alert lifetime, (d) file age, (e) alerts for artifact (method, file, package), (f) staleness (amount of time since last change of file, method, package).
-
-
-\subsubsection{Pre-processing data}
-
-***mostly categorical data -> tree based algorithms\\
-\textbf{***do not use label encoding with nominal data (false order)}\\
-\textbf{***try other encoding techniques}
-
-\paragraph{Label encoding} Some algorithms need data in numerical form. Since most of the features are categorical data, we need a way to convert them to numerical. A simple approach was chosen, label encoding, which assigns an integer to each value of a category. Other approaches such as One-Hot encoding would increase the amount of data a lot (ex. consider one-hot encoding the file where an alert a method is from, which is a feature with high cardinality).
-
-\paragraph{Imbalanced dataset} A quick look at the number of closed or not closed alerts shows that the dataset is heavily unbalanced. In order to train the ML algorithms we need first to balance the dataset. Two main techniques were tried: random undersampling and SMOTE (by using the library from \cite{imblearn}).\\
-
-\textbf{TO DO:}\\
--cite paper where oversampling works better\\
--list other metrics\\
--explain balancing techniques?
-
-\paragraph{Scaling} While for tree based algorithms scaling is not needed, for other algorithms like Logistic Regression, scaling the inputs can make a difference.
-
-\paragraph{Missing values} In some ACs data may be missing, for example...
-
-\paragraph{Feature selection} The features needed to train the models vary from project to project. Since collecting features that have little to no impact on algorithm performance is a waste of resources, techniques can be applied to select the most representative subset of features. Two main techniques were used: PCA and Recursive Feature Elimination.
-\textbf{TODO: COMPARISON FULL FEATURES VS REDUCED}
+%\subsubsection{Pre-processing data}
+%
+%***mostly categorical data -> tree based algorithms\\
+%\textbf{***do not use label encoding with nominal data (false order)}\\
+%\textbf{***try other encoding techniques}
+%
+%\paragraph{Label encoding} Some algorithms need data in numerical form. Since most of the features are categorical data, we need a way to convert them to numerical. A simple approach was chosen, label encoding, which assigns an integer to each value of a category. Other approaches such as One-Hot encoding would increase the amount of data a lot (ex. consider one-hot encoding the file where an alert a method is from, which is a feature with high cardinality).
+%
+%\paragraph{Imbalanced dataset} A quick look at the number of closed or not closed alerts shows that the dataset is heavily unbalanced. In order to train the ML algorithms we need first to balance the dataset. Two main techniques were tried: random undersampling and SMOTE (by using the library from \cite{imblearn}).\\
+%
+%\textbf{TO DO:}\\
+%-cite paper where oversampling works better\\
+%-list other metrics\\
+%-explain balancing techniques?
+%
+%\paragraph{Scaling} While for tree based algorithms scaling is not needed, for other algorithms like Logistic Regression, scaling the inputs can make a difference.
+%
+%\paragraph{Missing values} In some ACs data may be missing, for example...
+%
+%\paragraph{Feature selection} The features needed to train the models vary from project to project. Since collecting features that have little to no impact on algorithm performance is a waste of resources, techniques can be applied to select the most representative subset of features. Two main techniques were used: PCA and Recursive Feature Elimination.
+%\textbf{TODO: COMPARISON FULL FEATURES VS REDUCED}
 % correlations?
 
 \subsection{Bug related lines}
 
-Another automatic way to determine which alerts are useful is to check if they pointed to lines that were changed during bug fixes. By doing so, we are regarding as valuable only those alerts that potentially signaled future bugs. The concept of bug related lines (BRL) is used in \cite{which_warnings} and \cite{automatic_training_set}.
+Another automatic way to determine which alerts are useful is to check if they pointed to lines that were changed during bug fixes. By doing so, we are regarding as extra valuable those alerts that potentially signaled future bugs. The concept of bug related lines (BRL) is used in \cite{which_warnings} and \cite{automatic_training_set}.
 
 BRLs are calculated as follows:
 \begin{itemize}
@@ -305,7 +147,7 @@ BRLs are calculated as follows:
 
 % generic BRL vs project specific BRL
 
-Since the amount of collected lines and warnings can be rather limited, we extend the definition to Bug Related Methods (BRM). Namely, we trace in which methods the BRL belong to and also consider alerts inside those methods as valuable. That allows to extend the dataset, but also potentially weakens the data by introducing more noise.
+Since the amount of collected lines and warnings can be rather limited, we extend the definition to \textit{Bug Related Methods} (BRM). Namely, we trace in which methods the BRLs belong to and also consider alerts inside those methods as valuable. That allows to extend the dataset, but also potentially weakens the data by introducing more noise.
 
 Given that the number of alerts collected this way, is a lot less than the total number of alerts, this method is more suited for ranking alert types rather than individual alerts (as used in \cite{which_warnings}).
 
@@ -314,26 +156,26 @@ Given that the number of alerts collected this way, is a lot less than the total
 	\begin{minipage}{.5\linewidth}
 		\begin{algorithm}[H]
 			\SetAlgoLined
-			\KwData{Collected bug-related alerts}
+			\KwData{Collected bug-related alerts and actionable alerts}
 			\KwResult{Weighted alert types}
 			$\alpha, \beta = x, y$\;
 			$w_t = 0 \ for \ t \ in \ alertTypes$\;
 			\For{alert in collectedAlerts}{
 				$w_t = typeOf(alert)$\;
-				\If{alert pointed to a BRL}{
+				\If{alert pointed to a BRL or BRM}{
 					$w_t = w_t + \alpha$
 				}
-			
-				\ElseIf{alert pointed to a BRM}{
+				\ElseIf{alert is actionable}{
 					$w_t = w_t + \beta$
 				}
 			}
+			$w_t = \frac{w_t}{|alerts \, of \, type \, t|}$
 			\caption{Alert type priotitization algorithm}
 		\end{algorithm}
 	\end{minipage}
 \end{figure}
 
-\subsection{Bug prediction}
+\subsection{Method Bug prediction}
 
 Following the example of \cite{static_profiling}, which aims to prioritize alerts based on the execution likelihood of the code pointed by the alert, we present a similar approach. Alerts pointing at potential bugs are the ones that can be considered the most important. The cost of detecting and fixing a bug is much lower if detected early in the development cycle. If we can predict which components will be likely to cause failures in the future, we can prioritize alerts that point to those components. 
 
@@ -341,7 +183,7 @@ The appropriate granularity to use for bug prediction is at method level. File l
 
 We follow the example of the \cite{prediction_method} method. By using a combination of source code and change metrics and by exploiting the version history of the codebase, classifiers can be built that predict bug prone methods.
 
-\begin{table}[H]
+\begin{table}[]
 	\centering
 	\begin{tabular}{@{}ll@{}}
 		\textbf{Metric Name}          & \textbf{Description}                                                                                                                   \\ \midrule
@@ -370,311 +212,16 @@ We follow the example of the \cite{prediction_method} method. By using a combina
 
 % rank alerts in problematic zones higher - combine with BRL?
 
-\subsection{Combining the techniques}
-% \subsection{Individual alert tuning}
-% zranking cppcore guidelines
-% COMBINE DIFFERENT TECHNIQUES FOR DIFFERENT ALERTS
-
-\subsubsection{How to combine the strengths?}
-% deep learning? make it flexible, learn with time\\
-apply each technique to a subset of the warnings (which is more appropriate)
-
-\subsubsection{Better results?}
-Does it provide better results?
-
-
-\subsection{Evaluation methods}
-
-To evaluate and compare the approaches different techniques are used: 
-\begin{itemize}
-    \item \textbf{K-Fold Cross Validation}: where the data is randomly divided into folds and one of those is used for testing while the rest for training. It is often used in papers containing ML approaches to ranking alerts, though it has its drawbacks. As shown in \cite{performance_method_bug} and as can be seen on \cref{kfold_vs_release}, this approach uses dependent variables (most of the extracted features), that may not be available at prediction time in a real world scenario. That can lead to unreliable and excessively optimistic results.
-    \item \textbf{Release/Revision based testing}: avoids the drawback of the previous method, by using a \textit{"horizontal"} train/test strategy. We fix a certain point in time (revision or release) which defines what the train set (before that point) and test set (after that point) will be. This trains the algorithms with more realistic data, but it also has its drawbacks. In a scenario where the dataset is imbalanced, a \textit{"horizontal"} 80/20\% split may leave us with very little data. Also, unlike in cross validation, we cannot train and test different models.
-    \item \textbf{Alert ratio}: where we compare how much better is the ranking produced by a model with a random order of alerts. We calculate that by checking how many more alerts are better placed in the ranked version than the random one.
-    \item \textbf{Average inspected false positives}: similar to the previous method where we compare the ranking produced by a model against a random one, but by calculating the average  number of times an unactionable alert has to be inspected before reaching an actionable one.
-    \item \textbf{Fault detection rate curve}: the curve of a model is formed by the percentage of all actionable alerts found within the first \textit{X} alerts of the alert
-    ranking algorithm.
-    
-    TO DO: see \cite{compare_framework} and apply only on top x\%? Fault detection rate curve?
-    
-    % \item Feedback-Rank paper has some approaches.
-\end{itemize}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[scale=0.3]{./src/release_based_testing.png}
-    \caption{Release-based vs K-Fold (\cite{performance_method_bug})}
-    \label{kfold_vs_release}
-\end{figure}
-
-\subsubsection{Evaluation Metrics}
-
-Along with the classic evaluation metrics like \textit{accuracy}, \textit{precision} and \textit{recall}, other metrics are used that are more appropriate for imbalanced data (\cite{comparison_metrics}, \cite{iba_metric}). 
+%\subsection{Combining the techniques}
+%% \subsection{Individual alert tuning}
+%% zranking cppcore guidelines
+%% COMBINE DIFFERENT TECHNIQUES FOR DIFFERENT ALERTS
+%
+%\subsubsection{How to combine the strengths?}
+%% deep learning? make it flexible, learn with time\\
+%apply each technique to a subset of the warnings (which is more appropriate)
+%
+%\subsubsection{Better results?}
+%Does it provide better results?
 
 
-\begin{gather*}
-Sensitivity = \frac{TP}{TP + FN}\\
-Specificity = \frac{TN}{FP + TN}\\
-G-Mean = \sqrt{Sensitivity * Specificity}
-\end{gather*} 
-Sensitivity, or True Positive Rate is the percentage of positive examples which
-are correctly classified.\\
-Specificity, or True Negative Rate, is the percentage of negative examples which are correctly classified.\\
-G-Mean is the geometric mean of the sensitivity and specificity.
-
-
-\begin{gather*}
-AUC = \frac{Sensitivity + Specificity}{2} \qquad (*approximation \ using \ trapezoid \ rule)
-\end{gather*} 
-The \textit{AUC} of a binary classifier is equivalent to the probability that the classifier will rank a randomly chosen positive instance higher than a randomly chosen negative instance.
-
-
-\begin{gather*}
-IBA_{\alpha} = (1 + \alpha * (Sensitivity - Specificity)) * Sensitivity * Specificity
-\end{gather*} 
-The \textit{Index of Balanced Accuracy} used for evaluating learning processes in two-class imbalanced domains. The
-method combines an unbiased index of its overall accuracy and a measure about
-how dominant is the class with the highest individual accuracy rate.
-
-
-\subsubsection{Preparing the dataset}
-Since the amount of actionable warnings is very low compared to the total amount of warnings, the dataset is balanced in two steps. First a subset of the packages and warnings is selected. By considering the ratio of actionable to the total amount of alerts, we can select the packages or types of warnings with the higher ratio (ex. the first 100).
-
-After the first step, a test set is selected for evaluating the algorithms (equal to 20\% of the dataset).
-That is especially needed to test the algorithms after the K-Fold evaluation.
-
-The second step consists of balancing the amount of actionable and not actionable alerts, either by random subsampling or by artificially creating new samples (via SMOTE).
-
-
-\textbf{TODO: EVALUATE OVERSAMPLING METHODS}
-
-\textbf{TODO: EVALUATE ENCODING METHODS}
-
-\subsection{Results of individual tools}
-
-Experiments were run by training methods on the first 80\% items of the dataset and testing on the remaining 20\%.
-
-\subsubsection{Actionable Alerts}
-
-Different balancing algorithms were applied to the training set and \textit{Random Forest} was used as a classifier, yielding the following results of the test set (*):
-
-\begin{table}[H]
-	\centering
-	\begin{tabular}{@{}ccccccc@{}}
-		\toprule
-		& \textbf{Precision} & \textbf{Recall} & \textbf{Specificity} & \textbf{F1-Score} & \textbf{Geometric} & \textbf{IBA}  \\ \midrule
-		\textit{Random Over Sampler}  & 88\%               & 87\%            & 75\%                 & 86\%              & 79\%               & 63\%          \\
-		\textit{Random Under Sampler} & 91\%               & 90\%            & 82\%                 & 90\%              & 85\%               & 73\%          \\
-		\textit{SMOTE}                & \textbf{94\%}      & \textbf{94\%}   & \textbf{90\%}        & \textbf{94\%}     & \textbf{92\%}      & \textbf{85\%} \\
-		\textit{ADASYN}               & 90\%               & 90\%            & 81\%                 & 89\%              & 85\%               & 72\%          \\
-		\textit{SMOTEENN}             & 89\%               & 88\%            & 77\%                 & 87\%              & 81\%               & 66\%          \\
-		\textit{SMOTETomek}           & 89\%               & 88\%            & 77\%                 & 87\%              & 81\%               & 67\%          \\ \bottomrule
-	\end{tabular}
-\end{table}
-
-\textit{(*) calculated using the balanced classification report of imblearn}
-
-
-\begin{figure}[H]
-	\begin{subfigure}{\textwidth}
-		\centering
-		\includegraphics[scale=0.3]{./src/actAlerts/actalerts_smote_cm.png}
-		\caption{Confusion matrix of test set for SMOTE balanced training set}\label{}
-	\end{subfigure}\\
-	\begin{subfigure}{.5\textwidth}
-		\centering
-		\includegraphics[scale=0.3]{./src/actAlerts/actalerts_smote_roc.png}
-		\caption{ROC Curve for SMOTE balanced training set}\label{}
-	\end{subfigure}%
-	\begin{subfigure}{.5\textwidth}
-		\centering
-		\includegraphics[scale=0.3]{./src/actAlerts/actalerts_smote_pr.png}
-		\caption{Precision/Recall curve for SMOTE balanced training set}\label{}
-	\end{subfigure}  
-\end{figure}
-
-Alerts are ranked based on the probabiliy score produced by the classifier for the prediction target (actionable or not).
-In order to evaluate the ranking, two metrics are used to compare the ranked alerts with a random order. The experiments are run multiple times (by shuffling the random order and calculating the metrics again).\\
-
-The order produced by the Random Forest classifer always outperforms the random order.
-\begin{table}[H]
-	\centering
-	\begin{tabular}{@{}lll@{}}
-		\toprule
-		& \textbf{S(R) metric} & \textbf{Average FP to TP} \\ \midrule
-		\textit{Better than random (Top 1000 alerts)} & 1000 out of 1000     & 1000 out of 1000          \\
-		\textit{Better than random (All alerts)}      & 10 out of 10         & 10 out of 10              \\ \bottomrule
-	\end{tabular}
-\end{table}
-
-Furthermore, the order of the ranked alerts if compared against the random and perfect order by using the cumulative graph.
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.4]{./src/actAlerts/cumulative_graph_all.png}
-	\caption{Cumulative graph for all sorted alerts}
-	\label{}
-\end{figure}
-
-
-\subsection{Method Bug Prediction}
-
-Different balancing algorithms were applied to the training set and \textit{Random Forest} was used as a classifier. The following results show the score of the classifier in predicting if a method will be buggy in the future:
-
-\begin{table}[H]
-	\centering
-	\begin{tabular}{@{}ccccccc@{}}
-		\toprule
-		& \textbf{Precision} & \textbf{Recall} & \textbf{Specificity} & \textbf{F1-Score} & \textbf{Geometric} & \textbf{IBA}  \\ \midrule
-		\textit{Random Over Sampler}  & \textbf{70\%}      & \textbf{70\%}   & \textbf{55\%}        & \textbf{70\%}     & \textbf{60\%}      & \textbf{37\%} \\
-		\textit{Random Under Sampler} & 65\%               & 70\%            & 39\%                 & 66\%              & 42\%               & 18\%          \\
-		\textit{SMOTE}                & 68\%               & 70\%            & 48\%                 & 69\%              & 53\%               & 29\%          \\
-		\textit{ADASYN}               & 67\%               & 70\%            & 45\%                 & 68\%              & 51\%               & 26\%          \\
-		\textit{SMOTEENN}             & 66\%               & 70\%            & 41\%                 & 67\%              & 45\%               & 21\%          \\
-		\textit{SMOTETomek}           & 68\%               & 70\%            & 47\%                 & 69\%              & 52\%               & 28\%          \\ \bottomrule
-	\end{tabular}
-\end{table}
-
-\begin{figure}[H]
-	\begin{subfigure}{\textwidth}
-		\centering
-		\includegraphics[scale=0.3]{./src/methodBug/methodbug_rover_cm.png}
-		\caption{Confusion matrix of test set for Random Oversampling balanced training set}\label{}
-	\end{subfigure}\\
-	\begin{subfigure}{.5\textwidth}
-		\centering
-		\includegraphics[scale=0.3]{./src/methodBug/methodbug_rover_roc.png}
-		\caption{ROC Curve for Random Oversampling balanced training set}\label{}
-	\end{subfigure}%
-	\begin{subfigure}{.5\textwidth}
-		\centering
-		\includegraphics[scale=0.3]{./src/methodBug/methodbug_rover_pr.png}
-		\caption{Precision/Recall curve for Random Oversampling balanced training set}\label{}
-	\end{subfigure}  
-\end{figure}
-
-
-After calculating the probability of a method being buggy on the test set, we merge that set with the one containing actionable alerts. The goal is to see if ranking alerts higher when they belong to a bug prone method is useful in terms of predicting if that alert will be actionable in the future.
-
-Alerts are ranked based on the probabiliy score produced by the classifier for the prediction target (buggy or not).
-In order to evaluate the ranking, two metrics are used to compare the ranked alerts with a random order. The experiments are run multiple times (by shuffling the random order and calculating the metrics again).\\
-
-Alerts ranked by bug-prone method probability do not over-perform the random order in the first few alerts, but outperform the random order in the overall dataset.
-
-\begin{table}[H]
-	\centering
-	\begin{tabular}{@{}lll@{}}
-		\toprule
-		& \textbf{S(R) metric} & \textbf{Average FP to TP} \\ \midrule
-		\textit{Better than random (Top 100 alerts)}  & 13 out of 1000       & 775 out of 1000           \\
-		\textit{Better than random (Top 1000 alerts)} & 996 out of 1000      & 1000 out of 1000          \\
-		\textit{Better than random (All alerts)}      & 10 out of 10         & 9 out of 10               \\ \bottomrule
-	\end{tabular}
-\end{table}
-
-
-The order of the ranked alerts if compared against the random and perfect order by using the cumulative graph for different thresholds, the first 100, 1000 and all alerts.
-
-\begin{figure}[H]
-	\begin{subfigure}{\textwidth}
-		\centering
-		\includegraphics[scale=0.3]{./src/methodBug/methodbug_cumulative_graph_top100.png}
-		\caption{Cumulative graph for the first 100 alerts}\label{}
-	\end{subfigure}\\
-	\begin{subfigure}{.5\textwidth}
-		\centering
-		\includegraphics[scale=0.3]{./src/methodBug/methodbug_cumulative_graph_top1000.png}
-		\caption{Cumulative graph for the first 1000 alerts}\label{}
-	\end{subfigure}%
-	\begin{subfigure}{.5\textwidth}
-		\centering
-		\includegraphics[scale=0.3]{./src/methodBug/methodbug_cumulative_graph_all.png}
-		\caption{Cumulative graph for all alerts}\label{}
-	\end{subfigure}  
-\end{figure}
-
-From the results we can conclude that ranking alerts based on the method being bug-prone does not provide good results. That does not mean that this method is meaningless. Its main purpose is to give extra attention to alerts belonging to buggy methods, which if acted upon may improve code quality and lower the probability of the method causing a bug in the future.
-
-\subsection{Feedback Rank}
-
-\textit{(*) These experiments were run on a small subset of the dataset. The Bayes Network was trained on 10000 samples and tested on 1000. The reason being the abnormally high runtime (factor 100 or more than other approaches).}
-
-Different balancing algorithms were applied to the training set and \textit{Bayes Network} was used as a classifier. The following results show the score of the classifier:
-
-\begin{table}[H]
-	\centering
-	\begin{tabular}{ccccccc}
-		\hline
-		& \textbf{Precision} & \textbf{Recall} & \textbf{Specificity} & \textbf{F1-Score} & \textbf{Geometric} & \textbf{IBA}  \\ \hline
-		\textit{Random Over Sampler}  & 56\%               & 53\%            & 56\%                 & 52\%              & 51\%               & 26\%          \\
-		\textit{Random Under Sampler} & 57\%               & 54\%            & 57\%                 & 52\%              & 52\%               & 27\%          \\
-		\textit{None}                 & \textbf{58\%}      & \textbf{56\%}   & \textbf{57\%}        & \textbf{54\%}     & \textbf{53\%}      & \textbf{28\%}
-	\end{tabular}
-\end{table}
-
-
-\begin{figure}[H]
-	\begin{subfigure}{\textwidth}
-		\centering
-		\includegraphics[scale=0.3]{./src/fbRank/fbrank_nob_cm.png}
-		\caption{Confusion matrix of test set for unbalanced training set}\label{}
-	\end{subfigure}\\
-	\begin{subfigure}{.5\textwidth}
-		\centering
-		\includegraphics[scale=0.3]{./src/fbRank/fbrank_cumulative_graph_top100.png}
-		\caption{Cumulative graph for the first 100 alerts}\label{}
-	\end{subfigure}%
-	\begin{subfigure}{.5\textwidth}
-		\centering
-		\includegraphics[scale=0.3]{./src/fbRank/fbrank_cumulative_graph_top1000.png}
-		\caption{Cumulative graph for the first 1000 alerts}\label{}
-	\end{subfigure}  
-\end{figure}
-
-\begin{table}[H]
-	\centering
-	\begin{tabular}{@{}lll@{}}
-		\toprule
-		& \textbf{S(R) metric} & \textbf{Average FP to TP} \\ \midrule
-		\textit{Better than random (Top 100 alerts)}  & 1000 out of 1000       & 63 out of 1000           \\
-		\textit{Better than random (Top 1000 alerts)} & 958 out of 1000      & 859 out of 1000          \\ \bottomrule
-	\end{tabular}
-\end{table}
-
-From the metrics as well as the cumulative graph, we can see that Feedback Rank does not perform well on the reduced dataset it was tested on.
-
-
-\subsection{Bug-Related Lines}
-
-Since this method only calculates weights for alert types, it does not predict if a particular alert is actionable or not. As a consequence, only the ranking is evaluated.
-
-The algorithm ranks alerts types based on two input weight parameters ($\alpha,\beta$). Based on experimental evaluation the following respective values were chosen: $\alpha=0.7, 
-\beta=0.3$.
-
-\begin{figure}[H]
-	\begin{subfigure}{\textwidth}
-		\centering
-		\includegraphics[scale=0.3]{./src/brls/brls_cumulative_graph_top100.png}
-		\caption{Cumulative graph for the first 100 alerts}\label{}
-	\end{subfigure}\\
-	\begin{subfigure}{.5\textwidth}
-		\centering
-		\includegraphics[scale=0.3]{./src/brls/brls_cumulative_graph_top1000.png}
-		\caption{Cumulative graph for the first 1000 alerts}\label{}
-	\end{subfigure}%
-	\begin{subfigure}{.5\textwidth}
-		\centering
-		\includegraphics[scale=0.3]{./src/brls/brls_cumulative_graph_all.png}
-		\caption{Cumulative graph for all alerts}\label{}
-	\end{subfigure}  
-\end{figure}
-
-The algorithm performs well for the first 100 alerts, but then the performance decreases. 
-
-\begin{table}[H]
-	\centering
-	\begin{tabular}{@{}lll@{}}
-		\toprule
-		& \textbf{S(R) metric} & \textbf{Average FP to TP} \\ \midrule
-		\textit{Better than random (Top 100 alerts)}  & 1000 out of 1000       & 993 out of 1000           \\
-		\textit{Better than random (Top 1000 alerts)} & 0 out of 1000      & 996 out of 1000          \\ \bottomrule
-	\end{tabular}
-\end{table}

@@ -19,6 +19,7 @@ This section will consist of research papers focused on these main topics:
  \subsubsection{Single Tool}
  \label{sec:single_tool}
 
+ \label{lit:zranking}
  Kremenek and Engler \cite{z-ranking} introduce \textit{Z-ranking}, a statistical model to rank the error reports of SA tools. They make a distinction between successful and failed checks (those that satisfy a checked property and those that violate it). The underlying observation is that the most reliable error reports are those that generated few failed checks and many successful checks, since the actual amount of bugs in code is relatively small. An explosion of failed checks is a likely indicator that something is going wrong with the analysis. Reports are sorted based on the calculated \textit{z-test} statistic (based on the relative frequency of successful and failed checks).
 
  The problem can be formally defined as a classification task. Let P be the population of all reports, both successful checks and failed checks, emitted by a program checker analysis tool. \textit{P} consists of two subpopulations: \textit{S}, the subpopulation of successful checks and \textit{E}, the subpopulation of failed checks (or error reports). The set of error reports \textit{E} can be further broken down into two subpopulations: \textit{B}, the population of true errors or bugs and \textit{F}, the population of false positives. The classification problem can then be restated as follows: given an error report $x \in E$, decide which of the two populations \textit{B} and \textit{F} it belongs to. That is based on the fact that \textit{B} and \textit{F} have different statistical characteristics. 
@@ -44,6 +45,7 @@ This section will consist of research papers focused on these main topics:
  \end{figure}
 
 
+ \label{lit:fbrank}
  Kremenek et al. \cite{correlation_exploitation} introduce \textit{Feedback-Rank}, a dynamic ranking scheme that adapts as reports are inspected. By analyzing historical data, they observed that both bugs and false positives cluster by code locality. They present a probabilistic technique that exploits this correlation and also incorporates user feedback by reordering reports after each inspection. Since reports are correlated within a population (cluster), inspecting one of them yields information about the others. The ranking works by using a \textit{Bayesian Network} and exploiting two features, the number of populations (error messages grouped together) and the strength of correlation in each population. Furthermore, the strategy also continues improving with time, by taking into account the history of inspections.
 
  An intuitive explanation for the reason that reports cluster is given for both real and false positives. Regarding true positives, when developers do not know a rule, they will repeatedly violate it, so errors of the same type will correlate together. As for the false positives, there are three main causes: analysis mistakes of the tool (explosion of errors), rare coding idioms used by developers (which trigger the tools), incomplete rule specifications (a rule holds in most cases, but can be safely violated in others).
