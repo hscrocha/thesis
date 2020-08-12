@@ -8,13 +8,19 @@
 
 \subsection{Feedback Rank and Z-Score}
 
+\henrique{This section is named Feedback Rank and Z-Score, and the next Section is named Z-Score. If there is Z-score is not described in this section (but detailed in the next one) it should not be on the title.}
 % \textbf{TODO: maybe try a different correlation (author/alert type/?)}
 % check vs naive bayes - trade off with speed
 
-Feedback Rank (\cite{correlation_exploitation}) combined with Z-Score (\cite{z-ranking}) is a simple technique which ranks alerts on the probability of them being true/actionable. It consists of three basic features: package, file, function of the alert being analyzed (though may be extended as needed).
-By constructing a Bayesian Network based on these three features and the history of the project (which alerts have been proven valuable) it produces a probability ranking about which alerts are most useful.
+Feedback Rank~\cite{correlation_exploitation} combined with Z-Score~\cite{z-ranking} is a simple technique that ranks alerts on the probability of them being actionable.
+ It consists of three basic features: package, file, function of the alert being analyzed (though may be extended as needed). 
+\henrique{It is very difficult to understand what you mean in the last sentence. Only after reading the next sentence and looking at the Figure below that I got what you meant. You may want to re-write the paragraph as it is confusing}
+By constructing a Bayesian Network based on these three features and the history of the project (which alerts have been proven valuable) it produces a probability ranking about which alerts are most useful. \henrique{You should detail the 'history of the project' which is probably one of the key elements to your ranking.}
+
 
 As explained on the literature review (\cref{lit:fbrank}), Feedback Rank is based on the assumption that bugs and false positives are clustered by code locality. The alerts are divided into two major regions, one that contains mostly true positive, and one that contains mostly false positives. A Bayesian Network (BN) is used to calculate the probabilities of an alert or cluster of alerts belonging to a certain region.
+
+\henrique{You should reference the Figures in your text. Where the Figure bellow fits mostly in the text?}
 
 \begin{figure}[H]
 	\centering
@@ -22,12 +28,15 @@ As explained on the literature review (\cref{lit:fbrank}), Feedback Rank is base
 	\caption{Example of a simple Bayes Network for predicting 3 alerts}
 \end{figure}
 
-The initial configuration of the network can learned from historical data (extracted as explained on \cref{data_collection}). According to the original authors Feedback Rank is supposed to be an online ranking system: if we inspect a report and know its value, the probabilities of the parents are re-calculated. In this implementation, a static version is used.
+The initial configuration of the network can learned from historical data (extracted as explained on \cref{data_collection}). According to the original authors Feedback Rank is supposed to be an online ranking system: if we inspect a report and know its value, the probabilities of the parents are re-calculated. In this implementation, a static version is used. \henrique{When you write 'According to the original authors' you should provide a reference here. And you say you are going to use a static version but do not describe how that would work.}
 
-To construct the BN, the Pomegranate library was used (\cite{pomegranate}), trained with the extracted alert data from the version history.
+To construct the BN, the Pomegranate library was used \cite{pomegranate}, trained with the extracted alert data from the version history. \henrique{Carefull on the overuse of passive voice. The same sentence could be rewritten without it. For example... We use the Pomegranate library~\cite{pomegranate} to construct the BN. Moreover, we trained the BN with extracted alert data from the version history.}
+
 
 \subsubsection{Z-Score}
-To break ties when the probabilities provided by the BN are equal between alerts, the Z-Score metric is used based on the number of alerts on the same file. Z-Score is used in Z-Ranking (\cite{z-ranking}), which makes use of the observation that the most reliable error reports are those that generated few failed checks and many successful checks, since the actual amount of bugs in code is relatively small (see \cref{lit:zranking} for more details). 
+
+\henrique{Carefull on the overuse of passive voice. Every time you write "X is used" try to see if you can rewrite the sentence in active voice as "we use X".}
+To break ties when the probabilities provided by the BN are equal between alerts, the Z-Score metric is used based on the number of alerts on the same file. Z-Score is used in Z-Ranking \cite{z-ranking}, which makes use of the observation that the most reliable error reports are those that generated few failed checks and many successful checks, since the actual amount of bugs in code is relatively small (see \cref{lit:zranking} for more details). 
 
 The \textit{z-test} statistic, which measures how far an observed value is from the real population, in this case produces a large positive \textit{z-score} when there are few errors and many successes, and a large negative \textit{z-score} when there are few successes and many errors.
 
@@ -36,18 +45,19 @@ To make use of the Z-Score, an approximation is made. The granularity used for c
 \subsection{Detecting Actionable Alerts via Machine Learning}
 % classifiers used, how to train (grid search), overfitting, ways to measure
 
-Different research papers have focused on automatically classifying alerts in true/false positives or actionable/unactionable, by constructing classifiers based on code or change metrics (\cite{actionable_sa}, \cite{model_building_actionable}).
+Different techniques focused on automatically classifying alerts in true/false positives or actionable/unactionable alerts, by constructing classifiers based on code or change metrics~\cite{actionable_sa, model_building_actionable}.
 
-Instead of focusing on classifying alerts as true or false positives, we focus on Actionable Alerts instead: alerts that are deemed important by the developers (not restricted to the type of alerts, but also to the context on which it manifests itself). The later is a less restrictive definition and makes it easier to collect data. Classifying alerts as true or false would necessitate an oracle telling which is which or a large and representative dataset generated manually. In addition, from a developer's perspective, AAs can be more useful. An alert can be true but might be considered not important by developers and thus be equally useless as a false one (low criticality, no impact on user side etc...).
+Instead of classifying alerts as true or false positives, we focus on Actionable Alerts which are alerts that are deemed important by the developers (not restricted to the type of alerts, but also to the context on which it manifests itself). Actionable alert is a less restrictive definition and makes it easier to collect data. Classifying alerts as true or false would require an oracle or a large and representative dataset generated manually. Moreover, from a developer's perspective, AAs can be more useful. A true positive alert may not be necessarily important to developers and thus be equally useless as a false one (e.g, low severity, no impact on the user side).
 
-Research is conducted by following the example of \cite{model_building_actionable}, since it contains an agglomeration of alert characteristics (AC) collected from other research papers.
+We followed the example of Heckman and Williams~\cite{model_building_actionable} to conduct our research since it contains an agglomeration of alert characteristics (AC) collected from other papers.
 
 The workflow, as explained in \cref{data_collection}, consists of iterating through the version history, collecting alerts characteristics and keeping track which alerts disappear (considered as actionable). ACs are then later used as features in ML algorithms with actionability being the target to predict.
 
-The scikit-learn library was used to perform ML experiments (\cite{scikit-learn}).
+We use the scikit-learn library~\cite{scikit-learn} to perform ML experiments in our evaluation.
 
 \subsubsection{Alert Characteristics}
 
+\henrique{Is it supposed to be: "Table X shows the collected features ..." ?}
 The collected features can be classified in four main categories: alert information, source code metrics, churn metrics and version history information.
 
 %
@@ -61,6 +71,7 @@ The collected features can be classified in four main categories: alert informat
 %
 %\paragraph{Aggregate characteristics:} (a) total alerts for revision, (b) total open alerts for revision, (c) alert lifetime, (d) file age, (e) alerts for artifact (method, file, package), (f) staleness (amount of time since last change of file, method, package).
 
+\henrique{Where is this table number and title/caption. It is also important that the table is explicitly mentioned on the text.}
 \begin{table}[H]
 	\centering
 	\begin{tabular}{@{}ll@{}}
@@ -129,27 +140,31 @@ The collected features can be classified in four main categories: alert informat
 
 \subsection{Bug related lines}
 
-Another automatic way to determine which alerts are useful is to check if they pointed to lines that were changed during bug fixes. By doing so, we are regarding as extra valuable those alerts that potentially signaled future bugs. The concept of bug related lines (BRL) is used in \cite{which_warnings} and \cite{automatic_training_set}.
+Another automatic way to determine which alerts are useful is to check if they pointed to lines that were changed during bug fixes. By doing so, we are regarding as extra valuable those alerts that potentially signaled future bugs. The concept of bug related lines (BRL) is used by Kim and Ernst~\cite{which_warnings}, and by Liang et al.~\cite{automatic_training_set}.
 
 BRLs are calculated as follows:
 \begin{itemize}
-    \item We start at a base revision and iterate backwards to a target revision. 
+    \item We start at a base version of the source code and iterate backwards to a target revision. 
     \item If revision under analysis is a bug-fixing revision (contains a bug ID) collect changed/deleted code lines from the version history.
     \item If those collected lines were present in the code at least since the target revision, we consider them bug related lines.
     \item Continue iterating backwards, collecting BRLs. If previous lines that were considered BRL were changed before reaching the target revision, we remove them from the set. 
 \end{itemize}
 
+\henrique{Every Figure, table, algorithm, chart, and diagram should be explicitly mentioned in the text. For example, you could put the following sentence below to mention the figure. Figure~\ref{fig:calculating-brls} shows a summarization of the general process we follow to calculate BRLs.}
+
 \begin{figure}[H]
     \centering
     \includegraphics[scale=0.3]{./src/brl_example.png}
     \caption{Calculating BRLs (\cite{which_warnings})}
+    \label{fig:calculating-brls} %% *** Put labels in the figures, tables, etc, to make it easier to reference them.
 \end{figure}
 
 % generic BRL vs project specific BRL
 
-Since the amount of collected lines and warnings can be rather limited, we extend the definition to \textit{Bug Related Methods} (BRM). Namely, we trace in which methods the BRLs belong to and also consider alerts inside those methods as valuable. That allows to extend the dataset, but also potentially weakens the data by introducing more noise.
+Since the number of collected lines and warnings can be rather limited, we extend the definition to \textit{Bug Related Methods} (BRM). Namely, we trace in which methods the BRLs belong to and also consider alerts inside those methods as valuable. That allows us to extend the dataset, but also potentially weakens the data by introducing more noise.
 
 Given that the number of alerts collected this way, is a lot less than the total number of alerts, this method is more suited for ranking alert types rather than individual alerts (as used in \cite{which_warnings}).
+\henrique{I did not understand what is the relation that makes it better suited for ranking alert types.}
 
 \begin{figure}[ht]
 	\centering
@@ -177,11 +192,11 @@ Given that the number of alerts collected this way, is a lot less than the total
 
 \subsection{Method Bug prediction}
 
-Following the example of \cite{static_profiling}, which aims to prioritize alerts based on the execution likelihood of the code pointed by the alert, we present a similar approach. Alerts pointing at potential bugs are the ones that can be considered the most important. The cost of detecting and fixing a bug is much lower if detected early in the development cycle. If we can predict which components will be likely to cause failures in the future, we can prioritize alerts that point to those components. 
+Following the example of Boogerd and Moonen~\cite{static_profiling}, which aims to prioritize alerts based on the execution likelihood of the code pointed by the alert, we present a similar approach. Alerts pointing at potential bugs are the ones that can be considered the most important. The cost of detecting and fixing a bug is much lower if detected early in the development cycle. If we can predict which components will be likely to cause failures in the future, we can prioritize alerts that point to those components.
 
-The appropriate granularity to use for bug prediction is at method level. File level granularity is too broad since a lot of files contain many lines of code, which would result in prioritizing a lot of alerts, while anything lower than method level would be too hard to predict as bug prone.
+The appropriate granularity to use for bug prediction is at method level. File level granularity is too broad since a lot of files contain many lines of code, which would result in prioritizing a lot of alerts. On the other hand, finer granularity than method level would be too hard to predict.
 
-We follow the example of the \cite{prediction_method} method. By using a combination of source code and change metrics and by exploiting the version history of the codebase, classifiers can be built that predict bug prone methods.
+We follow the example of Giger et al.~\cite{prediction_method} method. By using a combination of source code and change metrics and by exploiting the version history of the codebase, classifiers can be built that predict bug prone methods.
 
 \begin{table}[]
 	\centering
