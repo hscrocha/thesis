@@ -6,12 +6,14 @@
 % +Positive aspects of SA and usages (google, fb etc...), their need (huge amounts of code), etc...\\
 
 \henrique{Is the SA used for maintenance, development, or both? If it is maintenance, we should shift the initial paragraph wih a little motivation on maintenance. If it for both, we should focus on development but also mention maintenance activities.}
+\kleidi{I know that OMP wants to use it in a CI environment, so in development}
 
-The amount of code that is being produced is increasing with time. \henrique{It is important, to put a reference when writing such strong statement. Although, I think there are better ways to start the intro.} That brings multiple challenges in the software engineering landscape, one of which is assuring adequate code quality. In this context, automatic approaches such as Static Analysis (SA) can be really useful and time saving in detecting and preventing potential bugs. \henrique{The last two sentences are confusing, first you say it is important to assure code quality. And next you talk about bugs. Those are different concepts, you can have a code with bad quality and low bugs and vice-versa. From what I understand, your goal is more related to bug prevention. Quality metrics for source cde are usually based on coupling and cohesion, and you do not measure that.} 
-Its usefulness has been acknowledged also by big tech companies, such as Google with its Tricorder architecture~\cite{sa_google} or Facebook with its Infer static analyzer~\cite{infer}.
-Another reason to adopt SA techniques, is that the cost of repairing a defect is much lower when that defect is found early in the development cycle (generally accepted principle). \henrique{Even if it is a generally acepted principle, as academic researchers we should provide a reference to it. Here it is a journal paper that shows a figure on the costs measured by the IBM System Science Institute~\cite{dawson2010}.}
 
-\henrique{Bellow is my atempt to rewrite the first paragraph. You can use whichever you prefer, or mix and mash what you want. I think there are 3 different topics above that do not match all that well. Therefore, I split it into 3 paragraphs}
+%The amount of code that is being produced is increasing with time. \henrique{It is important, to put a reference when writing such strong statement. Although, I think there are better ways to start the intro.} That brings multiple challenges in the software engineering landscape, one of which is assuring adequate code quality. In this context, automatic approaches such as Static Analysis (SA) can be really useful and time saving in detecting and preventing potential bugs. \henrique{The last two sentences are confusing, first you say it is important to assure code quality. And next you talk about bugs. Those are different concepts, you can have a code with bad quality and low bugs and vice-versa. From what I understand, your goal is more related to bug prevention. Quality metrics for source cde are usually based on coupling and cohesion, and you do not measure that.} 
+%Its usefulness has been acknowledged also by big tech companies, such as Google with its Tricorder architecture~\cite{sa_google} or Facebook with its Infer static analyzer~\cite{infer}.
+%Another reason to adopt SA techniques, is that the cost of repairing a defect is much lower when that defect is found early in the development cycle (generally accepted principle). \henrique{Even if it is a generally acepted principle, as academic researchers we should provide a reference to it. Here it is a journal paper that shows a figure on the costs measured by the IBM System Science Institute~\cite{dawson2010}.}
+%
+%\henrique{Bellow is my atempt to rewrite the first paragraph. You can use whichever you prefer, or mix and mash what you want. I think there are 3 different topics above that do not match all that well. Therefore, I split it into 3 paragraphs}
 
 Software development and maintenance is a complex activity~\cite{clarke2016}. Because of this complexity, there are many challenges in the software engineering landscape, when developing software. In this environment, automated tools and techniques matter to help the development scale with consistency~\cite{winters2020}. 
 
@@ -19,7 +21,7 @@ Static Analysis (SA) is an automated technique that can be useful for the develo
 
 Popular companies acknowledge the usefulness of Static Analysis techniques by adopting them in their process. For instance, Google with its Tricorder architecture~\cite{sa_google} or Facebook with its Infer static analyzer~\cite{infer}.
 
-\henrique{** End of the first paragraph rewrite suggestion **}
+%\henrique{** End of the first paragraph rewrite suggestion **}
 
 
 Even though SA is useful and employed by real companies, there is still much room for improvement. Since the software under analysis is not executed, SA tools must infer what the actual program behavior will be. Therefore, SA tools are bound to make misclassifications or raise false alarms.
@@ -29,7 +31,9 @@ Given the tendency of SA tools to over-estimate possible faulty program behaviou
 The classic approach most tools use for prioritizing and filtering results is to statically classify the results based on severity levels. They are oblivious of the actual code that is being analyzed and of the location or frequency of a given defect. Furthermore, it has been shown that if developers lose trust in the tool, they then tend to ignore the output of it altogether \cite{sa_google}.
 
 
-Different approaches have been proposed to improve the output of SA tools. Optimally, the initial warnings report should be those most likely to be real errors. Alerts can be strategically prioritized for examination, by tracking warnings through a series of software versions, revealing which SA rules are more important and which parts of the software are more problematic. \henrique{I did not understand the last sentence.}
+Different approaches have been proposed to improve the output of SA tools. Optimally, the initial warnings report should be those most likely to be real errors. Alerts can be strategically prioritized for examination, by tracking and analyzing them through a series of software versions, we can automatically determine which SA rules are more important and which parts of the software are more problematic. 
+\henrique{I did not understand the last sentence.}
+\kleidi{Changed it a bit, can be deleted maybe.}
 % Furthermore, alerts can be grouped/clustered in basis of their similarity, so that users can check only a few and then can easily determine if the rest of the errors are also worth inspecting.\\
 An understanding of how developers react to these alerts can help improve the usability of these tools. Alerts can be divided into two categories: (i) actionable alerts (AA) which the programmer would act on to resolve; and (ii) unactionable alerts (UA) which the programmer would not act on~\cite{comparative_heckman, actionable_sa}. An unactionable alert may be of trivial concern to fix, less likely to manifest at runtime, or incorrectly identified due to the limitations of the tool. Thus, we want to prioritize the actionable alerts and hide from developers the unactionable ones.
 
@@ -44,9 +48,9 @@ Different approaches have been proposed in the literature but few have tried to 
 % -what is this student's research question?
 % -is it a good question? (has it been answered before? is it a useful question to work on?) 
 
-Given an industrial code base, where SA tools have been abandoned because of the large amount of false positives, the goal of this thesis is to test the feasibility of successfully applying these ranking approaches even in a context with limited amount of (or noisy) data.
+%Given an industrial code base, where SA tools have been abandoned because of the large amount of false positives, the goal of this thesis is to test the feasibility of successfully applying these ranking approaches even in a context with limited amount of (or noisy) data.
 
-\henrique{This my re-write on the previous paragraph. Again, use whichever you prefer or mix then both.}
+%\henrique{This my re-write on the previous paragraph. Again, use whichever you prefer or mix then both.}
 In this thesis, our goal is to verify if it is possible to apply ranking approaches to static analysis alerts in an industrial code base with a limited amount of noisy data. We like to highlight that SA tools were initially employed and later abandoned by this company due to a large number of false positives. We claim that a ranking mechanism fined tuned to this company's code base can achieve good results and be useful to developers.
 
 % The research questions can be formulated as follows:

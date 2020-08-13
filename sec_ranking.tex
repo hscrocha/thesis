@@ -6,36 +6,42 @@
 % This part of the thesis is much more free-form. It may have one or several sections and subsections. But it all has only one purpose: to convince the examiners that you answered the question or solved the problem that you set for yourself in Section 4. So show what you did that is relevant to answering the question or solving the problem: if there were blind alleys and dead ends, do not include these, unless specifically relevant to the demonstration that you answered the thesis question. 
 
 
-\subsection{Feedback Rank and Z-Score}
+\subsection{Feedback Rank with Z-Score}
 
-\henrique{This section is named Feedback Rank and Z-Score, and the next Section is named Z-Score. If there is Z-score is not described in this section (but detailed in the next one) it should not be on the title.}
+%\henrique{This section is named Feedback Rank and Z-Score, and the next Section is named Z-Score. If there is Z-score is not described in this section (but detailed in the next one) it should not be on the title.}
+%\kleidi{Added two subsubsections, one for each.}
 % \textbf{TODO: maybe try a different correlation (author/alert type/?)}
 % check vs naive bayes - trade off with speed
 
-Feedback Rank~\cite{correlation_exploitation} combined with Z-Score~\cite{z-ranking} is a simple technique that ranks alerts on the probability of them being actionable.
- It consists of three basic features: package, file, function of the alert being analyzed (though may be extended as needed). 
-\henrique{It is very difficult to understand what you mean in the last sentence. Only after reading the next sentence and looking at the Figure below that I got what you meant. You may want to re-write the paragraph as it is confusing}
-By constructing a Bayesian Network based on these three features and the history of the project (which alerts have been proven valuable) it produces a probability ranking about which alerts are most useful. \henrique{You should detail the 'history of the project' which is probably one of the key elements to your ranking.}
+\subsubsection{Feedback Rank}
 
+Feedback Rank~\cite{correlation_exploitation} is a simple technique that ranks alerts on the probability of them being actionable.
+It takes as input three location features for predicting if an alert is actionable: package, file, and function where the alert being analyzed is situated. 
 
-As explained on the literature review (\cref{lit:fbrank}), Feedback Rank is based on the assumption that bugs and false positives are clustered by code locality. The alerts are divided into two major regions, one that contains mostly true positive, and one that contains mostly false positives. A Bayesian Network (BN) is used to calculate the probabilities of an alert or cluster of alerts belonging to a certain region.
+%By constructing a Bayesian Network based on these three features it produces a probability ranking about which alerts are most useful. 
+%\henrique{It is very difficult to understand what you mean in the last sentence. Only after reading the next sentence and looking at the Figure below that I got what you meant. You may want to re-write the paragraph as it is confusing}
+%\henrique{You should detail the 'history of the project' which is probably one of the key elements to your ranking.}
+%\kleidi{Removed the confusing sentences and explained better below.}
 
-\henrique{You should reference the Figures in your text. Where the Figure bellow fits mostly in the text?}
+As explained on the literature review (\cref{lit:fbrank}), Feedback Rank is based on the assumption that true and false positives are clustered by code locality. The project space is divided into two major regions, one that contains mostly true positive, and one that contains mostly false positives (\textit{TPRegion, TFRegion}). Each package, file or function is considered to belong to one of these two regions. 
+
+A Bayesian Network (BN) is used to calculate the probabilities of an alert or cluster of alerts belonging to a certain region. The network consist thus of one node for each of the artifacts (package, file, function), which in turn connect to a node representing alerts that belong to that specific location combination (see \cref{simple_bn}).  
+The initial configuration of the network is learned from historical data (actionable alerts calculated as explained on \cref{data_collection}). The probabilities of each artifact belonging to one of these two regions, \textit{TPRegion} or \textit{TFRegion} are adjusted when training the network with the extracted data.
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.2]{./src/bayes_example.png}
 	\caption{Example of a simple Bayes Network for predicting 3 alerts}
+	\label{simple_bn}
 \end{figure}
 
-The initial configuration of the network can learned from historical data (extracted as explained on \cref{data_collection}). According to the original authors Feedback Rank is supposed to be an online ranking system: if we inspect a report and know its value, the probabilities of the parents are re-calculated. In this implementation, a static version is used. \henrique{When you write 'According to the original authors' you should provide a reference here. And you say you are going to use a static version but do not describe how that would work.}
+According to the Kremenek et al. \cite{correlation_exploitation}, Feedback Rank is supposed to be an online ranking system: if we inspect a report and know its value, the probabilities of the parents are re-calculated. In this implementation, a static version is used. That means that the network is trained once and remains unchanged when predicting the rest of the alerts.
 
-To construct the BN, the Pomegranate library was used \cite{pomegranate}, trained with the extracted alert data from the version history. \henrique{Carefull on the overuse of passive voice. The same sentence could be rewritten without it. For example... We use the Pomegranate library~\cite{pomegranate} to construct the BN. Moreover, we trained the BN with extracted alert data from the version history.}
-
+To construct the BN, we used the Pomegranate library \cite{pomegranate}, trained with the extracted alert data from the version history. 
 
 \subsubsection{Z-Score}
 
-\henrique{Carefull on the overuse of passive voice. Every time you write "X is used" try to see if you can rewrite the sentence in active voice as "we use X".}
+%\henrique{Carefull on the overuse of passive voice. Every time you write "X is used" try to see if you can rewrite the sentence in active voice as "we use X".}
 To break ties when the probabilities provided by the BN are equal between alerts, the Z-Score metric is used based on the number of alerts on the same file. Z-Score is used in Z-Ranking \cite{z-ranking}, which makes use of the observation that the most reliable error reports are those that generated few failed checks and many successful checks, since the actual amount of bugs in code is relatively small (see \cref{lit:zranking} for more details). 
 
 The \textit{z-test} statistic, which measures how far an observed value is from the real population, in this case produces a large positive \textit{z-score} when there are few errors and many successes, and a large negative \textit{z-score} when there are few successes and many errors.
@@ -57,8 +63,8 @@ We use the scikit-learn library~\cite{scikit-learn} to perform ML experiments in
 
 \subsubsection{Alert Characteristics}
 
-\henrique{Is it supposed to be: "Table X shows the collected features ..." ?}
-The collected features can be classified in four main categories: alert information, source code metrics, churn metrics and version history information.
+%\henrique{Is it supposed to be: "Table X shows the collected features ..." ?}
+The collected features can be classified in four main categories: alert information, source code metrics, churn metrics and version history information. The complete list of the collected features can be seen on \cref{act:featuresList}.
 
 %
 %\paragraph{Alert information:} (a) package name (or folder), (b) file name, (c) file extension, (d) alert type, (e) alert category (security, core guidelines...), (f) method signature.
@@ -71,49 +77,58 @@ The collected features can be classified in four main categories: alert informat
 %
 %\paragraph{Aggregate characteristics:} (a) total alerts for revision, (b) total open alerts for revision, (c) alert lifetime, (d) file age, (e) alerts for artifact (method, file, package), (f) staleness (amount of time since last change of file, method, package).
 
-\henrique{Where is this table number and title/caption. It is also important that the table is explicitly mentioned on the text.}
-\begin{table}[H]
-	\centering
-	\begin{tabular}{@{}ll@{}}
-		\toprule
-		\textbf{Feature}            & \textbf{Description}                                               \\ \midrule
-		\textit{category}           & Alert category                                                     \\
-		\textit{type}               & Alert type                                                         \\
-		\textit{function}           & Name of function where alert is located                            \\
-		\textit{class}              & Name of class where alert is located                               \\
-		\textit{file}               & Name of file where alert is located                                \\
-		\textit{package}            & Name of folder where alert is located                              \\
-		\textit{openRevision}       & Revision number when alert appeared (default base revision)        \\
-		\textit{alertLifetime}      & current revision number - open revision number for alert           \\
-		\textit{}                   &                                                                    \\
-		\textit{functionSize}       & Number of statements in function where alert is located            \\
-		\textit{fileSize}           & Number of statements in file where alert is located                \\
-		\textit{nrFunctions}        & Number of functions in file                                        \\
-		\textit{nrClasses}          & Number of classes in file                                          \\
-		\textit{nrParameters}       & Number of parameters in function where alert is located            \\
-		\textit{functionComplexity} & Cyclomatic completicy of function where alert is located           \\
-		\textit{}                   &                                                                    \\
-		\textit{addedFile}          & number of lines added to file in this revision                     \\
-		\textit{deletedFile}        & number of lines deleted from file in this revision                 \\
-		\textit{modifiedFile}       & addedFile + deletedFile                                            \\
-		\textit{growthFile}         & addedFile - deletedFile                                            \\
-		\textit{addedTotal}         & number of lines added in this revision                             \\
-		\textit{deletedTotal}       & number of lines deleted in this revision                           \\
-		\textit{modifiedTotal}      & addedTotal + deletedTotal                                          \\
-		\textit{growthTotal}        & addedTotal - deletedTotal                                          \\
-		\textit{}                   &                                                                    \\
-		\textit{firstChangeFile}    & Revision number of first file change (default base revision)       \\
-		\textit{lastChangeFile}     & Revision number of last file change (default base revision)        \\
-		\textit{firstChangePackage} & Revision number of first change in package (default base revision) \\
-		\textit{lastChangePackage}  & Revision number of last change in package (default base revision)  \\
-		\textit{fileAge}            & lastChangeFile - firstChangeFile                                   \\
-		\textit{fileStaleness}      & current revision - last change revision for file                   \\
-		\textit{packageStaleness}   & current revision - last change revision for package                \\
-		\textit{lastKnownDev}       & Last developer to change file                                      \\
-		\textit{mostPresentDev}     & Developer that made most changes to file                           \\ \bottomrule
-	\end{tabular}
-\end{table}
 
+%\henrique{Where is this table number and title/caption. It is also important that the table is explicitly mentioned on the text.}
+
+\begin{longtable}[c]{@{}ll@{}}
+	\caption{List of features used to predict actionable alerts}
+	\label{act:featuresList}\\
+	\toprule
+	\textbf{Feature}            & \textbf{Description}                                               \\* \midrule
+	\endfirsthead
+	%
+	\endhead
+	%
+	\bottomrule
+	\endfoot
+	%
+	\endlastfoot
+	%
+	\textit{category}           & Alert category                                                     \\
+	\textit{type}               & Alert type                                                         \\
+	\textit{function}           & Name of function where alert is located                            \\
+	\textit{class}              & Name of class where alert is located                               \\
+	\textit{file}               & Name of file where alert is located                                \\
+	\textit{package}            & Name of folder where alert is located                              \\
+	\textit{openRevision}       & Revision number when alert appeared (default base revision)        \\
+	\textit{alertLifetime}      & current revision number - open revision number for alert           \\
+	\textit{}                   &                                                                    \\
+	\textit{functionSize}       & Number of statements in function where alert is located            \\
+	\textit{fileSize}           & Number of statements in file where alert is located                \\
+	\textit{nrFunctions}        & Number of functions in file                                        \\
+	\textit{nrClasses}          & Number of classes in file                                          \\
+	\textit{nrParameters}       & Number of parameters in function where alert is located            \\
+	\textit{functionComplexity} & Cyclomatic completicy of function where alert is located           \\
+	\textit{}                   &                                                                    \\
+	\textit{addedFile}          & number of lines added to file in this revision                     \\
+	\textit{deletedFile}        & number of lines deleted from file in this revision                 \\
+	\textit{modifiedFile}       & addedFile + deletedFile                                            \\
+	\textit{growthFile}         & addedFile - deletedFile                                            \\
+	\textit{addedTotal}         & number of lines added in this revision                             \\
+	\textit{deletedTotal}       & number of lines deleted in this revision                           \\
+	\textit{modifiedTotal}      & addedTotal + deletedTotal                                          \\
+	\textit{growthTotal}        & addedTotal - deletedTotal                                          \\
+	\textit{}                   &                                                                    \\
+	\textit{firstChangeFile}    & Revision number of first file change (default base revision)       \\
+	\textit{lastChangeFile}     & Revision number of last file change (default base revision)        \\
+	\textit{firstChangePackage} & Revision number of first change in package (default base revision) \\
+	\textit{lastChangePackage}  & Revision number of last change in package (default base revision)  \\
+	\textit{fileAge}            & lastChangeFile - firstChangeFile                                   \\
+	\textit{fileStaleness}      & current revision - last change revision for file                   \\
+	\textit{packageStaleness}   & current revision - last change revision for package                \\
+	\textit{lastKnownDev}       & Last developer to change file                                      \\
+	\textit{mostPresentDev}     & Developer that made most changes to file                           \\* \bottomrule
+\end{longtable}
 
 %\subsubsection{Pre-processing data}
 %
@@ -150,7 +165,9 @@ BRLs are calculated as follows:
     \item Continue iterating backwards, collecting BRLs. If previous lines that were considered BRL were changed before reaching the target revision, we remove them from the set. 
 \end{itemize}
 
-\henrique{Every Figure, table, algorithm, chart, and diagram should be explicitly mentioned in the text. For example, you could put the following sentence below to mention the figure. Figure~\ref{fig:calculating-brls} shows a summarization of the general process we follow to calculate BRLs.}
+Figure~\ref{fig:calculating-brls} shows a summarization of the general process we follow to calculate BRLs.
+
+%\henrique{Every Figure, table, algorithm, chart, and diagram should be explicitly mentioned in the text. For example, you could put the following sentence below to mention the figure. }
 
 \begin{figure}[H]
     \centering
@@ -163,10 +180,21 @@ BRLs are calculated as follows:
 
 Since the number of collected lines and warnings can be rather limited, we extend the definition to \textit{Bug Related Methods} (BRM). Namely, we trace in which methods the BRLs belong to and also consider alerts inside those methods as valuable. That allows us to extend the dataset, but also potentially weakens the data by introducing more noise.
 
-Given that the number of alerts collected this way, is a lot less than the total number of alerts, this method is more suited for ranking alert types rather than individual alerts (as used in \cite{which_warnings}).
-\henrique{I did not understand what is the relation that makes it better suited for ranking alert types.}
+Following the approach used by Kim and Ernst~\cite{which_warnings}, we can calculate weights for warning types, and use the weights to rank alerts based on how good is that particular alert type in predicting bugs. The algorithm used by the authors is rather simple and calculates weights based on two input parameters, $\alpha$ and $\beta$. The former used to increase the weights of alert types belonging to the collected \textit{BRL/BRM} set, while the later used for the actionable alert set (\cref{weight_calc_algo}).
 
-\begin{figure}[ht]
+%Given that the number of alerts collected this way, is a lot less than the total number of alerts (heavy imbalance), this method is more suited for ranking alert types rather than individual alerts (as used in \cite{which_warnings}).
+%\henrique{I did not understand what is the relation that makes it better suited for ranking alert types.}
+%\kleidi{The amount of collected alerts is very small to use the same approach as the previous section. I removed the sentence.}
+
+\subsection{Method Bug prediction}
+
+Following the example of Boogerd and Moonen~\cite{static_profiling}, which aims to prioritize alerts based on the execution likelihood of the code pointed by the alert, we present a similar approach. Alerts pointing at potential bugs are the ones that can be considered the most important. The cost of detecting and fixing a bug is much lower if detected early in the development cycle. If we can predict which components will be likely to cause failures in the future, we can prioritize alerts that point to those components.
+
+The appropriate granularity to use for bug prediction is at method level. File level granularity is too broad since a lot of files contain many lines of code, which would result in prioritizing a lot of alerts. On the other hand, finer granularity than method level would be too hard to predict.
+
+We follow the example of Giger et al.~\cite{prediction_method} method. By using a combination of source code and change metrics and by exploiting the version history of the codebase, classifiers can be built that predict bug prone methods. The complete list of the collected features can be seen on \cref{bugpredict:features}.
+
+\begin{figure}[H]
 	\centering
 	\begin{minipage}{.5\linewidth}
 		\begin{algorithm}[H]
@@ -188,42 +216,44 @@ Given that the number of alerts collected this way, is a lot less than the total
 			\caption{Alert type priotitization algorithm}
 		\end{algorithm}
 	\end{minipage}
+	\label{weight_calc_algo}
 \end{figure}
 
-\subsection{Method Bug prediction}
-
-Following the example of Boogerd and Moonen~\cite{static_profiling}, which aims to prioritize alerts based on the execution likelihood of the code pointed by the alert, we present a similar approach. Alerts pointing at potential bugs are the ones that can be considered the most important. The cost of detecting and fixing a bug is much lower if detected early in the development cycle. If we can predict which components will be likely to cause failures in the future, we can prioritize alerts that point to those components.
-
-The appropriate granularity to use for bug prediction is at method level. File level granularity is too broad since a lot of files contain many lines of code, which would result in prioritizing a lot of alerts. On the other hand, finer granularity than method level would be too hard to predict.
-
-We follow the example of Giger et al.~\cite{prediction_method} method. By using a combination of source code and change metrics and by exploiting the version history of the codebase, classifiers can be built that predict bug prone methods.
-
-\begin{table}[]
-	\centering
-	\begin{tabular}{@{}ll@{}}
-		\textbf{Metric Name}          & \textbf{Description}                                                                                                                   \\ \midrule
-		\textit{methodHistories}      & Number of times a method was changed                                                                                                   \\ \midrule
-		\textit{authors}              & Number of distinct authors that changed a method                                                                                       \\ \midrule
-		\textit{stmtAdded}            & Sum of all source code statements added to a method                                                                                    \\ \midrule
-		\textit{maxStmtAdded}         & \begin{tabular}[c]{@{}l@{}}Maximum number of source code statements added \\ \\ to a method body for all method histories\end{tabular} \\ \midrule
-		\textit{avgStmtAdded}         & \begin{tabular}[c]{@{}l@{}}Average number of source code statements added\\ to a method body per method history\end{tabular}           \\ \midrule
-		\textit{stmtDeleted}          & \begin{tabular}[c]{@{}l@{}}Sum of all source code statements deleted from\\ a method body over all method histories\end{tabular}       \\ \midrule
-		\textit{maxStmtDeleted}       & \begin{tabular}[c]{@{}l@{}}Maximum number of source code statements\\ deleted from a method body for all method histories\end{tabular} \\ \midrule
-		\textit{avgStmtDeleted}       & \begin{tabular}[c]{@{}l@{}}Average number of source code statements\\ deleted from a method body per method history\end{tabular}       \\ \midrule
-		\textit{churn}                & \begin{tabular}[c]{@{}l@{}}Sum of stmtAdded - stmtDeleted over all\\ method histories\end{tabular}                                     \\ \midrule
-		\textit{maxChurn}             & Maximum churn for all method histories                                                                                                 \\ \midrule
-		\textit{avgChurn}             & Average churn per method history                                                                                                       \\ \midrule
-		\textit{decl}                 & \begin{tabular}[c]{@{}l@{}}Number of method declaration changes over all\\ method histories\end{tabular}                               \\ \midrule
-		\textit{cond}                 & \begin{tabular}[c]{@{}l@{}}Number of condition expression changes in a\\ method body over all revisions\end{tabular}                   \\ \midrule
-		\textit{elseAdded}            & \begin{tabular}[c]{@{}l@{}}Number of added else-parts in a method body\\ over all revisions\end{tabular}                               \\ \midrule
-		\textit{elseDeleted}          & \begin{tabular}[c]{@{}l@{}}Number of deleted else-parts from a method\\ body over all revisions\end{tabular}                           \\ \midrule
-		\textit{cyclomaticComplexity} & Current cyclomatic complexity of method                                                                                                \\ \midrule
-		\textit{nestingDepth}         & Current nesting depth of method                                                                                                        \\ \midrule
-		\textit{totalStatements}      & Current number of statements in method                                                                                                 \\ \midrule
-		\textit{nrPaths}              & Current number of paths in method                                                                                                      \\ \midrule
-		\textit{nrDeclarations}       & Current number of declarations in method                            \\\midrule 
-	\end{tabular}
-\end{table}
+\begin{longtable}[c]{@{}ll@{}}
+	\caption{List of features used to predict buggy methods}
+	\label{bugpredict:features}\\
+	\toprule
+	\textbf{Metric Name}          & \textbf{Description}                                                                                                                   \\* \midrule
+	\endfirsthead
+	%
+	\endhead
+	%
+	\bottomrule
+	\endfoot
+	%
+	\endlastfoot
+	%
+	\textit{methodHistories}      & Number of times a method was changed                                                                                                   \\
+	\textit{authors}              & Number of distinct authors that changed a method                                                                                       \\
+	\textit{stmtAdded}            & Sum of all source code statements added to a method                                                                                    \\
+	\textit{maxStmtAdded}         & \begin{tabular}[c]{@{}l@{}}Maximum number of source code statements added \\ to a method body for all method histories\end{tabular}    \\
+	\textit{avgStmtAdded}         & \begin{tabular}[c]{@{}l@{}}Average number of source code statements added\\ to a method body per method history\end{tabular}           \\
+	\textit{stmtDeleted}          & \begin{tabular}[c]{@{}l@{}}Sum of all source code statements deleted from\\ a method body over all method histories\end{tabular}       \\
+	\textit{maxStmtDeleted}       & \begin{tabular}[c]{@{}l@{}}Maximum number of source code statements\\ deleted from a method body for all method histories\end{tabular} \\
+	\textit{avgStmtDeleted}       & \begin{tabular}[c]{@{}l@{}}Average number of source code statements\\ deleted from a method body per method history\end{tabular}       \\
+	\textit{churn}                & \begin{tabular}[c]{@{}l@{}}Sum of stmtAdded - stmtDeleted over all\\ method histories\end{tabular}                                     \\
+	\textit{maxChurn}             & Maximum churn for all method histories                                                                                                 \\
+	\textit{avgChurn}             & Average churn per method history                                                                                                       \\
+	\textit{decl}                 & \begin{tabular}[c]{@{}l@{}}Number of method declaration changes over all\\ method histories\end{tabular}                               \\
+	\textit{cond}                 & \begin{tabular}[c]{@{}l@{}}Number of condition expression changes in a\\ method body over all revisions\end{tabular}                   \\
+	\textit{elseAdded}            & \begin{tabular}[c]{@{}l@{}}Number of added else-parts in a method body\\ over all revisions\end{tabular}                               \\
+	\textit{elseDeleted}          & \begin{tabular}[c]{@{}l@{}}Number of deleted else-parts from a method\\ body over all revisions\end{tabular}                           \\
+	\textit{cyclomaticComplexity} & Current cyclomatic complexity of method                                                                                                \\
+	\textit{nestingDepth}         & Current nesting depth of method                                                                                                        \\
+	\textit{totalStatements}      & Current number of statements in method                                                                                                 \\
+	\textit{nrPaths}              & Current number of paths in method                                                                                                      \\
+	\textit{nrDeclarations}       & Current number of declarations in method                                                                                               \\* \bottomrule
+\end{longtable}
 
 % rank alerts in problematic zones higher - combine with BRL?
 
