@@ -10,34 +10,33 @@
 \BOOKMARK [2][-]{subsection.3.2}{Bug Prediction}{section.3}% 10
 \BOOKMARK [2][-]{subsection.3.3}{Static Analysis tools in practice}{section.3}% 11
 \BOOKMARK [1][-]{section.4}{Collecting and analyzing data}{}% 12
-\BOOKMARK [2][-]{subsection.4.1}{Collecting data}{section.4}% 13
-\BOOKMARK [3][-]{subsubsection.4.1.1}{Clang AST}{subsection.4.1}% 14
-\BOOKMARK [3][-]{subsubsection.4.1.2}{Clang Tidy}{subsection.4.1}% 15
-\BOOKMARK [3][-]{subsubsection.4.1.3}{Workflow for collecting information }{subsection.4.1}% 16
-\BOOKMARK [3][-]{subsubsection.4.1.4}{Assumptions made for collected data}{subsection.4.1}% 17
-\BOOKMARK [2][-]{subsection.4.2}{Data overview}{section.4}% 18
-\BOOKMARK [3][-]{subsubsection.4.2.1}{Revision data}{subsection.4.2}% 19
-\BOOKMARK [3][-]{subsubsection.4.2.2}{Closed Alerts}{subsection.4.2}% 20
-\BOOKMARK [2][-]{subsection.4.3}{Dealing with unbalanced and noisy data}{section.4}% 21
-\BOOKMARK [1][-]{section.5}{Ranking the output of Static Analysis}{}% 22
-\BOOKMARK [2][-]{subsection.5.1}{Feedback Rank with Z-Score}{section.5}% 23
-\BOOKMARK [3][-]{subsubsection.5.1.1}{Feedback Rank}{subsection.5.1}% 24
-\BOOKMARK [3][-]{subsubsection.5.1.2}{Z-Score}{subsection.5.1}% 25
-\BOOKMARK [2][-]{subsection.5.2}{Detecting Actionable Alerts via Machine Learning}{section.5}% 26
-\BOOKMARK [3][-]{subsubsection.5.2.1}{Alert Characteristics}{subsection.5.2}% 27
-\BOOKMARK [2][-]{subsection.5.3}{Bug related lines}{section.5}% 28
-\BOOKMARK [2][-]{subsection.5.4}{Method Bug prediction}{section.5}% 29
-\BOOKMARK [1][-]{section.6}{Evaluating the approaches}{}% 30
-\BOOKMARK [2][-]{subsection.6.1}{Evaluation methods}{section.6}% 31
-\BOOKMARK [2][-]{subsection.6.2}{Evaluation Metrics}{section.6}% 32
-\BOOKMARK [2][-]{subsection.6.3}{Results of individual tools}{section.6}% 33
-\BOOKMARK [3][-]{subsubsection.6.3.1}{Actionable Alerts}{subsection.6.3}% 34
-\BOOKMARK [2][-]{subsection.6.4}{Method Bug Prediction}{section.6}% 35
-\BOOKMARK [2][-]{subsection.6.5}{Feedback Rank}{section.6}% 36
-\BOOKMARK [2][-]{subsection.6.6}{Bug-Related Lines}{section.6}% 37
-\BOOKMARK [2][-]{subsection.6.7}{Combined technique}{section.6}% 38
-\BOOKMARK [1][-]{section.7}{Threats to Validity}{}% 39
-\BOOKMARK [1][-]{section.8}{Conclusions}{}% 40
-\BOOKMARK [2][-]{subsection.8.1}{Conclusions}{section.8}% 41
-\BOOKMARK [2][-]{subsection.8.2}{Summary of Contributions}{section.8}% 42
-\BOOKMARK [2][-]{subsection.8.3}{Future Research}{section.8}% 43
+\BOOKMARK [2][-]{subsection.4.1}{Clang AST}{section.4}% 13
+\BOOKMARK [2][-]{subsection.4.2}{Clang Tidy}{section.4}% 14
+\BOOKMARK [2][-]{subsection.4.3}{Workflow for collecting data }{section.4}% 15
+\BOOKMARK [2][-]{subsection.4.4}{Assumptions made for collected data}{section.4}% 16
+\BOOKMARK [2][-]{subsection.4.5}{Data overview}{section.4}% 17
+\BOOKMARK [3][-]{subsubsection.4.5.1}{Revision data}{subsection.4.5}% 18
+\BOOKMARK [3][-]{subsubsection.4.5.2}{Closed Alerts}{subsection.4.5}% 19
+\BOOKMARK [2][-]{subsection.4.6}{Dealing with unbalanced and noisy data}{section.4}% 20
+\BOOKMARK [1][-]{section.5}{Ranking the output of Static Analysis}{}% 21
+\BOOKMARK [2][-]{subsection.5.1}{Feedback Rank with Z-Score}{section.5}% 22
+\BOOKMARK [3][-]{subsubsection.5.1.1}{Feedback Rank}{subsection.5.1}% 23
+\BOOKMARK [3][-]{subsubsection.5.1.2}{Z-Score}{subsection.5.1}% 24
+\BOOKMARK [2][-]{subsection.5.2}{Detecting Actionable Alerts via Machine Learning}{section.5}% 25
+\BOOKMARK [3][-]{subsubsection.5.2.1}{Alert Characteristics}{subsection.5.2}% 26
+\BOOKMARK [2][-]{subsection.5.3}{Bug related lines}{section.5}% 27
+\BOOKMARK [2][-]{subsection.5.4}{Method Bug prediction}{section.5}% 28
+\BOOKMARK [1][-]{section.6}{Evaluating the approaches}{}% 29
+\BOOKMARK [2][-]{subsection.6.1}{Evaluation methods}{section.6}% 30
+\BOOKMARK [2][-]{subsection.6.2}{Evaluation Metrics}{section.6}% 31
+\BOOKMARK [2][-]{subsection.6.3}{Results of individual tools}{section.6}% 32
+\BOOKMARK [3][-]{subsubsection.6.3.1}{Actionable Alerts}{subsection.6.3}% 33
+\BOOKMARK [2][-]{subsection.6.4}{Method Bug Prediction}{section.6}% 34
+\BOOKMARK [2][-]{subsection.6.5}{Feedback Rank}{section.6}% 35
+\BOOKMARK [2][-]{subsection.6.6}{Bug-Related Lines}{section.6}% 36
+\BOOKMARK [2][-]{subsection.6.7}{Combined technique}{section.6}% 37
+\BOOKMARK [1][-]{section.7}{Threats to Validity}{}% 38
+\BOOKMARK [1][-]{section.8}{Conclusions}{}% 39
+\BOOKMARK [2][-]{subsection.8.1}{Conclusions}{section.8}% 40
+\BOOKMARK [2][-]{subsection.8.2}{Summary of Contributions}{section.8}% 41
+\BOOKMARK [2][-]{subsection.8.3}{Future Research}{section.8}% 42

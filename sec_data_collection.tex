@@ -2,23 +2,13 @@
 
 \section{Collecting and analyzing data}\label{sec:data}
 
-Given the company context, a single tool approach was chosen as to not introduce extra dependencies/complexity (in contrast to combining different SA tools). 
+Given the company context, a single tool approach was chosen as to not introduce extra dependencies/complexity (in contrast to combining different SA tools).\\
+We use Clang AST \cite{clang_ast} and Clang Tidy \cite{clang_tidy} to analyze the code. We chose them because both are reliable and extensible open-source tools. Moreover, and most important, both are supported but the company's C++ codebase.
 
-The different techniques that were tested are: \henrique{I do not see what this has to do with Data Collection? The list below seems more like a methodology for your ranking, which would be more appropriate for Section 5.}
-\begin{itemize}
-	\item Using a Bayes Network for prioritizing alerts depending on location information.
-	\item Predicting actionable alerts using ML algorithms based on different code/change metrics.
-	\item Prioritizing alerts that point at bugs: analyze the code history to see which alerts pointed to fixed bugs and rank alert types based on that information.
-	\item Detecting bug-prone methods and prioritizing alerts to those parts of code.
-	\item Combining the three aforementioned methods, where each one focuses on a particular part of the dataset/alert types.
-\end{itemize}
 
-\subsection{Collecting data}
+%\subsection{Collecting data}
 
-% Clang tidy - why?\\
-We use Clang AST (\cite{clang_ast}) and Clang Tidy (\cite{clang_tidy}) to analyze the code. We chose them because both are reliable and extensible open-source tools. Moreover, and most important, both are supported but the company's C++ codebase.
-
-\subsubsection{Clang AST}
+\subsection{Clang AST}
 Since some of the algorithms need metric data from the code, the Clang AST was chosen to extract that information. Assuming that the project can be successfully compiled, Clang can provide an API on top of the parsed AST.  
 
 All information about the AST for a translation unit is bundled up in the class \textit{ASTContext}, which allows traversal of the whole translation unit.
@@ -31,9 +21,9 @@ In order to traverse the AST, Clang offers two approaches:
 	\item \textbf{AST Matchers}: An approach that allows you to define what nodes you want to match by using a domain specific language.
 \end{itemize}
 
-\subsubsection{Clang Tidy}
+\subsection{Clang Tidy}
 
-Clang Tidy is a modular C++ linter tool which provides an extensible framework for diagnosing and fixing typical programming errors, like style violations, interface misuse, or bugs that can be deduced via static analysis (\cite{clang_tidy}). 
+Clang Tidy is a modular C++ linter tool which provides an extensible framework for diagnosing and fixing typical programming errors, like style violations, interface misuse, or bugs that can be deduced via static analysis \cite{clang_tidy}. 
 
 In addition to its Static Analyzer checks, Clang Tidy contains a large list of other checks ranging from those that target bugprone code constructs, to CERT Secure Coding Guidelines, C++ Core Guidelines etc...
 
@@ -44,9 +34,10 @@ The following checks were regarded as relevant by the company and used during co
 	\item Clang Static Analyzer checks
 	\item Checks related to C++ Core Guidelines
 	\item Checks related to CERT Secure Coding Guidelines
+	\item Checks related to performance
 \end{itemize}
 
-\subsubsection{Workflow for collecting information \label{data_collection}}
+\subsection{Workflow for collecting data \label{data_collection}}
 
 By exploiting the extensibility of Clang Tidy (ability to define new checks) and the power of the Clang AST (collecting information from code), the metrics needed by the ML algorithms can themselves be implemented as checks and thus be extracted automatically when analyzing the codebase. This is a flexible approach which allows to build automatic processing of alerts by integrating alert as well as metric collection within a single toolchain.
 
@@ -54,7 +45,7 @@ In order to make processing alerts easier, the C++ interface code of Clang Tidy 
 
 Starting by the provided open source \href{https://github.com/llvm-mirror/clang-tools-extra/blob/master/clang-tidy/tool/run-clang-tidy.py}{python scripts}, a workflow can be built in python to automatically collect alerts and metrics. In order to crawl the code history of the project, different script were implemented in python to automatically guide the workflow and process the output of SVN (version control system used at the company).
 
-The high level workflow for collecting data consists of the following steps:
+The high level workflow for collecting data consists of the following steps (see also \cref{data_workflow}):
 \begin{itemize}
 	\item Start by selecting a base revision in the code history.
 	\item Fully analyze that revision of the codebase (collect all alerts output by Clang Tidy).
@@ -71,9 +62,10 @@ The high level workflow for collecting data consists of the following steps:
 	\centering
 	\includegraphics[scale=0.2]{./src/collect_info.png}
 	\caption{Collecting alerts and other information}
+	\label{data_workflow}
 \end{figure}
 
-\subsubsection{Assumptions made for collected data}
+\subsection{Assumptions made for collected data}
 Some algorithms use the notion of \textit{Actionable Alerts} for processing the output of SA tools. Actionable Alerts (AA) are alerts that are deemed important by developers in the past (alerts that they acted on). In order to automatically label alerts as such (no existing information that can point to that), an important and risky assumption has to be made: alerts that disappear during code changes (revisions/commits) are considered as actionable, the rest is not. 
 
 This assumptions, though necessary, is risky because not all alerts disappear as a result of direct and targeted change by developers. Their disappearance can be caused by other unknown factors (those related to deleted files are not taken into account). Data generated using this approach can contain a lot of false positives and potentially damage the performance of the used ML algorithms.
@@ -91,10 +83,13 @@ We analyzed 1868 revisions, dating from \textit{09/2019} to \textit{05/2020}. Fr
 \subsubsection{Revision data}
 We take a look at the main differences between normal and bug-fix commits.
 
-\henrique{When I said in Section 5 that tables need to have a number and a title/caption, I meant it for the entire thesis. The tables bellow are missing that.}
+%\henrique{When I said in Section 5 that tables need to have a number and a title/caption, I meant it for the entire thesis. The tables bellow are missing that.}
+%\kleidi{Did not want to change all sections and cause possible merge conflicts on your part...}
 
 \begin{table}[H]
 	\centering
+	\caption{File/Method change metrics in collected revision}
+	\label{rev_files}
 	\begin{tabular}{@{}lcccc@{}}
 		\toprule
 		& \multicolumn{1}{l}{\textbf{Modified Files}} & \multicolumn{1}{l}{\textbf{Added Files}} & \multicolumn{1}{l}{\textbf{Deleted Files}} & \multicolumn{1}{l}{\textbf{Modified Methods}} \\ \midrule
@@ -110,6 +105,8 @@ We take a look at the main differences between normal and bug-fix commits.
 
 \begin{table}[H]
 	\centering
+	\caption{Line change metrics in collected revision}
+	\label{rev_lines}
 	\begin{tabular}{@{}lcccc@{}}
 		\toprule
 		& \multicolumn{1}{l}{\textbf{Added Lines}} & \multicolumn{1}{l}{\textbf{Deleted Lines}} & \multicolumn{1}{l}{\textbf{Modified Lines}} & \multicolumn{1}{l}{\textbf{Growth Lines}} \\ \midrule
@@ -127,16 +124,16 @@ We take a look at the main differences between normal and bug-fix commits.
 	\begin{subfigure}{.5\textwidth}
 		\centering
 		\includegraphics[scale=0.3]{./src/data_analysis/rev_files.png}
-
 	\end{subfigure}%
 	\begin{subfigure}{.5\textwidth}
 		\centering
 		\includegraphics[scale=0.3]{./src/data_analysis/rev_lines.png}
 	\end{subfigure}
 	\caption{Average changes (\textit{red=bug revision, blue=normal})}
+	\label{rev_changes}
 \end{figure}
 
-As can be seen from the data, there is significant difference between the amount of changes that happen during a normal and a bug-fix revision, with the later being almost half the size. That is important because the bug fix changes can be better located. There is also a big difference between mean and median values of the collected features, shifting the values of the former to be higher (can be also seen on the box plots \cref{box:changed_lines}). That means that there are certain revision that are abnormally large compared to others and that negatively impact the quality of the data. 
+As can be seen from the data (\cref{rev_files}, \cref{rev_lines}, and \cref{rev_changes}), there is significant difference between the amount of changes that happen during a normal and a bug-fix revision, with the later being almost half the size. That is important because the bug fix changes can be better located. There is also a big difference between mean and median values of the collected features, shifting the values of the former to be higher (can be also seen on the box plots on \cref{box:changed_lines} and \cref{box:changed_files}). That means that there are certain revision that are abnormally large compared to others and that negatively impact the quality of the data. 
 
 \begin{figure}[H]
 	\begin{subfigure}{0.5\textwidth}
@@ -165,6 +162,7 @@ As can be seen from the data, there is significant difference between the amount
 		\caption{Box plots for changed files/methods in buggy revisions}
 	\end{subfigure}
 	\caption{}
+	\label{box:changed_files}
 \end{figure}
 
 \newpage

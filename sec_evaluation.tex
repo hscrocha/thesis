@@ -65,19 +65,11 @@ how dominant is the class with the highest individual accuracy rate.
 
 
 %\subsubsection{Preparing the dataset}
-%Since the amount of actionable warnings is very low compared to the total amount of warnings, the dataset is balanced in two steps. First a subset of the packages and warnings is selected. By considering the ratio of actionable to the total amount of alerts, we can select the packages or types of warnings with the higher ratio (ex. the first 100).
-%
-%After the first step, a test set is selected for evaluating the algorithms (equal to 20\% of the dataset).
-%That is especially needed to test the algorithms after the K-Fold evaluation.
-%
-%The second step consists of balancing the amount of actionable and not actionable alerts, either by random subsampling or by artificially creating new samples (via SMOTE).
-
-
-\textbf{TODO: EVALUATE ENCODING METHODS}
+%\textbf{TODO: EVALUATE ENCODING METHODS}
 
 \subsection{Results of individual tools}
 
-Experiments were run by training methods on the first 80\% items of the dataset and testing on the remaining 20\%.
+Experiments were run by training methods on the first 80\% items of the dataset and testing on the remaining 20\%. In the first two methods a \textit{Random Forest} classifier was used. We chose it because of its good performance in terms and speed.
 
 \subsubsection{Actionable Alerts}
 

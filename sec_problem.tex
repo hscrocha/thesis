@@ -1,7 +1,7 @@
 % !TEX root = main.tex
 
 \section{Problem statement}\label{sec:problem-statement}
-\henrique{To me, a problem statement section should appear as earlier as possible in the thesis. It can even be a subsection of the introduction. }
+%\henrique{To me, a problem statement section should appear as earlier as possible in the thesis. It can even be a subsection of the introduction. }
 % Research Question or Problem Statement
 
 % Engineering theses tend to refer to a "problem" to be solved where other disciplines talk in terms of a "question" to be answered. In either case, this section has three main parts:
@@ -17,14 +17,16 @@
 Improving the warnings provided by static analysis techniques dependents on a particular codebase and the people who produce it. Organizations can have different priorities and expectations on the static analysis alert report. Also, developers might be more interested in a particular subset of alerts, or the context on which the alerts appear.
 
 \henrique{There is an issue with the way you are writing this section. This is the problem statement section, but you barely explained the problem. Paragraph 2 is already talking about your goal. It would be better if you create another paragraph after Paragraph 1 with more detail on the problem. For example describing how SA were initially used by the company and later abandoned. That is a problem, and very important as motivation for your thesis.}
+\kleidi{The only info I had is that SA use was discontinued due to high amount of FP, unfortunately don't have much more to add.}
 
-Given an industrial codebase, the goal is to explore if these automatic techniques are useful, which produces the best results, and if an ensemble technique provides extra benefits. The starting point is the version control history of the project. By extracting information about the past versions, an attempt can be made to learn which SA alerts are more important and can be prioritized in the future. In contrast to open source project where you can test the approaches only on those project that have a sufficient amount of data, in an industrial codebase you have to make the most of the data you can extract. This thesis examines which ML techniques can be used to deal with highly imbalanced or noisy data.
+Starting from the original alert set produced by a SA tool, automatic processing techniques can be applied to rank the alerts in such a way that the utility of inspecting the ranked alerts is higher than the default order (there are more actionable alerts in the pre-processed output). Given an industrial codebase, the goal is to explore if these automatic techniques are useful, which produces the best results, and if an ensemble technique provides extra benefits. The starting point is the version control history of the project. By extracting information about the past versions, an attempt can be made to learn which SA alerts are more important and can be prioritized in the future. In contrast to open source project where you can test the approaches only on those project that have a sufficient amount of data, in an industrial codebase you have to make the most of the data you can extract. This thesis also examines which ML techniques can be used to deal with imbalanced or noisy data.
 \henrique{I am getting confused here. I thought your approach was focused on post-processing SA alert by ranking them. But by reading the last paragraph I got a completely different idea. It seemed that your goal is to find the SA technique which gives better results (that is different than ranking), and combine them to find better results (again, no explicit mention of ranking).}
+\kleidi{Added a sentence in the begin to set the context better.}
 
 
 Two main approaches are explored: detecting actionable alerts (alerts deemed useful by the developers) and alerts that aid in detecting bugs. These approaches are complementary because the sets of alerts are not necessarily equal, thus they are a good candidate for a combination.
 
-\henrique{Research Questions are usually abreviated as RQ and not just R. Moreover, we start counting at 1.}
+%\henrique{Research Questions are usually abreviated as RQ and not just R. Moreover, we start counting at 1.}
 The research questions can be formulated as follows:
 \begin{itemize}
     \item RQ\#1: Can we apply SA ranking techniques in an industrial environment with limited amount of data (abandoned because of high false positives)?
