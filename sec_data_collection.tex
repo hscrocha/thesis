@@ -4,7 +4,7 @@
 
 Given the company context, a single tool approach was chosen as to not introduce extra dependencies/complexity (in contrast to combining different SA tools). 
 
-The different techniques that were tested are:
+The different techniques that were tested are: \henrique{I do not see what this has to do with Data Collection? The list below seems more like a methodology for your ranking, which would be more appropriate for Section 5.}
 \begin{itemize}
 	\item Using a Bayes Network for prioritizing alerts depending on location information.
 	\item Predicting actionable alerts using ML algorithms based on different code/change metrics.
@@ -16,7 +16,7 @@ The different techniques that were tested are:
 \subsection{Collecting data}
 
 % Clang tidy - why?\\
-Clang AST (\cite{clang_ast}) and Clang Tidy (\cite{clang_tidy}) was used to analyze the code. It was chosen is because it's a reliable open source tool, extensible and most importantly supported by the codebase of the company.
+We use Clang AST (\cite{clang_ast}) and Clang Tidy (\cite{clang_tidy}) to analyze the code. We chose them because both are reliable and extensible open-source tools. Moreover, and most important, both are supported but the company's C++ codebase.
 
 \subsubsection{Clang AST}
 Since some of the algorithms need metric data from the code, the Clang AST was chosen to extract that information. Assuming that the project can be successfully compiled, Clang can provide an API on top of the parsed AST.  
@@ -91,6 +91,7 @@ We analyzed 1868 revisions, dating from \textit{09/2019} to \textit{05/2020}. Fr
 \subsubsection{Revision data}
 We take a look at the main differences between normal and bug-fix commits.
 
+\henrique{When I said in Section 5 that tables need to have a number and a title/caption, I meant it for the entire thesis. The tables bellow are missing that.}
 
 \begin{table}[H]
 	\centering
