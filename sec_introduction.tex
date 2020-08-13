@@ -7,6 +7,7 @@
 
 \henrique{Is the SA used for maintenance, development, or both? If it is maintenance, we should shift the initial paragraph wih a little motivation on maintenance. If it for both, we should focus on development but also mention maintenance activities.}
 \kleidi{I know that OMP wants to use it in a CI environment, so in development}
+\henrique{I would argue that CI is both development and maintenance.}
 
 
 %The amount of code that is being produced is increasing with time. \henrique{It is important, to put a reference when writing such strong statement. Although, I think there are better ways to start the intro.} That brings multiple challenges in the software engineering landscape, one of which is assuring adequate code quality. In this context, automatic approaches such as Static Analysis (SA) can be really useful and time saving in detecting and preventing potential bugs. \henrique{The last two sentences are confusing, first you say it is important to assure code quality. And next you talk about bugs. Those are different concepts, you can have a code with bad quality and low bugs and vice-versa. From what I understand, your goal is more related to bug prevention. Quality metrics for source cde are usually based on coupling and cohesion, and you do not measure that.} 
@@ -28,14 +29,11 @@ Even though SA is useful and employed by real companies, there is still much roo
 
 Given the tendency of SA tools to over-estimate possible faulty program behaviours, there is a need to fine-tune and improve the alarms and warnings raised by these tools. There are two ways that we can improve SA tools: (i) increase the precision of the analysis which usually decreases its recall and the overall number of raised alarms; or (ii) by post-processing the alarms after they are generated, according to specific criteria more appropriate for the codebase. We opted to focus on the second option, post-processing of alarms. 
 %%
-The classic approach most tools use for prioritizing and filtering results is to statically classify the results based on severity levels. They are oblivious of the actual code that is being analyzed and of the location or frequency of a given defect. Furthermore, it has been shown that if developers lose trust in the tool, they then tend to ignore the output of it altogether \cite{sa_google}.
-
+The classic approach most tools use for prioritizing and filtering results is to classify the results based on severity levels. This approach is simple but oblivious to the actual analyzed code or the location and frequency of a given issue. Furthermore, it has been shown that if developers lose trust in the tool, they then tend to ignore the output of it altogether \cite{sa_google}.
 
 Different approaches have been proposed to improve the output of SA tools. Optimally, the initial warnings report should be those most likely to be real errors. Alerts can be strategically prioritized for examination, by tracking and analyzing them through a series of software versions, we can automatically determine which SA rules are more important and which parts of the software are more problematic. 
-\henrique{I did not understand the last sentence.}
-\kleidi{Changed it a bit, can be deleted maybe.}
 % Furthermore, alerts can be grouped/clustered in basis of their similarity, so that users can check only a few and then can easily determine if the rest of the errors are also worth inspecting.\\
-An understanding of how developers react to these alerts can help improve the usability of these tools. Alerts can be divided into two categories: (i) actionable alerts (AA) which the programmer would act on to resolve; and (ii) unactionable alerts (UA) which the programmer would not act on~\cite{comparative_heckman, actionable_sa}. An unactionable alert may be of trivial concern to fix, less likely to manifest at runtime, or incorrectly identified due to the limitations of the tool. Thus, we want to prioritize the actionable alerts and hide from developers the unactionable ones.
+Moreover, an understanding of how developers react to these alerts can help improve the usability of these tools. Alerts can be divided into two categories: (i) actionable alerts (AA) which the programmer would act on to resolve; and (ii) unactionable alerts (UA) which the programmer would not act on~\cite{comparative_heckman, actionable_sa}. An unactionable alert may be of trivial concern to fix, less likely to manifest at runtime, or incorrectly identified due to the limitations of the tool. Thus, we want to prioritize the actionable alerts and hide from developers the unactionable ones.
 
 Another approach is to prioritize alerts that, in the past, lead to the discovery of bugs~\cite{which_warnings,automatic_training_set}. By tracking back the bugs up to a past version, we can collect code lines that changed during bug fixes. Subsequently, we can pinpoint which alerts warned about those specific parts of code and prioritize accordingly.
 
