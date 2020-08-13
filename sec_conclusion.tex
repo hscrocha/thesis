@@ -38,15 +38,15 @@
 
 \subsection{Summary of Contributions}
  
- This thesis provides the following contributions:
- \begin{itemize}
-     \item Building a workflow to extract information by making use of the Clang toolset and version history (SVN).
-     \item Evaluating SA ranking techniques on an industrial codebase.
-     \item Evaluating preprocessing techniques to deal with imbalanced and noisy data.
-     \item Comparing different approaches on a common codebase.
-     \item Exploring the utility of combining different methods.
- \end{itemize}
- 
+This thesis provides the following contributions:
+\begin{itemize}
+\item Building a workflow to extract information by making use of the Clang toolset and version history (SVN). \henrique{A contribution is something that was finished, that it is done. Anything starting with 'building' (or any other 'ing') is not a contribution because you are still doing it (as it is not finished). Even if I rewrite the sentence, I am not convinced that the workflow is a contribution.}
+\item The evaluation of SA ranking techniques on an industrial codebase. \henrique{I think you are missing a little more detail to make this into a proper contribution.}
+\item A pre-processing procedure to deal with imbalanced and noisy data.
+\item We conducted a comparative study of different approaches on a common codebase.
+\item We demonstrate the utility of combining different ranking methods into an ensemble. \henrique{by using a Bayesian network?}
+\end{itemize}
+
 % -building workflow to extract information\\
 % -evaluation on industrial code\\
 % -comparison of utility between tools\\
@@ -56,9 +56,9 @@
 
 %Analyze the parts where the prediction fails?
 
-Future research can be focused on different aspects, the most important being reliable data collection. A classifier is as good as the data it was trained on, so new ways to collect actionable alerts in a more precise way are crucial to achieving better performance. Information Retrieval or Natural Language Processing techniques can be applied for example on bug messages/descriptions to have a clearer connection between a bug and an alert (did the alert really predict the bug?).
+Future research can be focused on different aspects, the most important being reliable data collection. A classifier is as good as the data it was trained on, so new ways to collect actionable alerts in a more precise way are crucial to achieving better performance. Information Retrieval or Natural Language Processing techniques can be applied for example on bug descriptions to have a clearer connection between a bug and an alert.
 
-Given also the limited amount of data, new or improved approaches that can generalize easily are needed. In that regard, research can focus on the type of features extracted from the code or version history that are discriminative enough to make correct classification even with limited data. The impact of pre-processing can be explored even further, an example being on how to deal with high-cardinality data better, best encoding methods etc... 
+Given also the limited amount of data, new or improved approaches that can generalize easily are needed. In that regard, research can focus on the type of features extracted from the code or version history that are discriminative enough to make correct classification even with limited data. The impact of pre-processing can be explored even further, an example being on how to deal with high-cardinality data better, best encoding methods, etc.
 
 Furthermore, given the diverse nature of alerts current tools have, from finding bugprone construct, stylistic alerts, library-oriented alerts, to security or performance-oriented checks, different methods can be tailored that maximize performance within these subsets of alerts. For example, a simple method like Z-Ranking (\cite{z-ranking}) can be more suited to predict stylistic alerts than others.
 
