@@ -18,10 +18,12 @@ Improving the warnings provided by static analysis techniques dependents on a pa
 
 \henrique{There is an issue with the way you are writing this section. This is the problem statement section, but you barely explained the problem. Paragraph 2 is already talking about your goal. It would be better if you create another paragraph after Paragraph 1 with more detail on the problem. For example describing how SA were initially used by the company and later abandoned. That is a problem, and very important as motivation for your thesis.}
 \kleidi{The only info I had is that SA use was discontinued due to high amount of FP, unfortunately don't have much more to add.}
+\henrique{That sentence alone is already a nice set-up to a real problem affecting a real company.}
 
 Starting from the original alert set produced by a SA tool, automatic processing techniques can be applied to rank the alerts in such a way that the utility of inspecting the ranked alerts is higher than the default order (there are more actionable alerts in the pre-processed output). Given an industrial codebase, the goal is to explore if these automatic techniques are useful, which produces the best results, and if an ensemble technique provides extra benefits. The starting point is the version control history of the project. By extracting information about the past versions, an attempt can be made to learn which SA alerts are more important and can be prioritized in the future. In contrast to open source project where you can test the approaches only on those project that have a sufficient amount of data, in an industrial codebase you have to make the most of the data you can extract. This thesis also examines which ML techniques can be used to deal with imbalanced or noisy data.
 \henrique{I am getting confused here. I thought your approach was focused on post-processing SA alert by ranking them. But by reading the last paragraph I got a completely different idea. It seemed that your goal is to find the SA technique which gives better results (that is different than ranking), and combine them to find better results (again, no explicit mention of ranking).}
 \kleidi{Added a sentence in the begin to set the context better.}
+\henrique{Much better indeed. The sentence you added provided a more clear context.}
 
 
 Two main approaches are explored: detecting actionable alerts (alerts deemed useful by the developers) and alerts that aid in detecting bugs. These approaches are complementary because the sets of alerts are not necessarily equal, thus they are a good candidate for a combination.
@@ -33,6 +35,8 @@ The research questions can be formulated as follows:
     \item RQ\#2: Can we combine SA ranking techniques to achieve better results?
     \item RQ\#3: Do pre-processing techniques provide a significant performance benefit?
 \end{itemize}
+
+\henrique{Another thing that I noticed. You detail the RQ here, but they do not appear ever again in the thesis. When we create RQs, we say during the experimental setup (you Section 5) or evaluation (Section 6) which experiment is trying to assess/prove/verify/answer which RQ. Just putting RQs here without matching them later in your experiments/evaluation is not good.}
 
 This research is important because it quantitatively examines if the version history of a project combined with machine learning techniques can be used to effectively improve the output of SA tools. By doing so, we can examine the real utility of this approach in practice and identify which techniques are more effective. It is also relevant to see if these approaches produce meaningful results in the case of limited amount of data. We can also observe the impact in performance by testing different ML techniques to reduce noise and balance the dataset (under and oversampling). 
 
