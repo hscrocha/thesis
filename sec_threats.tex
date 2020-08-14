@@ -1,6 +1,37 @@
 % !TEX root = main.tex
 
 \section{Threats to Validity}\label{sec:threats}
-\henrique{In any empirical research, we must analysed and categorize the threats to validity of the experiments. The threats are classified into four cateegories: Construct Validity, Conclusion Validity, Internal Validity, and External Validity}
+%\henrique{In any empirical research, we must analysed and categorize the threats to validity of the experiments. The threats are classified into four cateegories: Construct Validity, Conclusion Validity, Internal Validity, and External Validity}
+
+\subsection{Construct validity}
+%Construct validity focus on the relation between the theory
+%behind the experiment and the observation(s). Even if we
+%have established that there is a casual relationship between
+%the treatment of our experiment and the observed outcome,
+%the treatment might not correspond to the cause we think we
+%have controlled and altered. Similarly, the observed outcome
+%might not correspond to the effect we think we are measuring.
+
+As already mentioned on \cref{data_assumptions}, the automatic nature of data collection poses a major threat. The collected dataset may contain an inflated amount of positive examples (either actionable alerts, bug related lines, or buggy methods). That is something that we cannot fully mitigate, but still try to limit the risks by applying data cleaning approaches where applicable.
+
+\subsection{Conclusion validity}
+%Conclusion validity focus on how sure we can be that the
+%treatment we used in an experiment really is related to the
+%actual outcome we observed. Typically this concerns if there
+%is a statistically significant effect on the outcome.
+
+By using a mix of different metrics, that relate to classification and ranking, we can confidently make claims on the effect of ranking methods. 
+First, we use metrics suitable for unbalanced data, so that the results of the majority class (unactionable alerts) does not overwhelm the results and mask classification problems for the minority class (actionable alerts). Second, we compare the ranked output of our methods with a random ranking to see if there is an improvement. That is specifically done on a balanced dataset, so that the random ranking can be fairly evaluated against the improved one (in contrast to a random ranking that only has few positive samples and will almost always perform worse than any other minor ranking improvement). Third, we train the algorithms on a balanced dataset, as to avoid potential bias.
 
 
+\subsection{Internal validity}
+%Internal validity focus on how sure we can be that the treatment
+%actually caused the outcome. There can be other factors that
+%have caused the outcome, factors that we do not have control
+%over or have not measured.
+
+By following the suggestion of Pascarella et al. \cite{performance_method_bug}, we use a horizontal train/test strategy, meaning that the train and test sets are extracted by sequentially dividing the sorted dataset (in order of alert appearance in time) in two parts. That way we avoid using dependent variables that are not available at prediction time on a real world scenario.
+
+
+\subsection{External validity}
+The scope of this thesis, conducted as an internship in a company, is to research the effectiveness of alert ranking techniques on particular industrial environment. We do not test the generalizability of our results outside the context on which the thesis was conducted, and as a consequence we make no claims on the behavior or performance in an external context.

@@ -66,6 +66,8 @@ The high level workflow for collecting data consists of the following steps (see
 \end{figure}
 
 \subsection{Assumptions made for collected data}
+\label{data_assumptions}
+
 Some algorithms use the notion of \textit{Actionable Alerts} for processing the output of SA tools. Actionable Alerts (AA) are alerts that are deemed important by developers in the past (alerts that they acted on). In order to automatically label alerts as such (no existing information that can point to that), an important and risky assumption has to be made: alerts that disappear during code changes (revisions/commits) are considered as actionable, the rest is not. 
 
 This assumptions, though necessary, is risky because not all alerts disappear as a result of direct and targeted change by developers. Their disappearance can be caused by other unknown factors (those related to deleted files are not taken into account). Data generated using this approach can contain a lot of false positives and potentially damage the performance of the used ML algorithms.
