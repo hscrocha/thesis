@@ -15,7 +15,7 @@ We analyze the performance of four different approaches to ranking SA alerts:
 \end{itemize}
 
 \subsection{Feedback Rank with Z-Score}
-
+\label{method:fbrank}
 %\henrique{This section is named Feedback Rank and Z-Score, and the next Section is named Z-Score. If there is Z-score is not described in this section (but detailed in the next one) it should not be on the title.}
 %\kleidi{Added two subsubsections, one for each.}
 % \textbf{TODO: maybe try a different correlation (author/alert type/?)}
@@ -57,7 +57,7 @@ The \textit{z-test} statistic, which measures how far an observed value is from 
 To make use of the Z-Score, an approximation is made. The granularity used for calculating the scores of alerts is based on file level (how many actionable/unactionable alerts of a certain type in a file), instead of the original granularity of the alert (for example an alert that only works on \textit{for loops}). This approximation is made because we do not know for each alert in which code construct it works on. Also, since it is only used as a tie-breaker, a high precision is not indispensable.
 
 \subsection{Detecting Actionable Alerts via Machine Learning}
-% classifiers used, how to train (grid search), overfitting, ways to measure
+\label{method:actalerts}
 
 Different techniques focused on automatically classifying alerts in true/false positives or actionable/unactionable alerts, by constructing classifiers based on code or change metrics~\cite{actionable_sa, model_building_actionable}.
 
@@ -162,6 +162,7 @@ The collected features can be classified in four main categories: alert informat
 % correlations?
 
 \subsection{Bug related lines}
+\label{method:brls}
 
 Another automatic way to determine which alerts are useful is to check if they pointed to lines that were changed during bug fixes. By doing so, we are regarding as extra valuable those alerts that potentially signaled future bugs. The concept of bug related lines (BRL) is used by Kim and Ernst~\cite{which_warnings}, and by Liang et al.~\cite{automatic_training_set}.
 
@@ -195,6 +196,7 @@ Following the approach used by Kim and Ernst~\cite{which_warnings}, we can calcu
 %\kleidi{The amount of collected alerts is very small to use the same approach as the previous section. I removed the sentence.}
 
 \subsection{Method Bug prediction}
+\label{method:bugprediction}
 
 Following the example of Boogerd and Moonen~\cite{static_profiling}, which aims to prioritize alerts based on the execution likelihood of the code pointed by the alert, we present a similar approach. Alerts pointing at potential bugs are the ones that can be considered the most important. The cost of detecting and fixing a bug is much lower if detected early in the development cycle. If we can predict which components will be likely to cause failures in the future, we can prioritize alerts that point to those components.
 

@@ -3,7 +3,7 @@
 \section{Threats to Validity}\label{sec:threats}
 %\henrique{In any empirical research, we must analysed and categorize the threats to validity of the experiments. The threats are classified into four cateegories: Construct Validity, Conclusion Validity, Internal Validity, and External Validity}
 
-\henrique{I am impressed by the quality of the section. Nice work.}
+%\henrique{I am impressed by the quality of the section. Nice work.}
 
 \subsection{Construct validity}
 %Construct validity focus on the relation between the theory
@@ -23,7 +23,7 @@ As already mentioned in \cref{data_assumptions}, the automatic nature of data co
 %is a statistically significant effect on the outcome.
 
 By using a mix of different metrics, that relate to classification and ranking, we can confidently make claims on the effect of ranking methods. 
-First, we use metrics suitable for unbalanced data, so that the results of the majority class (unactionable alerts) does not overwhelm the results and mask classification problems for the minority class (actionable alerts). Second, we compare the ranked output of our methods with a random ranking to see if there is an improvement. That is specifically done on a balanced dataset, so that the random ranking can be fairly evaluated against the improved one (in contrast to a random ranking that only has few positive samples and will almost always perform worse than any other minor ranking improvement). Third, we train the algorithms on a balanced dataset, as to avoid potential bias.
+First, we use metrics suitable for unbalanced data, so that the results of the majority class (unactionable alerts) does not overwhelm the results and mask classification problems for the minority class (actionable alerts). Second, we compare the ranked output of our methods with a random ranking to see if there is an improvement. Third, we train the algorithms on a balanced dataset, as to avoid potential bias.
 
 
 \subsection{Internal validity}
@@ -33,6 +33,8 @@ First, we use metrics suitable for unbalanced data, so that the results of the m
 %over or have not measured.
 
 By following the suggestion of Pascarella et al. \cite{performance_method_bug}, we use a horizontal train/test strategy, meaning that the train and test sets are extracted by sequentially dividing the sorted dataset (in order of alert appearance in time) in two parts. That way we avoid using dependent variables that are not available at prediction time on a real world scenario.
+
+Regarding the Feedback Rank approach (\cref{method:fbrank}), the terrible time performance of the implemented version did not allow us to train the algorithm will full data. Its experimental results can only be seen as a general indication, but do not fully evaluate the capabilities of that method.
 
 
 \subsection{External validity}
