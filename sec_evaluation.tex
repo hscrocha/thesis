@@ -109,9 +109,9 @@ In order to evaluate the ranking, two metrics are used to compare the ranked ale
 \subsubsection{Actionable Alerts}
 \label{results:actionable_alerts}
 
-Alerts are ranked based on the probabiliy score produced by the classifier for the prediction target (actionable or not).
+Alerts are ranked based on the probabiliy score produced by the classifier for the prediction target (actionable or not). \henrique{I am a little confused here. The section is about actionable alerts but in the first sentence you state the alerts are ranked for the predcition actionable or not. Then how are you measuring actionable alerts?}
 
-As can be seen on \cref{result:actalerts}, the choice of the balancing technique or cleaning method has little impact on the metrics (they are quite good for each case). The best performing one is \textit{ADASYN} (\cref{results:actalerts_best}.) 
+As can be seen on \cref{result:actalerts}, the choice of the balancing technique or cleaning method has little impact on the metrics (they are quite good for each case). The best performing one is \textit{ADASYN} (\cref{results:actalerts_best}.) \henrique{Are you sure about these results? If the random sample has a f-score of 95\%, I do not see much gain with other techniques with 96\%. Moreover, a two percent different among techniques may be statiscally insignificant.}
 
 The order produced by the \textit{LightGBM} classifier always outperforms the random order and it also contains around 50\% more actionable alerts in the top 100 or 1000 places (\cref{results:ranking_actalerts}).
 
