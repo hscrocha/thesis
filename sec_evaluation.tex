@@ -16,18 +16,20 @@ To evaluate and compare the approaches different techniques are used:
 		\label{kfold_vs_release}
 	\end{figure}
 	
-	\item \textbf{Average FP to TP \cite{correlation_exploitation}}: Let N be the total number of actionable alerts in a set of reports, and $FP_j$ is the number of false positives to inspect for finding the \textit{j}th actionable alert, starting from the last actionable alert inspected.
+	\item \textbf{Average FP to TP \cite{correlation_exploitation}}: Let N be the total number of actionable alerts in a set of reports, and $FP_j$ is the number of false positives to inspect for finding the \textit{j}th actionable alert, starting from the last actionable alert inspected. Formula~\ref{eq:avg-fp-tp} defines the Average FP to TP.
 	
-	\begin{gather*}
-	AVG_{FP-TP}(R) = \frac{\sum_{i=1}^{N} FP_j}{N}
-	\end{gather*}
+	\begin{equation} \label{eq:avg-fp-tp}
+		\mathit{AVG_{FP-TP}}(R) = \frac{\sum_{i=1}^{N} FP_j}{N}
+	\end{equation}
+
 	
-	\item \textbf{S(R) metric \cite{z-ranking}}: Let \textit{N} be
-	the total number of alerts and \textit{act} the number of actionable ones. Let \textit{R(i)} denote the cumulative number of actionable alerts found by a ranking scheme \textit{R} on the \textit{i}th inspection. \\
-	\begin{gather*}
-	S(R) = \sum_{i=1}^{N} [min(i,act) - R(i)]
-	\end{gather*}
-	\item \textbf{Comparison against random rankings}: where we compare if the ranking produced by a model is better than a random order of alerts. We calculate that by using the two previously defined metrics, Average FP to TP and S(R).\\
+	\item \textbf{Z-Ranking Score - S(R) \cite{z-ranking}:} 
+Let \textit{N} be the total number of alerts and \textit{act} the number of actionable ones. Let \textit{R(i)} denote the cumulative number of actionable alerts found by a ranking scheme \textit{R} on the \textit{i}th inspection. We show how to measure the Z-Ranking Score in Formula~\ref{eq:score}.
+
+	\begin{equation} \label{eq:score}
+	S(R) = \sum_{i=1}^{N} [\mathit{min}(i,\mathit{act}) - R(i)]
+	\end{equation}
+	\item \textbf{Comparison against random rankings}: where we compare if the ranking produced by a model is better than a random order of alerts. We calculate that by using the two previously defined metrics, Average FP to TP and S(R).
 	Also we compare the number of actionable alerts found in the first \textit{X} places in a ranked list, compared to a random list.
 	\item \textbf{Cumulative ranking graph}: formed by plotting the number of actionable alerts found within the first N inspections.
 \end{itemize}
@@ -35,31 +37,37 @@ To evaluate and compare the approaches different techniques are used:
 \subsection{Evaluation Metrics}
 
 Along with the classic evaluation metrics like \textit{accuracy}, \textit{precision} and \textit{recall}, other metrics are used that are more appropriate for imbalanced data \cite{comparison_metrics, iba_metric}. 
-
-
-\begin{gather*}
-Sensitivity = \frac{TP}{TP + FN}\\
-Specificity = \frac{TN}{FP + TN}\\
-G-Mean = \sqrt{Sensitivity * Specificity}
-\end{gather*} 
 Sensitivity, or True Positive Rate is the percentage of positive examples which
-are correctly classified.\\
-Specificity, or True Negative Rate, is the percentage of negative examples which are correctly classified.\\
-G-Mean is the geometric mean of the sensitivity and specificity.
+are correctly classified (Formula~\ref{eq:sensitivity}).
+Specificity, or True Negative Rate, is the percentage of negative examples which are correctly classified (Formula~\ref{eq:specificity}).
+G-Mean is the geometric mean of the sensitivity and specificity (Formula~\ref{eq:g-mean}).
 
 
-\begin{gather*}
-AUC = \frac{Sensitivity + Specificity}{2} \qquad (*approximation \ using \ trapezoid \ rule)
-\end{gather*} 
-The \textit{AUC} of a binary classifier is equivalent to the probability that the classifier will rank a randomly chosen positive instance higher than a randomly chosen negative instance.
+\begin{equation} \label{eq:sensitivity}
+\mathit{Sensitivity} = \frac{TP}{TP + FN}
+\end{equation}
 
+\begin{equation} \label{eq:specificity}
+\mathit{Specificity} = \frac{TN}{FP + TN}\\
+\end{equation}
 
-\begin{gather*}
-IBA_{\alpha} = (1 + \alpha * (Sensitivity - Specificity)) * Sensitivity * Specificity
-\end{gather*} 
+\begin{equation} \label{eq:g-mean}
+G{\text -}\mathit{Mean} = \sqrt{ \mathit{Sensitivity} * \mathit{Specificity}}
+\end{equation}
+
+The \textit{AUC} of a binary classifier is equivalent to the probability that the classifier will rank a randomly chosen positive instance higher than a randomly chosen negative instance. We are using the approximation formula for \textit{AUC} according to the trapezoid rule (Formula~\ref{eq:auc}).
+
+\begin{equation} \label{eq:auc}
+\mathit{AUC} = \frac{\mathit{Sensitivity} + \mathit{Specificity}}{2} 
+\end{equation} 
+
 The \textit{Index of Balanced Accuracy} used for evaluating learning processes in two-class imbalanced domains. The
 method combines an unbiased index of its overall accuracy and a measure about
-how dominant is the class with the highest individual accuracy rate.
+how dominant is the class with the highest individual accuracy rate (Formula~\ref{eq:iba}).
+
+\begin{equation} \label{eq:iba}
+\mathit{IBA_{\alpha}} = (1 + \alpha * (\mathit{Sensitivity} - \mathit{Specificity})) * \mathit{Sensitivity} * \mathit{Specificity}
+\end{equation} 
 
 
 %\subsubsection{Preparing the dataset}
@@ -67,14 +75,15 @@ how dominant is the class with the highest individual accuracy rate.
 
 \subsection{Results of the approaches}
 
-Experiments were run by training methods on the first 80\% items of the dataset and testing on the remaining 20\%.
+We run the experiments by training methods on the first 80\% items of the dataset and testing on the remaining 20\%.
+\henrique{By using Cross Validation or Release/Revised testing? It is important to highlight here again.}
 
-For the actionable alert (\cref{method:actalerts}) and method bug prediction (\cref{method:bugprediction}) approaches, different classifiers were considered. Three classifiers were considered, based on the nature of the data (categorical variables, ordinal, discrete values) and the state of the art in the field: \textit{Random Forest}, \textit{AdaBoost}, and \textit{LightGBM}.
+For the actionable alert (\cref{method:actalerts}) and method bug prediction (\cref{method:bugprediction}) approaches, we considered three different classifiers. We chose the classifiers based on the nature of the data (categorical variables, ordinal, discrete values) and the state of the art in the field: \textit{Random Forest}, \textit{AdaBoost}, and \textit{LightGBM}.
 
 To decide between the three, a 10-fold validation was performed and timed in a subset of the data. \textit{LightGBM} was finally chosen because of the good performance and speed (\textit{AdaBoost} does not support multi-threading in the \textit{scikit} library).
 The results can be seen on \cref{choosing_classifier}.
 
-\begin{longtable}[c]{@{}lllll@{}}
+\begin{longtable}[c]{@{}lcccr@{}}
 	\caption{Classifier performance on a 10-fold validation on actionable alerts}
 	\label{choosing_classifier}\\
 	\toprule
@@ -90,11 +99,11 @@ The results can be seen on \cref{choosing_classifier}.
 	%
 	Random Forest (30 threads) & 89        & 97     & 90       & 14.8s \\
 	LightGBM (30 threads)      & 98        & 93     & 94       & 9.1s  \\
-	AdaBoost      & 96        & 94     & 94       & 89s   \\* \bottomrule
+	AdaBoost      & 96        & 94     & 94       & 89.0s   \\* \bottomrule
 \end{longtable}
 
 
-In order to evaluate the ranking, two metrics are used to compare the ranked alerts with a random order (\textit{S(R)} and \textit{Average FP-to-TP}). The experiments are run multiple times (by shuffling the random order and calculating the metrics again). Also the number of valuable alerts in the top \textit{X} places of the improved ranking is compared against random ranking.
+In order to evaluate the ranking, two metrics are used to compare the ranked alerts with a random order (\textit{S(R)} and \textit{Average FP-to-TP}). The experiments are run multiple times (by shuffling the random order and calculating the metrics again). Also the number of valuable alerts in the top \textit{X} places of the improved ranking is compared against random ranking. \henrique{How many times exactly did you run the experiments? (yes this is important). Moreover, how did you select the metric when you run multiple times? Or did you compute the average, or median?}
 
 
 \subsubsection{Actionable Alerts}
