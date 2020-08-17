@@ -148,7 +148,7 @@ As can be seen from the data (\cref{rev_files}, \cref{rev_lines}, and \cref{rev_
 		\includegraphics[scale=0.3]{./src/data_analysis/buggy_box_lines.png}
 		\caption{Box plots for changed lines in buggy revisions}
 	\end{subfigure}
-	\caption{}
+	\caption{Box plots of changed lines}
 	\label{box:changed_lines}
 \end{figure}
 
@@ -163,7 +163,7 @@ As can be seen from the data (\cref{rev_files}, \cref{rev_lines}, and \cref{rev_
 		\includegraphics[scale=0.3]{./src/data_analysis/buggy_box_files.png}
 		\caption{Box plots for changed files/methods in buggy revisions}
 	\end{subfigure}
-	\caption{}
+	\caption{Box plots of changed files/methods}
 	\label{box:changed_files}
 \end{figure}
 
@@ -185,6 +185,7 @@ As can be seen from the data (\cref{rev_files}, \cref{rev_lines}, and \cref{rev_
 	\centering
 	\includegraphics[scale=0.4]{./src/data_analysis/pie_alerts.png}
 	\caption{Distribution of collected alerts per alert category}
+	\label{data_analysis:collected_alerts}
 \end{figure}
 
 From the distribution of collected alerts, we can see that it is dominated by the \textit{cppcoreguidelines} checks, while the remaining three categories consist only of 4.4\% of the total alerts.
@@ -229,7 +230,7 @@ By analyzing the lifetime of closed alerts, in terms of number of revisions, we 
 			\caption{Cumulative plot for closed alert lifetime}
 		\end{subfigure}
 	\end{subfigure}
-	\caption{}
+	\caption{Alert lifetime graphs}
 	\label{closed_alerts:lifetime}
 \end{figure}
 
@@ -245,7 +246,7 @@ By analyzing the lifetime of closed alerts, in terms of number of revisions, we 
 		\includegraphics[scale=0.2]{./src/data_analysis/most_closed_alerts.png}
 		\caption{Bar plot for alert types with most closed alerts}
 	\end{subfigure}
-	\caption{}
+	\caption{Most open/closed alert types}
 	\label{most_open_alerts}
 \end{figure}
 
@@ -261,7 +262,7 @@ By analyzing the lifetime of closed alerts, in terms of number of revisions, we 
 		\includegraphics[scale=0.2]{./src/data_analysis/most_closed_packages.png}
 		\caption{Bar plot for packages with most closed alerts}
 	\end{subfigure}
-	\caption{}
+	\caption{Most packages with open/closed alerts}
 	\label{most_open_packages}
 \end{figure}
 

@@ -23,35 +23,48 @@
 
 
 \subsection{Conclusions}
-\textbf{TO DO}\\
--got these results, because...\\
--importance on preprocessing\\
--initial results may be slightly better that normal, but the nature of data collection is limiting, need to be used in continuance\\ 
+%\textbf{TO DO}\\
+%-got these results, because...\\
+%-importance on preprocessing\\
+%-initial results may be slightly better that normal, but the nature of data collection is limiting, need to be used in continuance\\ 
 
-% \begin{itemize}
-%     \item Ranking can be useful but only with enough data
-%     \item X method performs better / is more useful than Y
-%     \item Combining techniques give these different results
-%     \item Context of industrial code
-% \end{itemize}
+\subsubsection{RQ\#1: Can we apply SA ranking techniques in an industrial environment with limited amount of data?}
+
+Although a dataset of around 190k collected total alerts (of which around 80k are actionable), seems largely adequate at first sight, it should be noted that more than 93\% of them belong to one of the four alert categories, \textit{cppcoreguidelines}, for the total number of alerts, as well as the actionable ones (\cref{data_analysis:collected_alerts}). Those are mostly stylistic checks, which are abundant in nature and easy to disappear with code changes. The remaining three categories contain a total of around 12k alerts, of which 3.5k are closed.
+
+Nevertheless, the scores for each individual category are also good (\cref{results:individual_categories}), so the dominating one does not inflate the results for the rest.
+
+Given the overall results of the best performing method, Actionable Alerts (\cref{method:actalerts}), we can say that applying SA ranking techniques is possible in this industrial context, even considering the fact that SA tools are not used anymore.
+
+\subsubsection{RQ\#2: Can we combine SA ranking techniques to achieve better results?}
+
+The performance of the Actionable Alerts method (\cref{results:actionable_alerts}) is difficult to improve. What we can improve by combining multiple methods, is not only ranking alerts that are actionable, but also by directing the attention to those that point to bug-prone methods (can have a higher utility by preventing bugs). In that aspect, we do achieve better results in the top 200 places in the ranking (\cref{results:ensemble_approach}).
+
+
+\subsubsection{RQ\#3: Do pre-processing techniques provide a significant performance benefit?}
+
+By inspecting the metrics achieved by different balancing/cleaning techniques (\cref{result:actalerts} and \cref{result:bugPrediction}) we can see that they do make a difference. Although, in the Actionable Alerts method, the improvement is small, in the Method Bug Prediction approach, the improvement is more noticeable.
+
 
 
 \subsection{Summary of Contributions}
  
 This thesis provides the following contributions:
 \begin{itemize}
-\item Building a workflow to extract information by making use of the Clang toolset and version history (SVN). 
-\henrique{A contribution is something that was finished, that it is done. Anything starting with 'building' (or any other 'ing') is not a contribution because you are still doing it (as it is not finished). Even if I rewrite the sentence, I am not convinced that the workflow is a contribution.}
-\kleidi{The thesis is made in the context of an internship, where in my opinion the focus is higher on implementation than a normal research. Since a considerable amount of time was put into extraction of the data (more difficult in a restricted company environment than a typical research), it is also meant as a justification that an adequate amount of time was spent in the making of this thesis. I do agree that in the research point of view it is not something considered valuable. I do not mind if it is removed, but don't want to give the wrong impression that the thesis might be something hacked together in little time.}
-\henrique{One contribution will not be the sole cause that gives the impression of 'thesis hacked together in little time'. It is overacting to say so. I understand that you may be stressed out due to the deadline, but try to keep a cool head. Moreover, it does not matter if you chose to focus on implementation or research, a contribution in the thesis will be the same nonetheless. On that note, not everything you worked on is a contribution. I do not deny that you put a lot of work on extracting data. Now saying that is a contribution is a completely different thing. Workflows (most often) are not contributions. The process or method on a workflow could be a contribution, but I do not think yours is. The extracted data could be a contribution if it was a public dataset useful for other researchers to conduct comparative experiments, and it is not the case for your data either. Therefore, I do not see anything here that can be classified as a contribution. In the end, this is YOUR thesis, if you want to leave this as a contribution go ahead. You are more than free to follow my suggestions or not.}
+%\item Building a workflow to extract information by making use of the Clang toolset and version history (SVN). 
+%\henrique{A contribution is something that was finished, that it is done. Anything starting with 'building' (or any other 'ing') is not a contribution because you are still doing it (as it is not finished). Even if I rewrite the sentence, I am not convinced that the workflow is a contribution.}
+%\kleidi{The thesis is made in the context of an internship, where in my opinion the focus is higher on implementation than a normal research. Since a considerable amount of time was put into extraction of the data (more difficult in a restricted company environment than a typical research), it is also meant as a justification that an adequate amount of time was spent in the making of this thesis. I do agree that in the research point of view it is not something considered valuable. I do not mind if it is removed, but don't want to give the wrong impression that the thesis might be something hacked together in little time.}
+%\henrique{One contribution will not be the sole cause that gives the impression of 'thesis hacked together in little time'. It is overacting to say so. I understand that you may be stressed out due to the deadline, but try to keep a cool head. Moreover, it does not matter if you chose to focus on implementation or research, a contribution in the thesis will be the same nonetheless. On that note, not everything you worked on is a contribution. I do not deny that you put a lot of work on extracting data. Now saying that is a contribution is a completely different thing. Workflows (most often) are not contributions. The process or method on a workflow could be a contribution, but I do not think yours is. The extracted data could be a contribution if it was a public dataset useful for other researchers to conduct comparative experiments, and it is not the case for your data either. Therefore, I do not see anything here that can be classified as a contribution. In the end, this is YOUR thesis, if you want to leave this as a contribution go ahead. You are more than free to follow my suggestions or not.}
 
-\item The evaluation of SA ranking techniques on an industrial codebase. \henrique{I think you are missing a little more detail to make this into a proper contribution.}
-\item A pre-processing procedure to deal with imbalanced and noisy data.
+\item The evaluation of SA ranking techniques on an industrial codebase. 
+\henrique{I think you are missing a little more detail to make this into a proper contribution.}
+\kleidi{For example? I have results for each tool.}
+\item Comparison of pre-processing methods to deal with imbalanced and noisy data.
 \item We conducted a comparative study of different approaches on a common codebase.
-\item We demonstrate the utility of combining different ranking methods into an ensemble. \henrique{by using a Bayesian network?}
-\kleidi{this is unfortunately a to do for the moment, hope to finish it tonight/tomorrow}
-\henrique{I was wondering if the ensemble was performed by using a Bayesian network. If it is then it should be detailed in the contribution. }
-\kleidi{that is what is holding me back for the moment, how to precisely combine them}
+%\item We demonstrate the utility of combining different ranking methods into an ensemble. \henrique{by using a Bayesian network?}
+%\kleidi{this is unfortunately a to do for the moment, hope to finish it tonight/tomorrow}
+%\henrique{I was wondering if the ensemble was performed by using a Bayesian network. If it is then it should be detailed in the contribution. }
+%\kleidi{that is what is holding me back for the moment, how to precisely combine them}
 
 \end{itemize}
 
@@ -66,11 +79,11 @@ This thesis provides the following contributions:
 
 Future research can be focused on different aspects, the most important being reliable data collection. A classifier is as good as the data it was trained on, so new ways to collect actionable alerts in a more precise way are crucial to achieving better performance. Information Retrieval or Natural Language Processing techniques can be applied for example on bug descriptions to have a clearer connection between a bug and an alert.
 
-Given also the limited amount of data, new or improved approaches that can generalize easily are needed. In that regard, research can focus on the type of features extracted from the code or version history that are discriminative enough to make correct classification even with limited data. The impact of pre-processing can be explored even further, an example being on how to deal with high-cardinality data better, best encoding methods, etc.
+Given also the limited amount of (potentially) noisy data, the cleaning aspect and be explored even further (fine tuning techniques). The impact of pre-processing should also be considered, for example how to best deal with high-cardinality data (which is the case many features in out dataset).
 
-Furthermore, given the diverse nature of alerts current tools have, from finding bugprone construct, stylistic alerts, library-oriented alerts, to security or performance-oriented checks, different methods can be tailored that maximize performance within these subsets of alerts. For example, a simple method like Z-Ranking (\cite{z-ranking}) can be more suited to predict stylistic alerts than others.
+Furthermore, there is a lot of room for fine tuning the optimization problem in the ensemble method. Its definition, the score function, the optimization objectives, can be analyzed even further. Also, the performance of Method Bug Prediction, can be a bottleneck for this approach, so other methods which may give better results can be tried (\cite{predict_deeplearning, dl_jit_prediction}).
 
-In addition, a way to continuously improve the ranking algorithms needs to be put in place. Even though the initial performance may not be spectacular, if new resolved alerts are tracked consistently, performance will also rise accordingly. A rather naive implementation is to give warnings an identifier and include them in the commit messages if they were useful.
+Last, a way to continuously improve the ranking algorithms needs to be put in place. If newly inspected alerts are tracked consistently (TP or FP), a more qualitative dataset can be collected and performance will also improve (a rather naive implementation is to give each warnings an identifier and include them in the commit messages if they were useful).
 
 % -data collection assumptions, make it more reliable?\\
 % -better track resolved alerts (google tricorder example)

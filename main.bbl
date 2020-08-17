@@ -1,20 +1,14 @@
 \begin{thebibliography}{10}
 
-\bibitem{sa_google}
-Caitlin Sadowski, Edward Aftandilian, Alex Eagle, Liam Miller-Cushon, and Ciera
-  Jaspan.
-\newblock Lessons from building static analysis tools at google.
-\newblock {\em Communications of the ACM}, 61:58--66, 03 2018.
+\bibitem{which_warnings}
+Sunghun Kim and Michael Ernst.
+\newblock Which warnings should i fix first?
+\newblock pages 45--54, 01 2007.
 
-\bibitem{infer}
-\href{https://fbinfer.com/}{Infer static analyzer}.
-
-\bibitem{dawson2010}
-Maurice Dawson, Darrell Burrell, Emad Rahim, and Stephen Brewster.
-\newblock Integrating software assurance into the software development life
-  cycle (sdlc).
-\newblock {\em Journal of Information Systems Technology and Planning},
-  3:49--53, 01 2010.
+\bibitem{performance_method_bug}
+Luca Pascarella, Fabio Palomba, and Alberto Bacchelli.
+\newblock On the performance of method-level bug prediction: A negative result.
+\newblock {\em Journal of Systems and Software}, 161:110493, 2020.
 
 \bibitem{clarke2016}
 Paul Clarke, Rory~V. O’Connor, and Brian Leavy.
@@ -30,6 +24,22 @@ Titus Winters, Tom Manshreck, and Hyrum Wright.
   Over Time}.
 \newblock O'Reilly Media, 1st edition edition, march 2020.
 
+\bibitem{dawson2010}
+Maurice Dawson, Darrell Burrell, Emad Rahim, and Stephen Brewster.
+\newblock Integrating software assurance into the software development life
+  cycle (sdlc).
+\newblock {\em Journal of Information Systems Technology and Planning},
+  3:49--53, 01 2010.
+
+\bibitem{sa_google}
+Caitlin Sadowski, Edward Aftandilian, Alex Eagle, Liam Miller-Cushon, and Ciera
+  Jaspan.
+\newblock Lessons from building static analysis tools at google.
+\newblock {\em Communications of the ACM}, 61:58--66, 03 2018.
+
+\bibitem{infer}
+\href{https://fbinfer.com/}{Infer static analyzer}.
+
 \bibitem{comparative_heckman}
 Sarah Heckman and Laurie Williams.
 \newblock A comparative evaluation of static analysis actionable alert
@@ -43,11 +53,6 @@ Joe Ruthruff, John Penix, J.~Morgenthaler, S.~Elbaum, and Gregg Rothermel.
 \newblock Predicting accurate and actionable static analysis warnings: An
   experimental approach.
 \newblock pages 341--350, 01 2008.
-
-\bibitem{which_warnings}
-Sunghun Kim and Michael Ernst.
-\newblock Which warnings should i fix first?
-\newblock pages 45--54, 01 2007.
 
 \bibitem{automatic_training_set}
 Guangtai Liang, Ling Wu, Qian Wu, Qianxiang Wang, Tao Xie, and Hong Mei.
@@ -89,20 +94,6 @@ Ted Kremenek, Ken Ashcraft, Junfeng Yang, and Dawson Engler.
 Cathal Boogerd and Leon Moonen.
 \newblock Prioritizing software inspection results using static profiling.
 \newblock 08 2006.
-
-\bibitem{alert_patterns}
-Quinn Hanam, Lin Tan, Reid Holmes, and Patrick Lam.
-\newblock Finding patterns in static analysis alerts: Improving actionable
-  alert ranking.
-\newblock In {\em Proceedings of the 11th Working Conference on Mining Software
-  Repositories}, MSR 2014, pages 152--161, New York, NY, USA, 2014. ACM.
-
-\bibitem{incremental_sa}
-Radhika Venkatasubramanyam and Shrinath Gupta.
-\newblock An automated approach to detect violations with high confidence in
-  incremental code using a learning system.
-\newblock {\em 36th International Conference on Software Engineering, ICSE
-  Companion 2014 - Proceedings}, 05 2014.
 
 \bibitem{model_building_actionable}
 Sarah Heckman and Laurie Williams.
@@ -184,6 +175,12 @@ Gustavo Batista, Ronaldo Prati, and Maria-Carolina Monard.
   learning training data.
 \newblock {\em SIGKDD Explorations}, 6:20--29, 06 2004.
 
+\bibitem{imblearn}
+Guillaume Lema{{\^i}}tre, Fernando Nogueira, and Christos~K. Aridas.
+\newblock Imbalanced-learn: A python toolbox to tackle the curse of imbalanced
+  datasets in machine learning.
+\newblock {\em Journal of Machine Learning Research}, 18(17):1--5, 2017.
+
 \bibitem{pomegranate}
 Jacob Schreiber.
 \newblock Pomegranate: fast and flexible probabilistic modeling in python.
@@ -195,11 +192,6 @@ F.~Pedregosa, G.~Varoquaux, A.~Gramfort, V.~Michel, B.~Thirion, O.~Grisel,
   D.~Cournapeau, M.~Brucher, M.~Perrot, and E.~Duchesnay.
 \newblock Scikit-learn: Machine learning in {P}ython.
 \newblock {\em Journal of Machine Learning Research}, 12:2825--2830, 2011.
-
-\bibitem{performance_method_bug}
-Luca Pascarella, Fabio Palomba, and Alberto Bacchelli.
-\newblock On the performance of method-level bug prediction: A negative result.
-\newblock {\em Journal of Systems and Software}, 161:110493, 2020.
 
 \bibitem{comparison_metrics}
 C.~Ferri, J.~Hernández-Orallo, and R.~Modroiu.
@@ -213,10 +205,8 @@ Vicente García, R.~Mollineda, and José Sánchez.
   distributions.
 \newblock volume 5524, pages 441--448, 06 2009.
 
-\bibitem{imblearn}
-Guillaume Lema{{\^i}}tre, Fernando Nogueira, and Christos~K. Aridas.
-\newblock Imbalanced-learn: A python toolbox to tackle the curse of imbalanced
-  datasets in machine learning.
-\newblock {\em Journal of Machine Learning Research}, 18(17):1--5, 2017.
+\bibitem{platypus}
+\href{https://platypus.readthedocs.io/en/latest/index.html}{Platypus -
+  Multiobjective Optimization in Python}.
 
 \end{thebibliography}

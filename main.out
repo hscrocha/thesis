@@ -34,17 +34,16 @@
 \BOOKMARK [2][-]{subsection.6.4}{Method Bug Prediction}{section.6}% 34
 \BOOKMARK [2][-]{subsection.6.5}{Feedback Rank}{section.6}% 35
 \BOOKMARK [2][-]{subsection.6.6}{Bug-Related Lines}{section.6}% 36
-\BOOKMARK [2][-]{subsection.6.7}{Combined technique}{section.6}% 37
-\BOOKMARK [2][-]{subsection.6.8}{Answers to research questions}{section.6}% 38
-\BOOKMARK [3][-]{subsubsection.6.8.1}{RQ\0431: Can we apply SA ranking techniques in an industrial environment with limited amount of data?}{subsection.6.8}% 39
-\BOOKMARK [3][-]{subsubsection.6.8.2}{RQ\0432: Can we combine SA ranking techniques to achieve better results?}{subsection.6.8}% 40
-\BOOKMARK [3][-]{subsubsection.6.8.3}{RQ\0433: Do pre-processing techniques provide a significant performance benefit?}{subsection.6.8}% 41
-\BOOKMARK [1][-]{section.7}{Threats to Validity}{}% 42
-\BOOKMARK [2][-]{subsection.7.1}{Construct validity}{section.7}% 43
-\BOOKMARK [2][-]{subsection.7.2}{Conclusion validity}{section.7}% 44
-\BOOKMARK [2][-]{subsection.7.3}{Internal validity}{section.7}% 45
-\BOOKMARK [2][-]{subsection.7.4}{External validity}{section.7}% 46
-\BOOKMARK [1][-]{section.8}{Conclusions}{}% 47
-\BOOKMARK [2][-]{subsection.8.1}{Conclusions}{section.8}% 48
-\BOOKMARK [2][-]{subsection.8.2}{Summary of Contributions}{section.8}% 49
-\BOOKMARK [2][-]{subsection.8.3}{Future Research}{section.8}% 50
+\BOOKMARK [2][-]{subsection.6.7}{Combined approach}{section.6}% 37
+\BOOKMARK [1][-]{section.7}{Threats to Validity}{}% 38
+\BOOKMARK [2][-]{subsection.7.1}{Construct validity}{section.7}% 39
+\BOOKMARK [2][-]{subsection.7.2}{Conclusion validity}{section.7}% 40
+\BOOKMARK [2][-]{subsection.7.3}{Internal validity}{section.7}% 41
+\BOOKMARK [2][-]{subsection.7.4}{External validity}{section.7}% 42
+\BOOKMARK [1][-]{section.8}{Conclusions}{}% 43
+\BOOKMARK [2][-]{subsection.8.1}{Conclusions}{section.8}% 44
+\BOOKMARK [3][-]{subsubsection.8.1.1}{RQ\0431: Can we apply SA ranking techniques in an industrial environment with limited amount of data?}{subsection.8.1}% 45
+\BOOKMARK [3][-]{subsubsection.8.1.2}{RQ\0432: Can we combine SA ranking techniques to achieve better results?}{subsection.8.1}% 46
+\BOOKMARK [3][-]{subsubsection.8.1.3}{RQ\0433: Do pre-processing techniques provide a significant performance benefit?}{subsection.8.1}% 47
+\BOOKMARK [2][-]{subsection.8.2}{Summary of Contributions}{section.8}% 48
+\BOOKMARK [2][-]{subsection.8.3}{Future Research}{section.8}% 49

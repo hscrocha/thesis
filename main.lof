@@ -1,26 +1,37 @@
-\contentsline {figure}{\numberline {1}{\ignorespaces \relax }}{10}{figure.caption.11}
-\contentsline {figure}{\numberline {2}{\ignorespaces \relax }}{11}{figure.caption.12}
-\contentsline {figure}{\numberline {3}{\ignorespaces Workflow for the ELAN tool\relax }}{12}{figure.caption.13}
-\contentsline {figure}{\numberline {7}{\ignorespaces Workflow for incremental violation detection\relax }}{15}{figure.caption.17}
-\contentsline {figure}{\numberline {8}{\ignorespaces Average metrics for all models\relax }}{15}{figure.caption.18}
-\contentsline {figure}{\numberline {16}{\ignorespaces Improvements over classic logistic regression approach\relax }}{23}{figure.caption.26}
-\contentsline {figure}{\numberline {20}{\ignorespaces Collecting alerts and other information\relax }}{27}{figure.caption.30}
-\contentsline {figure}{\numberline {21}{\ignorespaces Average changes (\textit {red=bug revision, blue=normal})\relax }}{28}{figure.caption.33}
-\contentsline {figure}{\numberline {22}{\ignorespaces \relax }}{29}{figure.caption.34}
-\contentsline {figure}{\numberline {23}{\ignorespaces \relax }}{29}{figure.caption.35}
-\contentsline {figure}{\numberline {24}{\ignorespaces Distribution of collected alerts per alert category\relax }}{30}{figure.caption.37}
-\contentsline {figure}{\numberline {25}{\ignorespaces Ratio of closed alerts per category\relax }}{31}{figure.caption.39}
-\contentsline {figure}{\numberline {27}{\ignorespaces \relax }}{31}{figure.caption.41}
-\contentsline {figure}{\numberline {28}{\ignorespaces \relax }}{31}{figure.caption.42}
-\contentsline {figure}{\numberline {26}{\ignorespaces \relax }}{32}{figure.caption.40}
-\contentsline {figure}{\numberline {29}{\ignorespaces Example of a simple Bayes Network for predicting 3 alerts\relax }}{34}{figure.caption.44}
-\contentsline {figure}{\numberline {30}{\ignorespaces Calculating BRLs (\cite {which_warnings})\relax }}{36}{figure.caption.45}
-\contentsline {figure}{\numberline {31}{\ignorespaces Release-based vs K-Fold (\cite {performance_method_bug})\relax }}{38}{figure.caption.47}
-\contentsline {figure}{\numberline {32}{\ignorespaces Actionable alerts with ADASYN\relax }}{40}{figure.caption.49}
-\contentsline {figure}{\numberline {33}{\ignorespaces Cumulative ranking graph for Actionable Alerts\relax }}{41}{figure.caption.51}
-\contentsline {figure}{\numberline {34}{\ignorespaces Method Bug Prediction with One Sided Selection\relax }}{42}{figure.caption.53}
-\contentsline {figure}{\numberline {35}{\ignorespaces Cumulative ranking graph for Method Bug Prediction\relax }}{43}{figure.caption.55}
-\contentsline {figure}{\numberline {36}{\ignorespaces Feedback Rank with Random Over Sampling\relax }}{44}{figure.caption.57}
-\contentsline {figure}{\numberline {37}{\ignorespaces Cumulative ranking graph for Feedback Rank\relax }}{44}{figure.caption.59}
-\contentsline {figure}{\numberline {38}{\ignorespaces Bug-related alert distribution\relax }}{45}{figure.caption.60}
-\contentsline {figure}{\numberline {39}{\ignorespaces Cumulative ranking graph for Bug-Related Lines\relax }}{46}{figure.caption.62}
+\contentsline {figure}{\numberline {1}{\ignorespaces Z-Ranking evaluation\relax }}{9}{figure.caption.5}
+\contentsline {figure}{\numberline {2}{\ignorespaces Feedback-Rank clustering of alerts\relax }}{10}{figure.caption.6}
+\contentsline {figure}{\numberline {3}{\ignorespaces Workflow for the ELAN tool\relax }}{11}{figure.caption.7}
+\contentsline {figure}{\numberline {4}{\ignorespaces HWP algorithm and results\relax }}{11}{figure.caption.8}
+\contentsline {figure}{\numberline {5}{\ignorespaces Actionable Alerts with Logistic Regression\relax }}{12}{figure.caption.9}
+\contentsline {figure}{\numberline {6}{\ignorespaces Average metrics for all models\relax }}{13}{figure.caption.10}
+\contentsline {figure}{\numberline {7}{\ignorespaces Automatic construction of an effective training set\relax }}{13}{figure.caption.11}
+\contentsline {figure}{\numberline {8}{\ignorespaces Prioritizing alerts from multiple SA\relax }}{14}{figure.caption.12}
+\contentsline {figure}{\numberline {9}{\ignorespaces Ranking warnings from mulitple SA via ensemble learning\relax }}{14}{figure.caption.13}
+\contentsline {figure}{\numberline {10}{\ignorespaces Survey of approaches for handling SA alerts\relax }}{16}{figure.caption.14}
+\contentsline {figure}{\numberline {11}{\ignorespaces Method level bug prediction\relax }}{17}{figure.caption.15}
+\contentsline {figure}{\numberline {13}{\ignorespaces Analyzing the state of static analysis\relax }}{19}{figure.caption.17}
+\contentsline {figure}{\numberline {14}{\ignorespaces How do developers act on SA alerts?\relax }}{19}{figure.caption.18}
+\contentsline {figure}{\numberline {15}{\ignorespaces How many of all bugs do we find?\relax }}{20}{figure.caption.19}
+\contentsline {figure}{\numberline {16}{\ignorespaces Collecting alerts and other information\relax }}{22}{figure.caption.20}
+\contentsline {figure}{\numberline {17}{\ignorespaces Average changes (\textit {red=bug revision, blue=normal})\relax }}{23}{figure.caption.23}
+\contentsline {figure}{\numberline {18}{\ignorespaces Box plots of changed lines\relax }}{24}{figure.caption.24}
+\contentsline {figure}{\numberline {19}{\ignorespaces Box plots of changed files/methods\relax }}{24}{figure.caption.25}
+\contentsline {figure}{\numberline {20}{\ignorespaces Distribution of collected alerts per alert category\relax }}{25}{figure.caption.27}
+\contentsline {figure}{\numberline {21}{\ignorespaces Ratio of closed alerts per category\relax }}{26}{figure.caption.29}
+\contentsline {figure}{\numberline {23}{\ignorespaces Most open/closed alert types\relax }}{26}{figure.caption.31}
+\contentsline {figure}{\numberline {24}{\ignorespaces Most packages with open/closed alerts\relax }}{26}{figure.caption.32}
+\contentsline {figure}{\numberline {22}{\ignorespaces Alert lifetime graphs\relax }}{27}{figure.caption.30}
+\contentsline {figure}{\numberline {25}{\ignorespaces Example of a simple Bayes Network for predicting 3 alerts\relax }}{29}{figure.caption.34}
+\contentsline {figure}{\numberline {26}{\ignorespaces Calculating BRLs (\cite {which_warnings})\relax }}{31}{figure.caption.35}
+\contentsline {figure}{\numberline {27}{\ignorespaces Release-based vs K-Fold (\cite {performance_method_bug})\relax }}{33}{figure.caption.37}
+\contentsline {figure}{\numberline {28}{\ignorespaces Actionable alerts with ADASYN\relax }}{35}{figure.caption.39}
+\contentsline {figure}{\numberline {29}{\ignorespaces Cumulative ranking graph for Actionable Alerts\relax }}{36}{figure.caption.41}
+\contentsline {figure}{\numberline {30}{\ignorespaces Method Bug Prediction with One Sided Selection\relax }}{37}{figure.caption.43}
+\contentsline {figure}{\numberline {31}{\ignorespaces Correlation of buggy methods with closed alerts\relax }}{38}{figure.caption.44}
+\contentsline {figure}{\numberline {32}{\ignorespaces Cumulative ranking graph for Method Bug Prediction\relax }}{39}{figure.caption.46}
+\contentsline {figure}{\numberline {33}{\ignorespaces Feedback Rank with Random Over Sampling\relax }}{40}{figure.caption.48}
+\contentsline {figure}{\numberline {34}{\ignorespaces Cumulative ranking graph for Feedback Rank\relax }}{40}{figure.caption.50}
+\contentsline {figure}{\numberline {35}{\ignorespaces Bug-related alert distribution\relax }}{41}{figure.caption.51}
+\contentsline {figure}{\numberline {36}{\ignorespaces Cumulative ranking graph for Bug-Related Lines\relax }}{41}{figure.caption.53}
+\contentsline {figure}{\numberline {37}{\ignorespaces Cumulative ranking graph for first 1000 actionable alerts\relax }}{43}{figure.caption.56}
+\contentsline {figure}{\numberline {38}{\ignorespaces Cumulative ranking graph for first 1000 bug-prone alerts\relax }}{43}{figure.caption.57}

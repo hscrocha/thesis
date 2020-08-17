@@ -29,9 +29,7 @@ To evaluate and compare the approaches different techniques are used:
 	\end{gather*}
 	\item \textbf{Comparison against random rankings}: where we compare if the ranking produced by a model is better than a random order of alerts. We calculate that by using the two previously defined metrics, Average FP to TP and S(R).\\
 	Also we compare the number of actionable alerts found in the first \textit{X} places in a ranked list, compared to a random list.
-	\item \textbf{Fault detection rate curve}: the curve of a model is formed by plotting the number of actionable alerts found within the first N inspections.
-	
-	% \item Feedback-Rank paper has some approaches.
+	\item \textbf{Cumulative ranking graph}: formed by plotting the number of actionable alerts found within the first N inspections.
 \end{itemize}
 
 \subsection{Evaluation Metrics}
@@ -100,6 +98,7 @@ In order to evaluate the ranking, two metrics are used to compare the ranked ale
 
 
 \subsubsection{Actionable Alerts}
+\label{results:actionable_alerts}
 
 Alerts are ranked based on the probabiliy score produced by the classifier for the prediction target (actionable or not).
 
@@ -177,13 +176,17 @@ Furthermore, as can be seen on the cumulative graph on \cref{results:cumulative_
 The overall results for predicting if a method will be buggy in the future, are far from optimal. Predicting bugs on a finer granularity is a hard task, but for the purpose of our use, prioritizing alerts on methods with a higher probability of being buggy, the actual achieved performance can still be regarded as a good starting point.
 As can be seen on \cref{result:bugPrediction}, the choice of the balancing technique or cleaning method has a clear impact on some the metrics. The best performing one is \textit{One Sided Selection} (\cref{results:bugprediction_best}). 
 
-After calculating the probability of a method being buggy on the test set, we merge that set with the one containing actionable alerts (thus only those alerts that are located on the methods in the test set). The goal is to see if ranking alerts higher when they belong to a bug prone method is useful in terms of predicting if that alert will be actionable in the future.
+Even though the main purpose of this method is not to detect actionable alerts in general, but to give extra attention to alerts belonging to buggy methods, we conduct an experiment to see if we can rank actionable alerts by using the probability of a method being buggy.
 
-Alerts are ranked based on the probabiliy score produced by the classifier for the prediction target (buggy method or not). Alerts ranked by bug-prone method probability outperform the random order in the first 100 and 1000 alerts, but not on the whole dataset (\cref{results:ranking_methodbug_alerts}).
+Having calculated the set of buggy methods, we can also explore if there is a correlation between the amount of alerts of a particular category/type and the method being buggy. As can be noticed on \cref{results:buggy_correlationss}, the amount of correlation is limited. 
+
+After calculating the probability of a method being buggy on the test set, we merge that set with the one containing actionable alerts (thus only those alerts that are located on the methods in the test set). Alerts are ranked based on the probability score produced by the classifier for the prediction target (buggy method or not). %The goal is to see if ranking alerts higher when they belong to a bug prone method is useful in terms of predicting if that alert will be actionable in the future.
+
+Alerts ranked by bug-prone method probability outperform the random order in the first 100 and 1000 alerts, but not on the whole dataset (\cref{results:ranking_methodbug_alerts}).
 
 On the cumulative graphs we can see that until the first 2000 alerts, the improved ranking significantly outperforms the random one (\cref{results:cumulative_bugprediction}).
 
-Even though the main purpose of this method is not to detect actionable alerts in general, but to give extra attention to alerts belonging to buggy methods, from the results we can conclude that ranking alerts based on the method being bug-prone provides an improvement against the random order.
+From the results we can conclude that ranking alerts based on the method being bug-prone provides an improvement against the random order.
 
 \begin{table}[H]
 	\caption{Results of different cleaning and balancing methods for the Method Bug Prediction approach}
@@ -228,6 +231,22 @@ Even though the main purpose of this method is not to detect actionable alerts i
 \end{figure}
 
 
+\begin{figure}[H]
+	\begin{subfigure}{\textwidth}
+		\centering
+		\includegraphics[scale=0.3]{./src/methodBug/methodbug_category_correlations.png}
+		\caption{Category correlations}\label{}
+	\end{subfigure}\\
+	\begin{subfigure}{\textwidth}
+	\centering
+	\includegraphics[scale=0.3]{./src/methodBug/methodbug_type_correlations.png}
+	\caption{Type correlations}\label{}
+	\end{subfigure}
+	\caption{Correlation of buggy methods with closed alerts}
+	\label{results:buggy_correlationss}
+\end{figure}
+
+
 \begin{table}[H]
 	\caption{Comparison against random ranking for the Method Bug Prediction approach}
 	\label{results:ranking_methodbug_alerts}
@@ -245,17 +264,17 @@ Even though the main purpose of this method is not to detect actionable alerts i
 	\begin{subfigure}{\textwidth}
 		\centering
 		\includegraphics[scale=0.3]{./src/methodBug/methodbug_cumulative_graph_top100.png}
-		\caption{Cumulative graph for the first 100 alerts}\label{}
+		\caption{Top 100 alerts}\label{}
 	\end{subfigure}\\
 	\begin{subfigure}{.5\textwidth}
 		\centering
 		\includegraphics[scale=0.3]{./src/methodBug/methodbug_cumulative_graph_top1000.png}
-		\caption{Cumulative graph for the first 1000 alerts}\label{}
+		\caption{Top 1000 alerts}\label{}
 	\end{subfigure}%
 	\begin{subfigure}{.5\textwidth}
 		\centering
 		\includegraphics[scale=0.3]{./src/methodBug/methodbug_cumulative_graph_all.png}
-		\caption{Cumulative graph for all alerts}\label{}
+		\caption{All alerts}\label{}
 	\end{subfigure}
 	\caption{Cumulative ranking graph for Method Bug Prediction}
 	\label{results:cumulative_bugprediction}
@@ -316,12 +335,12 @@ Alerts were ranked according to the probability produced by the Bayes Network. B
 	\begin{subfigure}{.5\textwidth}
 		\centering
 		\includegraphics[scale=0.3]{./src/fbRank/fbrank_cumulative_graph_top100.png}
-		\caption{Cumulative graph for the first 100 alerts}\label{}
+		\caption{Top 100 alerts}\label{}
 	\end{subfigure}%
 	\begin{subfigure}{.5\textwidth}
 		\centering
 		\includegraphics[scale=0.3]{./src/fbRank/fbrank_cumulative_graph_top1000.png}
-		\caption{Cumulative graph for the first 1000 alerts}\label{}
+		\caption{Top 1000 alerts}\label{}
 	\end{subfigure}
 	\caption{Cumulative ranking graph for Feedback Rank}
 	\label{results:cumulative_fbrank}
@@ -332,7 +351,7 @@ Alerts were ranked according to the probability produced by the Bayes Network. B
 
 By analyzing the bug-fix revision we are able to collect around 8700 bug-related alerts (alerts pointing to a bug-related line or method). The type and category distribution of these alerts can be seen on \cref{results:bralerts}
 
-Since this method only calculates weights for alert types, it does not predict if a particular alert is actionable or not. As a consequence, only the ranking is evaluated.
+Since this method only calculates weights for alert types, it does not predict if a particular alert is actionable or not. As a consequence, only the ranking is evaluated and not the other metrics.
 
 In contrast to previous methods, the train and test set was split equally (gave better results).
 
@@ -373,31 +392,120 @@ As can be seen from \cref{results:ranking_brls} and \cref{results:cumulative_brl
 	\begin{subfigure}{.5\textwidth}
 		\centering
 		\includegraphics[scale=0.3]{./src/brls/brls_cumulative_graph_top1000.png}
-		\caption{Cumulative graph for the first 1000 alerts}\label{}
+		\caption{Top 1000 alerts}\label{}
 	\end{subfigure}%
 	\begin{subfigure}{.5\textwidth}
 		\centering
 		\includegraphics[scale=0.3]{./src/brls/brls_cumulative_graph_all.png}
-		\caption{Cumulative graph for all alerts}\label{}
+		\caption{All alerts}\label{}
 	\end{subfigure}
 	\caption{Cumulative ranking graph for Bug-Related Lines}
 	\label{results:cumulative_brls}
 \end{figure}
 
 
-\subsection{Combined technique}
-\textbf{TO DOOOOOOO}
+\subsection{Combined approach}
+\label{results:ensemble_approach}
+One of the goals of this thesis was to explore the possibility of combing different methods that cover each others weaknesses in order to achieve a better ranking. The four evaluated approaches can be split in two categories: those that try to detect actionable alerts and rank them higher (\cref{method:fbrank}, \cref{method:actalerts}) and those that try to promote alerts that can potentially discover/prevent bugs (\cref{method:brls}, \cref{method:bugprediction}).
 
-\subsection{Answers to research questions}
+By analyzing the performance of the Actionable Alerts method (\cref{method:actalerts}), we see that there is not much room for improvement, since it is able to achieve great results for all four alert categories (see \cref{results:individual_categories}).
 
-\subsubsection{RQ\#1: Can we apply SA ranking techniques in an industrial environment with limited amount of data?}
+\begin{table}[H]
+	\centering
+	\caption{Classification metrics of Actionable Alerts method for individual categories}
+	\label{results:individual_categories}
+	\begin{tabular}{@{}ccccccc@{}}
+		\toprule
+		& \textbf{Precision} & \textbf{Recall} & \textbf{Specificity} & \textbf{F1-Score} & \textbf{Geometric} & \textbf{IBA} \\ \midrule
+		\textit{cppcoreguidelines} & 97\%               & 97\%            & 98\%                 & 97\%              & 98\%               & 95\%         \\
+		\textit{performance}       & 98\%               & 98\%            & 99\%                 & 98\%              & 99\%               & 97\%         \\
+		\textit{clang}             & 98\%               & 98\%            & 98\%                 & 98\%              & 98\%               & 96\%         \\
+		\textit{cert}              & 99\%               & 99\%            & 98\%                 & 99\%              & 99\%               & 97\%         \\ \bottomrule
+	\end{tabular}
+\end{table}
 
-Yes.
 
-\subsubsection{RQ\#2: Can we combine SA ranking techniques to achieve better results?}
+On the other side, if we look at the number of collected bug-related alerts (those that are located on bug-related methods on the first analyzed revision), we notice that it not even 5\% of the total amount of alerts. Also almost all of them disappear with time, and can thus be considered actionable. There is in this case an big overlap in the training set of both the Actionable Alerts and Bug-Related Lines method, and since the first performs quite well, a combination is redundant. 
 
-No.
+Also there is no clear correlation between a method being buggy and the actionable alerts that it contained (\cref{results:buggy_correlationss}). That is something that can be explained by bugs belonging to two categories: generic bug patterns (that can be discovered by static analysis) and domain specific bugs (difficult to detect by static analysis), as described by Habib et al. \cite{how_many_bugs}.
 
-\subsubsection{RQ\#3: Do pre-processing techniques provide a significant performance benefit?}
+Nevertheless, acting on SA alerts will improve code quality which may lead to a decreased manifestation of future bugs in the methods that are considered as bug-prone.
 
-Kinda.
+Given the aforementioned considerations, a logical combination is a weighted Actionable Alerts method. The probability of an alert being actionable can be weighted by the probability of the method where it is located being buggy. That can also be augmented with relative weights for the alert types of bug-related methods (calculated by diving the number of alerts for each type by the total number of bug-related alerts).
+
+The three inputs used in the combined approach are:
+\begin{itemize}
+	\item Probability of an alert being actionable.
+	\item Probability of the method, where the alert is located, being buggy.
+	\item Weights of alert types calculated as: $\frac{\#alerts \, of \, type_X}{\# \, of \, bugRelated \, alerts}$ for each alert type.
+\end{itemize}
+
+The problem of finding an optimal approach to such a combination can be defined as a \textit{multi-objective optimization problem}. We have the following ensemble ranking algorithm for alerts:
+\begin{gather*}
+Alert_{score} = w_{1} * Actionable + w_{2} * Buggy + w_{3} * AlertType
+\end{gather*}
+
+We want to find the optimal weights such as: we have the highest possible amount of actionable alerts at the top \textit{X} places, that also point to bug-prone methods.
+
+By merging the different dataset, we can construct an ensemble test set for evaluating our approach. On this set, we have around 370 actionable alerts that also point to buggy methods. Since our classifiers are not perfect (especially the bug prediction one), we cannot expect to have all of them on the top of the ranked list.
+
+We define the \textit{objectives} of the problem as:
+\begin{itemize}
+	\item Optimize the number of actionable alerts in the first 200 places.
+	\item Optimize the number of alerts that point to bug-prone methods in the first 200 places.
+\end{itemize}
+
+We can also define \textit{constraints}, such as: there are at least 180 actionable alerts in the top 200 places.
+
+To solve the problem we use the python \textit{Platypus} library \cite{platypus}.
+
+As we can see from the results in \cref{results:ensemble_ranking} and \cref{results:ensemble_act}, we have an improvement in the ensemble method, regarding the number of bug-prone alerts in the top 200 and 1000 places. That does come with a cost, as beyond those first 200 places, the performance starts to heavily degrade (\cref{results:ensemble_act}). That should not be a big problem, since in practice it is rare to inspect that many alerts in one time. Also, with some fine tuning of the optimization problem, better results can be achieved.
+
+
+\begin{table}[H]
+	\centering
+	\caption{Actionable and bug-prone alerts in ensemble ranking}
+	\label{results:ensemble_ranking}
+	\begin{tabular}{@{}ccccc@{}}
+		\toprule
+		& \textbf{\begin{tabular}[c]{@{}c@{}}Actionable\\ Ensemble\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}Actionable\\ Normal\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}Bug-prone\\ Ensemble\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}Bug-prone\\ Normal\end{tabular}} \\ \midrule
+		\textit{Top 200 alerts}  & 185                                                                    & 200                                                                  & 187                                                                   & 137                                                                 \\
+		\textit{Top 1000 alerts} & 265                                                                    & 1000                                                                 & 948                                                                   & 736                                                                 \\ \bottomrule
+	\end{tabular}
+\end{table}
+
+\begin{figure}[H]
+	\begin{subfigure}{.5\textwidth}
+		\centering
+		\includegraphics[scale=0.3]{./src/ensemble/ensemble_cumulative_graph_top1000.png}
+		\caption{Ensemble method}\label{}
+	\end{subfigure}%
+	\begin{subfigure}{.5\textwidth}
+		\centering
+		\includegraphics[scale=0.3]{./src/ensemble/actionable_cumulative_graph_top1000.png}
+		\caption{Actionable Alerts method}
+	\end{subfigure}
+	\caption{Cumulative ranking graph for first 1000 actionable alerts}
+	\label{results:ensemble_act}
+\end{figure}
+
+\begin{figure}[H]
+	\begin{subfigure}{.5\textwidth}
+		\centering
+		\includegraphics[scale=0.3]{./src/ensemble/ensemble_buggy_cumulative_graph_top1000.png}
+		\caption{Ensemble method}\label{}
+	\end{subfigure}%
+	\begin{subfigure}{.5\textwidth}
+		\centering
+		\includegraphics[scale=0.3]{./src/ensemble/actionable_buggy_cumulative_graph_top1000.png}
+		\caption{Actionable Alerts method}
+	\end{subfigure}
+	\caption{Cumulative ranking graph for first 1000 bug-prone alerts}
+	\label{results:ensemble_bugprone}
+\end{figure}
+
+%\begin{itemize}
+%	\item There are at least 180 actionable alerts in the top 200 places.
+%	\item There are at least 180 alerts that point to buggy methods in the top 200 places.
+%\end{itemize}
+

@@ -42,7 +42,7 @@ This section will consist of research papers focused on these main topics:
          \includegraphics[scale=0.7]{./src/z_ranking_result_linux_inter.png}
          \caption{Inter-procedural check on Linux (free calls)}
      \end{subfigure}
- 	 \caption{}
+ 	 \caption{Z-Ranking evaluation}
  \end{figure}
 
 
@@ -65,17 +65,17 @@ This section will consist of research papers focused on these main topics:
          \includegraphics[scale=0.4]{./src/feedback_rank_l_shape.png}
          \caption{"L" shape of clustering}\label{fr:lshape}
      \end{subfigure}\\
-     \begin{subfigure}{.5\textwidth}
+     \begin{subfigure}{\textwidth}
          \centering
          \includegraphics[scale=0.6]{./src/feedback_rank_partition.png}
          \caption{Populations divided into regions, mostly true or false positives}\label{fr:partition}
-     \end{subfigure}%
-     \begin{subfigure}{.7\textwidth}
-         \centering
-         \includegraphics[scale=0.4]{./src/feedback_rank_bayes.png}
-         \caption{Sample Bayesian network with 3 reports}\label{fr:bayes}
      \end{subfigure}
-     \caption{}
+%     \begin{subfigure}{.7\textwidth}
+%         \centering
+%         \includegraphics[scale=0.4]{./src/feedback_rank_bayes.png}
+%         \caption{Sample Bayesian network with 3 reports}\label{fr:bayes}
+%     \end{subfigure}
+     \caption{Feedback-Rank clustering of alerts}
  \end{figure}
 
 
@@ -103,23 +103,25 @@ This section will consist of research papers focused on these main topics:
  They measure precision by training the weights in the first half of the version history, and testing them on the other half. The HWP outperforms TWP for all three systems (\cref{which_warnings:results}).
 
  \begin{figure}[H]
-     \begin{subfigure}{0.6\textwidth}
+     \begin{subfigure}{0.5\textwidth}
+        \centering
          \begin{subfigure}{.5\textwidth}
              \centering
              \includegraphics[scale=0.45]{./src/which_warnings_weights.png}
              \caption{Precision results at line-level}\label{which_warnings:weights}
          \end{subfigure}\\
          \begin{subfigure}{.5\textwidth}
-         \centering
-         \includegraphics[scale=0.35]{./src/which_warnings_marking.png}
-         \caption{Line marking approach}\label{which_warnings:marking}
+	         \centering
+	         \includegraphics[scale=0.35]{./src/which_warnings_marking.png}
+	         \caption{Line marking approach}\label{which_warnings:marking}
          \end{subfigure}
      \end{subfigure}%
-     \begin{subfigure}{0.4\textwidth}
+     \begin{subfigure}{0.5\textwidth}
          \centering
-         \includegraphics[scale=0.5]{./src/which_warnings_results.png}
+         \includegraphics[scale=0.3]{./src/which_warnings_results.png}
          \caption{Line marking approach}\label{which_warnings:results}
      \end{subfigure}
+      \caption{HWP algorithm and results}
  \end{figure}
 
 
@@ -140,40 +142,42 @@ This section will consist of research papers focused on these main topics:
          \includegraphics[scale=0.3]{./src/actionable_warnings_results.png}
          \caption{Results for predicting true positives and actionable warnings}\label{act:results}
      \end{subfigure}
+ 	 \caption{Actionable Alerts with Logistic Regression}
  \end{figure}
 
 
- Hanam et al. \cite{alert_patterns} present a method for differentiating actionable and unactionable alerts by finding alerts with similar code patterns (alerts with similar patterns are probably of the same type). They use a feature vector based on code characteristics at the site of each SA alert along with a classifier to build a model for predicting AA. They introduce the notion of \textit{alert patterns}, source code patterns employed by developers that are unactionable but are repeatedly flagged by SA tools (or similarly always actionable).
-
- To extract features from the site of the warning (and near it), lightweight program slicing is used. Backwards slicing is used to detect which statements could have affected the outcome of the seed statement (place of the alert). To speed up the slicing process, all external classes are excluded from the analysis and the depth is limited to the 5 nearest statements prior to the seed.
-
- By using the source code history of three projects to train and test their approach, they achieve considerably better results than the default ranking of a SA tool (57 vs 19 AA in the top 20\% of the alert list), and a slight improvement (6\%) than the existing techniques.
-
- \begin{figure}[H]
-     \begin{subfigure}{.5\textwidth}
-         \centering
-         \includegraphics[scale=0.3]{./src/alert_patterns_slicing.png}
-         \caption{Method for generating slices}\label{alert_patterns:slicing}
-     \end{subfigure}%
-     \begin{subfigure}{.5\textwidth}
-         \centering
-         \includegraphics[scale=0.3]{./src/alert_patterns_workflow.png}
-         \caption{Workflow for classifying alerts}\label{alert_patterns:workflow}
-     \end{subfigure}
- \end{figure}
-
-
- Venkatasubramanyam and Gupta \cite{incremental_sa} propose an incremental and lightweight approach to detect coding violations by using a learning system. They track warnings through the version history to detect patterns and determine which SA rules are important (and must be enabled). Their approach focuses on differential code analysis (filter/identify violations happening only on new parts of code), and on learning from the experts.
-
- Their methodology (\cref{incremental_sa:workflow}) consists of database that continuously stores information about SA rules. The initial version is build by mining (at least) the last three version of the software under analysis. To train the classifier (learning system) different features are used: patterns of code where SA violations are reported, impact of the violations on code quality, confidence level of the rules (probability that a rule gives a false positive), most commonly committed errors (reflecting the developers pattern of coding) and the most recently committed errors.
-
- New code changes made by developers are checked against the database. By using a patterns matching algorithm that compares new code with the patterns saved in the database, possible bugs can be detected. This approach potentially permits to run the SA tools less frequently, since code violations can be suggested by comparing against past saved patterns. They also suggest using \textit{first order logic} for capturing the context around rule violations and thus learning what factors produce a false/true positive.
-
- \begin{figure}[H]
-     \centering
-     \includegraphics[scale=0.3]{./src/incremental_sa_workflow.png}
-     \caption{Workflow for incremental violation detection}\label{incremental_sa:workflow}
- \end{figure}
+% Hanam et al. \cite{alert_patterns} present a method for differentiating actionable and unactionable alerts by finding alerts with similar code patterns (alerts with similar patterns are probably of the same type). They use a feature vector based on code characteristics at the site of each SA alert along with a classifier to build a model for predicting AA. They introduce the notion of \textit{alert patterns}, source code patterns employed by developers that are unactionable but are repeatedly flagged by SA tools (or similarly always actionable).
+%
+% To extract features from the site of the warning (and near it), lightweight program slicing is used. Backwards slicing is used to detect which statements could have affected the outcome of the seed statement (place of the alert). To speed up the slicing process, all external classes are excluded from the analysis and the depth is limited to the 5 nearest statements prior to the seed.
+%
+% By using the source code history of three projects to train and test their approach, they achieve considerably better results than the default ranking of a SA tool (57 vs 19 AA in the top 20\% of the alert list), and a slight improvement (6\%) than the existing techniques.
+%
+% \begin{figure}[H]
+%     \begin{subfigure}{.5\textwidth}
+%         \centering
+%         \includegraphics[scale=0.3]{./src/alert_patterns_slicing.png}
+%         \caption{Method for generating slices}\label{alert_patterns:slicing}
+%     \end{subfigure}%
+%     \begin{subfigure}{.5\textwidth}
+%         \centering
+%         \includegraphics[scale=0.3]{./src/alert_patterns_workflow.png}
+%         \caption{Workflow for classifying alerts}\label{alert_patterns:workflow}
+%     \end{subfigure}
+% 	 \caption{}
+% \end{figure}
+%
+%
+% Venkatasubramanyam and Gupta \cite{incremental_sa} propose an incremental and lightweight approach to detect coding violations by using a learning system. They track warnings through the version history to detect patterns and determine which SA rules are important (and must be enabled). Their approach focuses on differential code analysis (filter/identify violations happening only on new parts of code), and on learning from the experts.
+%
+% Their methodology (\cref{incremental_sa:workflow}) consists of database that continuously stores information about SA rules. The initial version is build by mining (at least) the last three version of the software under analysis. To train the classifier (learning system) different features are used: patterns of code where SA violations are reported, impact of the violations on code quality, confidence level of the rules (probability that a rule gives a false positive), most commonly committed errors (reflecting the developers pattern of coding) and the most recently committed errors.
+%
+% New code changes made by developers are checked against the database. By using a patterns matching algorithm that compares new code with the patterns saved in the database, possible bugs can be detected. This approach potentially permits to run the SA tools less frequently, since code violations can be suggested by comparing against past saved patterns. They also suggest using \textit{first order logic} for capturing the context around rule violations and thus learning what factors produce a false/true positive.
+%
+% \begin{figure}[H]
+%     \centering
+%     \includegraphics[scale=0.3]{./src/incremental_sa_workflow.png}
+%     \caption{Workflow for incremental violation detection}\label{incremental_sa:workflow}
+% \end{figure}
 
 
  Heckman and Williams \cite{model_building_actionable} present a generic approach for building actionable alert machine learning models and provide a comparative study of different algorithms tested of two Java systems. Their initial feature set consists of 51 alert characteristics originating from alert type and history, software metric, software history and source code churn.
@@ -216,6 +220,7 @@ This section will consist of research papers focused on these main topics:
          \label{automatic_training_set:inter_intra}
          \end{subfigure}
      \end{subfigure}
+ 	 \caption{Automatic construction of an effective training set}
  \end{figure}
 
 
@@ -237,6 +242,7 @@ This section will consist of research papers focused on these main topics:
          \includegraphics[scale=0.3]{./src/multiple_classifiers_resulst.png}
          \caption{Results of all-rules classifiers}\label{multiple_classifiers:results}
      \end{subfigure}
+ 	 \caption{Prioritizing alerts from multiple SA}
  \end{figure}
 
 
@@ -257,6 +263,7 @@ This section will consist of research papers focused on these main topics:
          \includegraphics[scale=0.3]{./src/multiple_classifiers_ensemble_results.png}
          \caption{Results of the classifier}\label{multiple_classifiers_ensemble:results}
      \end{subfigure}
+     \caption{Ranking warnings from mulitple SA via ensemble learning}
  \end{figure}
 
 
@@ -286,16 +293,17 @@ This section will consist of research papers focused on these main topics:
  In \textit{designing LSATs}, light-weight, scalable and shallow analysis tools are built to avoid generation of a large number of alarms. However there are no guarantees that all defects of a type will be uncovered.
 
  \begin{figure}[H]
-     \begin{subfigure}{1\textwidth}
+     \begin{subfigure}{0.45\textwidth}
          \centering
-         \includegraphics[scale=0.4]{./src/survey_sa_papers.png}
+         \includegraphics[scale=0.35]{./src/survey_sa_papers.png}
          \caption{Number of relevant papers per year and category}\label{survey:papers}
-     \end{subfigure}\\
-     \begin{subfigure}{1\textwidth}
+     \end{subfigure}%
+     \begin{subfigure}{0.55\textwidth}
          \centering
-         \includegraphics[scale=0.4]{./src/survey_sa_categories.png}
+         \includegraphics[scale=0.3]{./src/survey_sa_categories.png}
          \caption{Summary of the approaches}\label{survey:categories}
      \end{subfigure}
+ 	 \caption{Survey of approaches for handling SA alerts}
  \end{figure}
 
 
@@ -319,7 +327,7 @@ They found out that Aware and FeedbackRank perform significantly better than the
 
  By analyzing a set of five large scale projects, they discovered the following results: (a) for each project a set of metrics can be found that correlates with post-release defects, (b) there is no single et of metrics that fits all projects, (c) predictors build using \textit{PCA} are useful for building regression models that predict post-release defects, (d) predictors are only accurate when obtain from the same or similar projects.
 
- This approach can be generalized to predict arbitrary measures of quality, as long as we can extract the right information from the project's history. The general workflow is the following: decompose system in entities, build a function that assigns a quality measure to an entity, have a set of metrics and a metric functions that assigns a value to each entity, determine correlation of metrics to the quality measure and use PCA to select the most relevant set, use the principal components to predict quality of new entities.
+ This approach can be generalized to predict arbitrary measures of quality, as long as we can extract the right information from the project's history. The general workflow is the following: decompose system in entities, build a function that assigns a quality measure to an entity, have a set of metrics and a metric functions that assigns a value to each entity, determine correlation of metrics to the quality measure and use PCA to select the most relevant set, use the principal components to predict quality of new entities.\\
 
  % \begin{figure}[H]
  %     \centering
@@ -327,18 +335,19 @@ They found out that Aware and FeedbackRank perform significantly better than the
  %     \caption{Some of the features considered for building the models}\label{mining:overview}
  % \end{figure}
 
- \begin{figure}[H]
-     \begin{subfigure}{.5\textwidth}
-         \centering
-         \includegraphics[scale=0.3]{./src/mining_metrics_overview.png}
-         \caption{Workflow for predicting defects on new entities}\label{mining:overview}
-     \end{subfigure}%
-     \begin{subfigure}{.5\textwidth}
-         \centering
-         \includegraphics[scale=0.2]{./src/mining_metrics_metrics.png}
-         \caption{The set of complexity metrics considered}\label{mining:metrics}
-     \end{subfigure}
- \end{figure}
+% \begin{figure}[H]
+%     \begin{subfigure}{.5\textwidth}
+%         \centering
+%         \includegraphics[scale=0.3]{./src/mining_metrics_overview.png}
+%         \caption{Workflow for predicting defects on new entities}\label{mining:overview}
+%     \end{subfigure}%
+%     \begin{subfigure}{.5\textwidth}
+%         \centering
+%         \includegraphics[scale=0.2]{./src/mining_metrics_metrics.png}
+%         \caption{The set of complexity metrics considered}\label{mining:metrics}
+%     \end{subfigure}
+% 	 \caption{Mining metrics to predict component failures}
+% \end{figure}
 
 
  Giger et al. \cite{prediction_method} present bug prediction models at method level. In comparison to previous file or module level techniques, this increases the granularity of the prediction and thus reduces manual inspection (developers don't have to inspect a whole file). 
@@ -348,21 +357,22 @@ They found out that Aware and FeedbackRank perform significantly better than the
  By using an extensive test set of multiple open source Java projects and by labeling each method as bug-prone or not bug-prone (using historical VCS data) they were able to measure the efficacy of different classifiers. The classifiers were trained with both source and change metrics and each separately. The source metrics alone performed significantly worse than the other two and suffer from low precision values (around \%50). The change metrics (combined or not with the source ones) perform significantly better (> 80 \% precision) and the type of classifier does not significantly affect the results (\cref{method_prediction:results}).
 
  \begin{figure}[H]
-     \begin{subfigure}{.5\textwidth}
+    \begin{subfigure}{\textwidth}
+ 		\centering
+ 		\includegraphics[scale=0.4]{./src/method_prediction_ast.png}
+ 		\caption{Fine grained code changes extracted from AST comparisons}\label{method_prediction:ast}
+ 	\end{subfigure} 
+     \begin{subfigure}{\textwidth}
          \centering
          \includegraphics[scale=0.3]{./src/method_prediction_metrics.png}
          \caption{Method level metrics used for prediction}\label{method_prediction:metrics}
-     \end{subfigure}%
-     \begin{subfigure}{.5\textwidth}
+     \end{subfigure}\\
+     \begin{subfigure}{\textwidth}
          \centering
          \includegraphics[scale=0.4]{./src/method_prediction_results.png}
          \caption{Precision, recall and AUC results for the metric sets}\label{method_prediction:results}
      \end{subfigure}\\
-     \begin{subfigure}{\textwidth}
-         \centering
-         \includegraphics[scale=0.4]{./src/method_prediction_ast.png}
-         \caption{Fine grained code changes extracted from AST comparisons}\label{method_prediction:ast}
-     \end{subfigure}  
+ 	 \caption{Method level bug prediction}
  \end{figure}
 
 
@@ -372,7 +382,7 @@ They found out that Aware and FeedbackRank perform significantly better than the
 
  To handle noise in data, the edit distance between the token sequences along with the \textit{Closest List Noise Identification} approach is used (compare instance label against its k-nearest neighbors). Additionally, infrequent tokens are filtered out of the training process.
 
- The DBN is tested against models trained with traditional features and models trained with the AST nodes. As can be seen from \cref{deeplearning:results}, the DL approach outperforms the traditional methods, with an average improvement in precision and recall of 14\% and 11\% respectively.
+ The DBN is tested against models trained with traditional features and models trained with the AST nodes. The DL approach outperforms the traditional methods, with an average improvement in precision and recall of 14\% and 11\% respectively.
 
  \begin{figure}[H]
      \begin{subfigure}{1\textwidth}
@@ -384,12 +394,12 @@ They found out that Aware and FeedbackRank perform significantly better than the
          \centering
              \makebox[\textwidth]{\includegraphics[scale=0.5]{./src/deeplearning_workflow.png}}%
          \caption{Workflow for the semantic learning process}\label{deeplearning:workflow}
-     \end{subfigure}\\
-     \begin{subfigure}{1\textwidth}
-         \centering
-         \includegraphics[scale=0.4]{./src/deeplearning_results.png}
-         \caption{Precision, recall and F1 score for semantic vs syntactic features}\label{deeplearning:results}
      \end{subfigure}
+%     \begin{subfigure}{1\textwidth}
+%         \centering
+%         \includegraphics[scale=0.4]{./src/deeplearning_results.png}
+%         \caption{Precision, recall and F1 score for semantic vs syntactic features}\label{deeplearning:results}
+%     \end{subfigure}
  \end{figure}
 
 
@@ -397,13 +407,13 @@ They found out that Aware and FeedbackRank perform significantly better than the
 
  The feature selection phase is to decide the best set of features to use to train the model. The data is pre-processed to in two steps: data is first normalized and then random under-sampling is used to balance the categories of buggy or not buggy changes. Since in logistic regression each feature is calculated independently, new features cannot be created by combining existing ones. For that reason, they leverage \textit{Deep Belief Networks} to generate a more expressive feature set. 
 
- The logistic regression model is trained with the new feature set and evaluated with a cost effectiveness measure defined as the percentage of bugs that can be discovered by inspecting the top (most relevant) 20\% lines of code. On average 50\% of bugs can be found in the top 20\% LOC, and the feature processing step helps logistic regression achieve better results than previous approaches (\cref{dl_jit:results}).
+ The logistic regression model is trained with the new feature set and evaluated with a cost effectiveness measure defined as the percentage of bugs that can be discovered by inspecting the top (most relevant) 20\% lines of code. On average 50\% of bugs can be found in the top 20\% LOC, and the feature processing step helps logistic regression achieve better results than previous approaches.
 
- \begin{figure}[H]
-     \centering
-     \includegraphics[scale=0.5]{./src/dl_jit_results.png}
-     \caption{Improvements over classic logistic regression approach}\label{dl_jit:results}
- \end{figure}
+% \begin{figure}[H]
+%     \centering
+%     \includegraphics[scale=0.5]{./src/dl_jit_results.png}
+%     \caption{Improvements over classic logistic regression approach}\label{dl_jit:results}
+% \end{figure}
 
 
 
@@ -422,16 +432,17 @@ They found out that Aware and FeedbackRank perform significantly better than the
  Most configurations change or reconfigure rules from the default configuration, but typically only one rule. Most changes are small, and a third of them happen in the first week of creation of the configuration. Also, most configuration files never change (\cref{sa_analysis_survey:changes}).
 
  \begin{figure}[H]
-     \begin{subfigure}{1\textwidth}
+     \begin{subfigure}{0.5\textwidth}
          \centering
          \includegraphics[scale=0.4]{./src/sa_analysis_survey_usage.png}
          \caption{Survey results of 36 open-source systems using SA tools}\label{sa_analysis_survey:usage}
-     \end{subfigure}\\
-     \begin{subfigure}{1\textwidth}
+     \end{subfigure}%
+     \begin{subfigure}{0.5\textwidth}
          \centering
-         \includegraphics[scale=0.4]{./src/sa_analysis_survey_changes.png}
+         \includegraphics[scale=0.3]{./src/sa_analysis_survey_changes.png}
          \caption{Changes in configuration of SA tools}\label{sa_analysis_survey:changes}
      \end{subfigure}
+ 	 \caption{Analyzing the state of static analysis}
  \end{figure}
 
 
@@ -454,6 +465,7 @@ They found out that Aware and FeedbackRank perform significantly better than the
          \includegraphics[scale=0.4]{./src/how_use_sa_topalerts.png}
          \caption{Top 10 alert occurrences for C/C++}\label{how_use_sa:top}
      \end{subfigure}
+  	 \caption{How do developers act on SA alerts?}
  \end{figure}
 
 
@@ -474,6 +486,7 @@ They found out that Aware and FeedbackRank perform significantly better than the
          \includegraphics[scale=0.4]{./src/how_many_bugs_fixsize.png}
          \caption{Bugs/file and lines/bugfix}\label{how_many_bugs:fixsize}
      \end{subfigure}
+  	 \caption{How many of all bugs do we find?}
  \end{figure}
 
 
