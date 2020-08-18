@@ -77,6 +77,7 @@ Another algorithm uses alerts pointing at past bugs as a way to prioritize futur
 The nature of automatic data extraction, without a reliable oracle pointing at the right decisions, leads to impure data and penalizes the efficiency of ML algorithms, but unfortunately it is an indispensable trade-off to be made.
 
 \subsection{Data overview}
+\label{data_collection:overview}
 
 A typical release in the \textit{OMP's} codebase consists of around \textit{27.000} \textit{.cpp} files containing over \textit{4.000.000} lines and coded by more than 300 developers (in its entire history). The following section will provide a numerical overview of a portion of revisions analyzed from one of its releases 
 
@@ -376,7 +377,7 @@ Batista et al. \cite{balancing_comparison}, perform a comparative evaluation of 
 
 Given the nature of our approach to detecting actionable alerts, it seems plausible that the amount of false positives will be non negligible, and thus there is a high risk that there will be a significant performance impact. Since, the number of examples of the positive class is also smaller than the negative one, there seems to be a necessity to apply a combination of balancing and cleaning to the dataset.
 
-The \textit{imblearn} library (\cite{imblearn}) contains different techniques to clean the dataset by performing under-sampling:
+The \textit{imblearn} library (\cite{imblearn}) contains different techniques to clean the dataset by performing under-sampling (see also \cref{under_sampling_ex}):
 
 \begin{itemize}
 	\item \textbf{Tomek's Links} between two samples is defined as: $d(x,y) < d(x,z) \, and \, d(x,y) < d(y,z)$\\for all other samples \textit{z}. According to the strategy one or both samples forming a Tomek link are removed.
@@ -412,5 +413,17 @@ The following table counts the number of samples cleaned by each method (default
 
 From seven tested methods only one removes a significant amount of samples (56\% less samples respectively). From further inspection it turned out that the method removed almost all samples of the majority class, which is not something that we want. The other methods have barely an effect on the dataset. That could mean that the dataset does not contain a lot of noise.
 
+\begin{figure}[H]
+	\begin{subfigure}{0.5\textwidth}
+		\centering
+		\includegraphics[scale=0.2]{./src/under_sampling_ex.png}
+	\end{subfigure}%
+	\begin{subfigure}{0.5\textwidth}
+		\centering
+		\includegraphics[scale=0.2]{./src/under_sampling_ex2.png}
+	\end{subfigure}
+	\caption{Under sampling effects on a dummy dataset (example from \cite{imblearn})}
+	\label{under_sampling_ex}
+\end{figure}
 
-\textbf{TO DO: maybe insert before and after graph for data cleaning/balancing? Not enough removed samples!} 
+%\textbf{TO DO: maybe insert before and after graph for data cleaning/balancing? Not enough removed samples!} 

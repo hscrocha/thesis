@@ -41,7 +41,7 @@ The performance of the Actionable Alerts method (\cref{results:actionable_alerts
 
 \subsubsection{RQ\#3: Do pre-processing techniques provide a significant performance benefit?}
 
-By inspecting the metrics achieved by different balancing/cleaning techniques (\cref{result:actalerts} and \cref{result:bugPrediction}) we can see that they do make a difference. Although, in the Actionable Alerts method, the improvement is small, in the Method Bug Prediction approach, the improvement is more noticeable.
+By inspecting the metrics achieved by different balancing/cleaning techniques (\cref{result:actalerts} and \cref{result:bugPrediction}) we can see that they do make a small difference. Although, in the Actionable Alerts method, the improvement is negligible, in the Method Bug Prediction approach, the improvement is more noticeable.
 
 \subsection{Conclusions}
 %\textbf{TO DO}\\
@@ -50,6 +50,12 @@ By inspecting the metrics achieved by different balancing/cleaning techniques (\
 %-initial results may be slightly better that normal, but the nature of data collection is limiting, need to be used in continuance\\ 
 \henrique{For a conclusion, you start by doing quick summarization of what you did (here you can describe everything you did that you think is important. Be sure to cite numbers as results as you describe them.}
 
+We started by collecting two different datasets, one related to SA alerts and their change with time, the other about buggy methods and the changes within them (\cref{data_collection:overview}). By using those datasets we evaluated four different techniques, two which are directly concerned with finding actionable alerts (\cref{method:fbrank}, \cref{method:actalerts}), which the other two mainly focus on the bug prediction aspect (\cref{method:brls}, \cref{method:bugprediction}).
+On top of that, an ensemble approach that combines both types of methods was evaluated.
+
+Excluding the Feedback Rank method, which did not scale to the size of our test project (could be because of implementation problems), the other methods all provide a noticeable improvement over random ranking of alerts (\cref{evaluation:results}). The Actionable Alerts approach, provides great results in detecting actionable alerts (\cref{result:actalerts}), the Method Bug Prediction, even though does not reach a high performance in its core task (predicting buggy methods), is nevertheless able to rank favorably actionable alerts on buggy methods (\cref{results:ranking_methodbug_alerts}), and the Bug-related Lines approach, despite its simplicity, still performs well (\cref{results:ranking_brls}). 
+
+By combining the best performing method for detecting actionable alerts, with the one predicting buggy methods, and simple alert weights (calculated from the bug-related alerts), we built an ensemble approach that does not only rank actionable alerts higher, but also promotes alerts that point to buggy methods higher in the ranking (\cref{results:ensemble_ranking}).
 
 
 \subsection{Summary of Contributions}
@@ -61,7 +67,7 @@ This thesis provides the following contributions:
 %\kleidi{The thesis is made in the context of an internship, where in my opinion the focus is higher on implementation than a normal research. Since a considerable amount of time was put into extraction of the data (more difficult in a restricted company environment than a typical research), it is also meant as a justification that an adequate amount of time was spent in the making of this thesis. I do agree that in the research point of view it is not something considered valuable. I do not mind if it is removed, but don't want to give the wrong impression that the thesis might be something hacked together in little time.}
 %\henrique{One contribution will not be the sole cause that gives the impression of 'thesis hacked together in little time'. It is overacting to say so. I understand that you may be stressed out due to the deadline, but try to keep a cool head. Moreover, it does not matter if you chose to focus on implementation or research, a contribution in the thesis will be the same nonetheless. On that note, not everything you worked on is a contribution. I do not deny that you put a lot of work on extracting data. Now saying that is a contribution is a completely different thing. Workflows (most often) are not contributions. The process or method on a workflow could be a contribution, but I do not think yours is. The extracted data could be a contribution if it was a public dataset useful for other researchers to conduct comparative experiments, and it is not the case for your data either. Therefore, I do not see anything here that can be classified as a contribution. In the end, this is YOUR thesis, if you want to leave this as a contribution go ahead. You are more than free to follow my suggestions or not.}
 
-\item The evaluation of SA ranking techniques on an industrial codebase. 
+\item The evaluation of different SA ranking techniques on an industrial codebase, namely: Actionable Alerts (ranking alerts depending on their historical usefulness), Method Bug Prediction (ranking alerts based on how bug-prone is the method where they are located), Bug-Related Lines (ranking alerts based on type weights calculated on bug-related and actionable alerts) and an Ensemble method (ranking alerts based on a combination of the three aforementioned methods).
 \henrique{I think you are missing a little more detail to make this into a proper contribution.}
 \kleidi{For example? I have results for each tool.}
 \henrique{For example, which ranking technique were used?}
