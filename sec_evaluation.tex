@@ -24,7 +24,7 @@ To evaluate and compare the approaches different techniques are used:
 
 	
 	\item \textbf{Z-Ranking Score - S(R) \cite{z-ranking}:} 
-Let \textit{N} be the total number of alerts and \textit{act} the number of actionable ones. Let \textit{R(i)} denote the cumulative number of actionable alerts found by a ranking scheme \textit{R} on the \textit{i}th inspection. We show how to measure the Z-Ranking Score in Formula~\ref{eq:score}.
+Let \textit{N} be the total number of alerts and \textit{act} the number of actionable ones. Let \textit{R(i)} denote the cumulative number of actionable alerts found by a ranking scheme \textit{R} on the \textit{i}th inspection. We show how to measure the Z-Ranking Score in Formula~\ref{eq:score}. \henrique{In the paper~\cite{z-ranking}, the author mentioned that the lower the S(R) the better. I did not have time to read deeper and understand if that was particurlar for his study or a general characteristic of this metric. Do you know abou this? If indeed lower is better, then it should be mentioned. }
 
 	\begin{equation} \label{eq:score}
 	S(R) = \sum_{i=1}^{N} [\mathit{min}(i,\mathit{act}) - R(i)]
