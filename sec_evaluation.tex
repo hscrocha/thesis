@@ -502,11 +502,11 @@ We can also define \textit{constraints}, such as: there are at least 180 actiona
 To solve the problem we use the python \textit{Platypus} library \cite{platypus}, which implements different multi-objective evolutionary algorithms (MOEAs). 
 \henrique{And what technique is this library using? Bayesian network?}
 \kleidi{The problem type as previously said, is a multi-objective optimization problem, nothing to do with bayesian networks. It uses genetic algorithms to find the optimal solution, based on the target scores.}
-\henrique{Exactly, if you cannot be sure then it is best to avoid such strong statements/claims. You could also use 'it is worth exploring in future research if ...' but the 'may be achieved' is ok.}
 
 As we can see from the results in \cref{results:ensemble_ranking} and \cref{results:ensemble_act}, we have an improvement in the ensemble method, regarding the number of bug-prone alerts in the top 200 and 1000 places. That does come with a cost, as beyond those first 200 places, the performance starts to heavily degrade (\cref{results:ensemble_act}). That should not be a big problem, since in practice it is rare to inspect that many alerts in one time. Also, with some fine tuning of the optimization problem, better results may be achieved. 
 \henrique{How can you be sure that fine tunning can achieve better results? Do you have evidence to back that up? How much better?}
 \kleidi{I cannot be sure, but other score functions can be used, other constraints... so it should be at least explored if someone else is interested in implementing something similar. It is not the scope of this thesis to find the best possible ensemble configuration, but to show that it is possible to combine them and get 'better' results. Changed 'can be achieved' to 'may be achieved'.}
+\henrique{Exactly, if you cannot be sure then it is best to avoid such strong statements/claims. You could also use 'it is worth exploring in future research if ...' but the 'may be achieved' is ok.}
 
 
 \begin{table}[H]
