@@ -112,7 +112,7 @@ In order to evaluate the ranking, two metrics are used to compare the ranked ale
 
 \henrique{How many times exactly did you run the experiments? (yes this is important). Moreover, how did you select the metric when you run multiple times? Or did you compute the average, or median?}
 \kleidi{When compared with random ranking, the evaluation is run 1000 times (when the set is small) or 10 (when using the whole set, can increase it), as can also be seen on the result tables. Note, that only the random score is evaluated multiple times, as the test score is static (because the test set is static 80/20 sequential split). Each time the random score is compared with the test set score (lower is better), and counted how many times the test set score is better.}
-
+\henrique{Was that mentioned somewhere in the thesis? If so you can place a reference after 'run multiple experiments' with the section. If not it is important to explicitly describe what you just explained.}
 
 \subsubsection{Actionable Alerts}
 \label{results:actionable_alerts}
@@ -120,10 +120,12 @@ In order to evaluate the ranking, two metrics are used to compare the ranked ale
 Alerts are ranked based on the probabiliy score produced by the classifier for the prediction target (actionable or not). 
 \henrique{I am a little confused here. The section is about actionable alerts but in the first sentence you state the alerts are ranked for the predcition actionable or not. Then how are you measuring actionable alerts?}
 \kleidi{The classifier is trained to recognize if an alert is actionable or not. Internally it has a probability score for each class (ac or not ac), and that probability is used for ranking the alerts. The classical scores like precision/recall, are calculated on the class prediction of the classifier, the ranking scores are calculated on the ranked order based on the probability.}
+\henrique{Ok, now I understood. Do you think you can change the sentence to make it more clear and explicit? For example instead of using the expression 'actionable or not' using 'wether it is actionable'. If I got confused, a committee member might as well.}
 
 As can be seen on \cref{result:actalerts}, the choice of the balancing technique or cleaning method has little impact on the metrics (they are quite good for each case). The best performing one is \textit{ADASYN} (\cref{results:actalerts_best}.) 
 \henrique{Are you sure about these results? If the random sample has a f-score of 95\%, I do not see much gain with other techniques with 96\%. Moreover, a two percent different among techniques may be statiscally insignificant.}
 \kleidi{The idea/goal of comparing cleaning/balancing techniques, which are anyway important to consider, was a product of the results of my previous test set, which was smaller and had also more errors inside. In that previous test set, the difference was much more noticeable, 10+ percent improvement. In this case the difference is smaller, and indeed maybe not statistically significant.} 
+\henrique{Remember your explaination well, you may face a question about these results during the defense.}
 
 The order produced by the \textit{LightGBM} classifier always outperforms the random order and it also contains around 50\% more actionable alerts in the top 100 or 1000 places (\cref{results:ranking_actalerts}).
 
@@ -377,15 +379,18 @@ Since this method only calculates weights for alert types, it does not predict i
 In contrast to previous methods, the train and test set was split equally (gave better results). 
 \henrique{By using Cross Validation or Released/Revision? Moreover, why this split gives better results?}
 \kleidi{Always revision split, the reason explained in the description of evaluation methods. I do not know the exact reason.}
+\henrique{Explicitly mention that you are using Released/Revision, since you can do it in a few words. There could be underlying reasons on why this split gives better results. Be prepared for a question about this on your defense.}
 
 The algorithm ranks alerts types based on two input weight parameters ($\alpha,\beta$). Based on experimental evaluation the following respective values were chosen: $\alpha=0.7, 
 \beta=0.3$. 
 \henrique{How did you conduct this experimental evaluation to discover these values? Trying values at random is not 'experimental evaluation'. Experimental evaluation implies a method or at least some structure.}
 \kleidi{a for loop, with \textit{a} ranging from 0.1 to 0.9 and \textit{b=1-a}}
+\henrique{Ok, then please add this explaination to the text.}
 
 The particular value of these variables did not make much difference on the experiment results, rather than if of them is bigger than the other.
 \henrique{If the values did not make much difference, then why the experimental evaluation to find which ones to use? Are the difference statistically insignificant?}
 \kleidi{Because I did not know that beforehand, I found out when experimenting. Also because the precise weight of the alert type does not matter, only their order based on the weights}.
+\henrique{Maybe there is a better way to write the last sentence to avoid this impression. Instead of writing 'the values did not make much difference', try something on the lines of 'slight variations on the results' and also include your explanation on the order based on the weights being more significant/important.}
 
 As can be seen from \cref{results:ranking_brls} and \cref{results:cumulative_brls} the algorithms performs well both on the top 100 and 1,000 alerts.
 
@@ -457,10 +462,12 @@ By analyzing the performance of the Actionable Alerts method (\cref{method:actal
 On the other side, if we look at the number of collected bug-related alerts (those that are located on bug-related methods on the first analyzed revision), we notice that it not even 5\% of the total amount of alerts (8.7k vs 189k). 
 \henrique{Here you should also provide the numbers so that the reviewer can verify it is 5\%.}
 \kleidi{they were on the previous sections, added to the statement anyway.}
+\henrique{It is good to add values like this to make it easier and quicker to review. Even if you mentioned before.}
 
 Also almost all of them disappear with time, and can thus be considered actionable. There is in this case a big overlap in the training set of both the Actionable Alerts and Bug-Related Lines method, and since the first performs quite well, a combination is redundant. \henrique{Do you understand you just "shot yourself in the foot" here. If they are redundant, why did you do it? How can you justify your research? Maybe you should rewrite and tone down the statement.}
 \kleidi{\textbf{Obviously I did not know that beforehand} when implementing the method. When analyzing the collected bug related alerts, it turned out that they belonged in 99\% of the cases to the set of closed alerts. 
 Also, the value of this method, its that it is quite simple, just calculating alert weights. It is nice to see if such a simple method can provide decent results.}
+\henrique{Nothing is obvious unless you explicit write it. If you write an explanation like you just gave fitting in the context of the above paragraph, it would show that you understand what is happening and the value of the results even though they are redundant.}
 
 Also there is no clear correlation between a method being buggy and the actionable alerts that it contained (\cref{results:buggy_correlationss}). That is something that can be explained by bugs belonging to two categories: generic bug patterns (that can be discovered by static analysis) and domain specific bugs (difficult to detect by static analysis), as described by Habib et al. \cite{how_many_bugs}.
 
@@ -495,6 +502,7 @@ We can also define \textit{constraints}, such as: there are at least 180 actiona
 To solve the problem we use the python \textit{Platypus} library \cite{platypus}, which implements different multi-objective evolutionary algorithms (MOEAs). 
 \henrique{And what technique is this library using? Bayesian network?}
 \kleidi{The problem type as previously said, is a multi-objective optimization problem, nothing to do with bayesian networks. It uses genetic algorithms to find the optimal solution, based on the target scores.}
+\henrique{Exactly, if you cannot be sure then it is best to avoid such strong statements/claims. You could also use 'it is worth exploring in future research if ...' but the 'may be achieved' is ok.}
 
 As we can see from the results in \cref{results:ensemble_ranking} and \cref{results:ensemble_act}, we have an improvement in the ensemble method, regarding the number of bug-prone alerts in the top 200 and 1000 places. That does come with a cost, as beyond those first 200 places, the performance starts to heavily degrade (\cref{results:ensemble_act}). That should not be a big problem, since in practice it is rare to inspect that many alerts in one time. Also, with some fine tuning of the optimization problem, better results may be achieved. 
 \henrique{How can you be sure that fine tunning can achieve better results? Do you have evidence to back that up? How much better?}
