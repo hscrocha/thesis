@@ -2,7 +2,7 @@
 
 \section{Collecting and analyzing data}\label{sec:data}
 
-Given the company context, a single tool approach was chosen as to not introduce extra dependencies/complexity (in contrast to combining different SA tools).\\
+Given the company context, a single tool approach was chosen as to not introduce extra dependencies/complexity (in contrast to combining different SA tools).
 We use Clang AST \cite{clang_ast} and Clang Tidy \cite{clang_tidy} to analyze the code. We chose them because both are reliable and extensible open-source tools. Moreover, and most important, both are supported but the company's C++ codebase.
 
 
@@ -25,7 +25,7 @@ In order to traverse the AST, Clang offers two approaches:
 
 Clang Tidy is a modular C++ linter tool which provides an extensible framework for diagnosing and fixing typical programming errors, like style violations, interface misuse, or bugs that can be deduced via static analysis \cite{clang_tidy}. 
 
-In addition to its Static Analyzer checks, Clang Tidy contains a large list of other checks ranging from those that target bugprone code constructs, to CERT Secure Coding Guidelines, C++ Core Guidelines etc...
+In addition to its Static Analyzer checks, Clang Tidy contains a large list of other checks ranging from those that target bugprone code constructs, to CERT Secure Coding Guidelines, C++ Core Guidelines, etc.
 
 Clang Tidy can be configured by selecting the type of checks to be executed or by restricting the parts of code where to carry out such checks.
 
@@ -37,15 +37,15 @@ The following checks were regarded as relevant by the company and used during co
 	\item Checks related to performance
 \end{itemize}
 
-\subsection{Workflow for collecting data \label{data_collection}}
+\subsection{Process for collecting data \label{data_collection}}
 
 By exploiting the extensibility of Clang Tidy (ability to define new checks) and the power of the Clang AST (collecting information from code), the metrics needed by the ML algorithms can themselves be implemented as checks and thus be extracted automatically when analyzing the codebase. This is a flexible approach which allows to build automatic processing of alerts by integrating alert as well as metric collection within a single toolchain.
 
 In order to make processing alerts easier, the C++ interface code of Clang Tidy was slightly changed to output information in a more suited format (line number instead of bit offset from start of file), hide not useful information, and output alerts only from the file under analysis (not from imported headers).
 
-Starting by the provided open source \href{https://github.com/llvm-mirror/clang-tools-extra/blob/master/clang-tidy/tool/run-clang-tidy.py}{python scripts}, a workflow can be built in python to automatically collect alerts and metrics. In order to crawl the code history of the project, different script were implemented in python to automatically guide the workflow and process the output of SVN (version control system used at the company).
+Starting by the provided open source python scripts,\footnote{\url{https://github.com/llvm-mirror/clang-tools-extra/blob/master/clang-tidy/tool/run-clang-tidy.py}} we can create a process in python to automatically collect alerts and metrics. In order to examine the code history of the project, we use different python scripts to automatically guide through the procedure and analyze the output of Subversion (SVN, a version control system used at the company).
 
-The high level workflow for collecting data consists of the following steps (see also \cref{data_workflow}):
+The high-level workflow for the collecting data process consists of the following steps (\cref{data_workflow}):
 \begin{itemize}
 	\item Start by selecting a base revision in the code history.
 	\item Fully analyze that revision of the codebase (collect all alerts output by Clang Tidy).
@@ -60,7 +60,7 @@ The high level workflow for collecting data consists of the following steps (see
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.2]{./src/collect_info.png}
+	\includegraphics[scale=0.25]{./src/collect_info.png}
 	\caption{Collecting alerts and other information}
 	\label{data_workflow}
 \end{figure}
@@ -68,13 +68,13 @@ The high level workflow for collecting data consists of the following steps (see
 \subsection{Assumptions made for collected data}
 \label{data_assumptions}
 
-Some algorithms use the notion of \textit{Actionable Alerts} for processing the output of SA tools. Actionable Alerts (AA) are alerts that are deemed important by developers in the past (alerts that they acted on). In order to automatically label alerts as such (no existing information that can point to that), an important and risky assumption has to be made: alerts that disappear during code changes (revisions/commits) are considered as actionable, the rest is not. 
+Some algorithms use the notion of \textit{Actionable Alerts} for processing the output of SA tools. Actionable Alerts (AA) are alerts that are deemed important by developers in the past (alerts that they acted on). In order to automatically label alerts as such (no existing information that can point to that), we made the following assumption: alerts that disappear during code changes (revisions/commits) are considered as actionable, the rest is not.
 
-This assumptions, though necessary, is risky because not all alerts disappear as a result of direct and targeted change by developers. Their disappearance can be caused by other unknown factors (those related to deleted files are not taken into account). Data generated using this approach can contain a lot of false positives and potentially damage the performance of the used ML algorithms.
+This assumption, though necessary and reasonable, is not foolproof because not all alerts disappear as a result of direct and targeted change by developers. Their disappearance can be caused by other  factors (those related to deleted files are not taken into account). Data generated using this approach can contain false positives which may affect the results of ML algorithms.
 
-Another algorithm uses alerts pointing at past bugs as a way to prioritize future alerts. Also in this case an assumption is needed: the alerts that pointed to past bugs, were directly related to that bug. This may not always be true and can cause the aforementioned problems as a result.
+Another algorithm uses alerts pointing at past bugs as a way to prioritize future alerts. In this case, we need another assumption: we consider alerts that pointed to a past bug to be directly related to each other. This assumption may not always be true, but it is a reasonable approximation.
 
-The nature of automatic data extraction, without a reliable oracle pointing at the right decisions, leads to impure data and penalizes the efficiency of ML algorithms, but unfortunately it is an indispensable trade-off to be made.
+The nature of automatic data extraction, without a reliable oracle pointing at the right decisions, leads to impure data and penalizes the efficiency of ML algorithms, but unfortunately, it is an indispensable trade-off to be made. On the other hand, we claim to take the appropriate actions and assumptions to mitigate the effects of this data.
 
 \subsection{Data overview}
 \label{data_collection:overview}
