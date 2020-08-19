@@ -24,7 +24,7 @@
 
 \subsection{Discussion}
 
-\henrique{What you wrote here, in breaking subsubsections for each RQ is not really a conclusion, it looks more like a "Discussion" subsection. You can put Discussion as the last part of the evaluation or in the conclusions.}
+%\henrique{What you wrote here, in breaking subsubsections for each RQ is not really a conclusion, it looks more like a "Discussion" subsection. You can put Discussion as the last part of the evaluation or in the conclusions.}
 
 \subsubsection{RQ\#1: Can we apply SA ranking techniques in an industrial environment with limited amount of data?}
 
@@ -54,12 +54,18 @@ By inspecting the metrics achieved by different balancing/cleaning techniques (\
 We started by collecting two different datasets, one related to SA alerts and their change with time, the other about buggy methods and the changes within them (\cref{data_collection:overview}). By using those datasets we evaluated four different techniques, two which are directly concerned with finding actionable alerts (\cref{method:fbrank}, \cref{method:actalerts}), which the other two mainly focus on the bug prediction aspect (\cref{method:brls}, \cref{method:bugprediction}).
 On top of that, an ensemble approach that combines both types of methods was evaluated.
 
-Excluding the Feedback Rank method, which did not scale to the size of our test project (could be because of implementation problems), the other methods all provide a noticeable improvement over random ranking of alerts (\cref{evaluation:results}). \henrique{(...) ranging from XX\% to XX\% improvement over the random...}
- The Actionable Alerts approach, provides great results in detecting actionable alerts (\cref{result:actalerts}) \henrique{wth a precision of XX\%,recall of XX\%, and...}
+Excluding the Feedback Rank method, which did not scale to the size of our test project (could be because of implementation problems), the other methods all provide a noticeable improvement over random ranking of alerts (\cref{evaluation:results}), which ranges from 50\% to 75\% more actionable alerts in the top 100 places, or from 39\% to 57\% more actionable alerts on the top 1000 places. 
 
-, the Method Bug Prediction, even though does not reach a high performance in its core task (predicting buggy methods), is nevertheless able to rank favorably actionable alerts on buggy methods (\cref{results:ranking_methodbug_alerts}), and the Bug-related Lines approach, despite its simplicity, still performs well (\cref{results:ranking_brls}). \henrique{Again try to put some actual metric results here.}
+The Actionable Alerts approach, provides great results in detecting actionable alerts (\cref{result:actalerts}). With a precision and recall of around 97\%, and around 50\% more actionable alerts on both the top 100 and 1000 places (compared to random ranking). 
+%\henrique{wth a precision of XX\%,recall of XX\%, and...}
 
-By combining the best performing method for detecting actionable alerts, with the one predicting buggy methods, and simple alert weights (calculated from the bug-related alerts), we built an ensemble approach that does not only rank actionable alerts higher, but also promotes alerts that point to buggy methods higher in the ranking (\cref{results:ensemble_ranking}).
+The Method Bug Prediction, even though does not reach a high performance in its core task (predicting buggy methods), with a precision/recall of respectively 71\% and 72\%, is nevertheless able to rank favorably actionable alerts on buggy methods (\cref{results:ranking_methodbug_alerts}). It achieves around 75\% and 57\% improvement over random ranking on the top 100 and 1000 places respectively (tested only on those alerts that are located on the methods of the test set).
+
+The Bug-related Lines approach, despite its simplicity, still performs well (\cref{results:ranking_brls}), providing an improvement of 50\% and 39\% over random ranking on the top 100 and 1000 places respectively.
+ 
+%\henrique{Again try to put some actual metric results here.}
+
+By combining the best performing method for detecting actionable alerts, with the one predicting buggy methods, and simple alert weights (calculated from the bug-related alerts), we built an ensemble approach that does not only rank actionable alerts higher, but also promotes alerts that point to buggy methods higher in the ranking (\cref{results:ensemble_ranking}). By sacrificing some precision on the actionable alerts, we can promote 36\% more bug-related alerts in the top 200 places of the ranking.
 
 
 \subsection{Summary of Contributions}
@@ -72,9 +78,9 @@ This thesis provides the following contributions:
 %\henrique{One contribution will not be the sole cause that gives the impression of 'thesis hacked together in little time'. It is overacting to say so. I understand that you may be stressed out due to the deadline, but try to keep a cool head. Moreover, it does not matter if you chose to focus on implementation or research, a contribution in the thesis will be the same nonetheless. On that note, not everything you worked on is a contribution. I do not deny that you put a lot of work on extracting data. Now saying that is a contribution is a completely different thing. Workflows (most often) are not contributions. The process or method on a workflow could be a contribution, but I do not think yours is. The extracted data could be a contribution if it was a public dataset useful for other researchers to conduct comparative experiments, and it is not the case for your data either. Therefore, I do not see anything here that can be classified as a contribution. In the end, this is YOUR thesis, if you want to leave this as a contribution go ahead. You are more than free to follow my suggestions or not.}
 
 \item The evaluation of different SA ranking techniques on an industrial codebase, namely: Actionable Alerts (ranking alerts depending on their historical usefulness), Method Bug Prediction (ranking alerts based on how bug-prone is the method where they are located), Bug-Related Lines (ranking alerts based on type weights calculated on bug-related and actionable alerts) and an Ensemble method (ranking alerts based on a combination of the three aforementioned methods).
-\henrique{I think you are missing a little more detail to make this into a proper contribution.}
-\kleidi{For example? I have results for each tool.}
-\henrique{For example, which ranking technique were used?}
+%\henrique{I think you are missing a little more detail to make this into a proper contribution.}
+%\kleidi{For example? I have results for each tool.}
+%\henrique{For example, which ranking technique were used?}
 \item Comparison of pre-processing methods to deal with imbalanced and noisy data.
 \item We conducted a comparative study of different approaches on a common codebase.
 %\item We demonstrate the utility of combining different ranking methods into an ensemble. \henrique{by using a Bayesian network?}

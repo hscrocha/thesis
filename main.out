@@ -12,7 +12,7 @@
 \BOOKMARK [1][-]{section.4}{Collecting and analyzing data}{}% 12
 \BOOKMARK [2][-]{subsection.4.1}{Clang AST}{section.4}% 13
 \BOOKMARK [2][-]{subsection.4.2}{Clang Tidy}{section.4}% 14
-\BOOKMARK [2][-]{subsection.4.3}{Workflow for collecting data }{section.4}% 15
+\BOOKMARK [2][-]{subsection.4.3}{Process for collecting data }{section.4}% 15
 \BOOKMARK [2][-]{subsection.4.4}{Assumptions made for collected data}{section.4}% 16
 \BOOKMARK [2][-]{subsection.4.5}{Data overview}{section.4}% 17
 \BOOKMARK [3][-]{subsubsection.4.5.1}{Revision data}{subsection.4.5}% 18
@@ -48,4 +48,4 @@
 \BOOKMARK [2][-]{subsection.8.2}{Conclusions}{section.8}% 48
 \BOOKMARK [2][-]{subsection.8.3}{Summary of Contributions}{section.8}% 49
 \BOOKMARK [2][-]{subsection.8.4}{Future Research}{section.8}% 50
-\BOOKMARK [1][-]{section*.89}{References}{}% 51
+\BOOKMARK [1][-]{section*.72}{References}{}% 51

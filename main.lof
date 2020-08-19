@@ -25,14 +25,14 @@
 \contentsline {figure}{\numberline {26}{\ignorespaces Example of a simple Bayes Network for predicting 3 alerts\relax }}{30}{figure.caption.35}
 \contentsline {figure}{\numberline {27}{\ignorespaces Calculating BRLs (\cite {which_warnings})\relax }}{32}{figure.caption.36}
 \contentsline {figure}{\numberline {28}{\ignorespaces Release-based vs K-Fold (\cite {performance_method_bug})\relax }}{34}{figure.caption.38}
-\contentsline {figure}{\numberline {29}{\ignorespaces Actionable alerts with ADASYN\relax }}{37}{figure.caption.50}
-\contentsline {figure}{\numberline {30}{\ignorespaces Cumulative ranking graph for Actionable Alerts\relax }}{38}{figure.caption.52}
-\contentsline {figure}{\numberline {31}{\ignorespaces Method Bug Prediction with One Sided Selection\relax }}{39}{figure.caption.55}
-\contentsline {figure}{\numberline {32}{\ignorespaces Correlation of buggy methods with closed alerts\relax }}{40}{figure.caption.56}
-\contentsline {figure}{\numberline {33}{\ignorespaces Cumulative ranking graph for Method Bug Prediction\relax }}{41}{figure.caption.58}
-\contentsline {figure}{\numberline {34}{\ignorespaces Feedback Rank with Random Over Sampling\relax }}{42}{figure.caption.60}
-\contentsline {figure}{\numberline {35}{\ignorespaces Cumulative ranking graph for Feedback Rank\relax }}{42}{figure.caption.62}
-\contentsline {figure}{\numberline {36}{\ignorespaces Bug-related alert distribution\relax }}{43}{figure.caption.69}
-\contentsline {figure}{\numberline {37}{\ignorespaces Cumulative ranking graph for Bug-Related Lines\relax }}{44}{figure.caption.71}
-\contentsline {figure}{\numberline {38}{\ignorespaces Cumulative ranking graph for first 1000 actionable alerts\relax }}{46}{figure.caption.82}
-\contentsline {figure}{\numberline {39}{\ignorespaces Cumulative ranking graph for first 1000 bug-prone alerts\relax }}{46}{figure.caption.83}
+\contentsline {figure}{\numberline {29}{\ignorespaces Actionable alerts with ADASYN\relax }}{37}{figure.caption.44}
+\contentsline {figure}{\numberline {30}{\ignorespaces Cumulative ranking graph for Actionable Alerts\relax }}{38}{figure.caption.46}
+\contentsline {figure}{\numberline {31}{\ignorespaces Method Bug Prediction with One Sided Selection\relax }}{39}{figure.caption.48}
+\contentsline {figure}{\numberline {32}{\ignorespaces Correlation of buggy methods with closed alerts\relax }}{40}{figure.caption.49}
+\contentsline {figure}{\numberline {33}{\ignorespaces Cumulative ranking graph for Method Bug Prediction\relax }}{41}{figure.caption.51}
+\contentsline {figure}{\numberline {34}{\ignorespaces Feedback Rank with Random Over Sampling\relax }}{42}{figure.caption.53}
+\contentsline {figure}{\numberline {35}{\ignorespaces Cumulative ranking graph for Feedback Rank\relax }}{42}{figure.caption.55}
+\contentsline {figure}{\numberline {36}{\ignorespaces Bug-related alert distribution\relax }}{43}{figure.caption.63}
+\contentsline {figure}{\numberline {37}{\ignorespaces Cumulative ranking graph for Bug-Related Lines\relax }}{44}{figure.caption.65}
+\contentsline {figure}{\numberline {38}{\ignorespaces Cumulative ranking graph for first 1000 actionable alerts\relax }}{45}{figure.caption.68}
+\contentsline {figure}{\numberline {39}{\ignorespaces Cumulative ranking graph for first 1000 bug-prone alerts\relax }}{46}{figure.caption.69}
