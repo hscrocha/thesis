@@ -25,8 +25,8 @@ Popular companies acknowledge the usefulness of Static Analysis techniques by ad
 
 %\henrique{** End of the first paragraph rewrite suggestion **}
 
+Even though SA is useful and employed by real companies, there is still much room for improvement. Since the software under analysis is not executed, SA tools must infer what the actual program behavior will be. Therefore, SA tools are bound to make misclassifications or raise false alarms~\cite{cheirdari2018}. \henrique{Remember the sentence you used in the abstract, about the 70\% false positive SA alerts. I recommend you put a similar sentence here to end this paragraph. And dont forget to put the reference for it (there is no references in the abstract but it is important to have them in the main text). I believe this will give a nice closure to this paragraph.}
 
-Even though SA is useful and employed by real companies, there is still much room for improvement. Since the software under analysis is not executed, SA tools must infer what the actual program behavior will be. Therefore, SA tools are bound to make misclassifications or raise false alarms.
 
 Given the tendency of SA tools to over-estimate possible faulty program behaviours, there is a need to fine-tune and improve the alarms and warnings raised by these tools. There are two ways that we can improve SA tools: (i) increase the precision of the analysis which usually decreases its recall and the overall number of raised alarms; or (ii) by post-processing the alarms after they are generated, according to specific criteria more appropriate for the codebase. We opted to focus on the second option, post-processing of alarms. 
 %%
@@ -63,6 +63,7 @@ In this thesis, our goal is to verify if it is possible to apply ranking approac
 % In this thesis, a comparison of different SA processing approaches is performed in an industrial codebase. Also, the utility of combining different methods is explored.
 
 The rest of this thesis will be structured in the following sections: Problem Statement, Literature Review, Collecting and Analyzing Data, Ranking the Output of Static Analysis, Evaluating the Approaches, Threats to Validity, Conclusion and Discussion.
+\henrique{Usually we put the section numbers and also gve a little description on the sections as well.}
 
 % \textbf{TO DO: duality, actionable alert and bug predicition alerts}
 
