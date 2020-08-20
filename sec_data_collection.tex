@@ -79,12 +79,13 @@ The nature of automatic data extraction, without a reliable oracle pointing at t
 \subsection{Data overview}
 \label{data_collection:overview}
 
-A typical release in the \textit{OMP's} codebase consists of around \textit{27.000} \textit{.cpp} files containing over \textit{4.000.000} lines and coded by more than 300 developers (in its entire history). The following section will provide a numerical overview of a portion of revisions analyzed from one of its releases 
+A typical release in the \textit{OMP's} codebase consists of around \textit{27,000} \textit{.cpp} files containing over \textit{four million} lines of code and coded by more than 300 developers (in its entire history). The following section will provide a numerical overview of a portion of revisions analyzed from one of its releases.
 
-We analyzed 1868 revisions, dating from \textit{09/2019} to \textit{05/2020}. From those revision, 1313 contain bug fixes. 
+We analyzed 1868 revisions, dating from \textit{09/2019} to \textit{05/2020}. There was 1,313 bug fixes information in the revisions.
 
 \subsubsection{Revision data}
-We take a look at the main differences between normal and bug-fix commits.
+
+We investigated the main differences between regular commits and bug-fix commits.
 
 %\henrique{When I said in Section 5 that tables need to have a number and a title/caption, I meant it for the entire thesis. The tables bellow are missing that.}
 %\kleidi{Did not want to change all sections and cause possible merge conflicts on your part...}
@@ -136,7 +137,8 @@ We take a look at the main differences between normal and bug-fix commits.
 	\label{rev_changes}
 \end{figure}
 
-As can be seen from the data (\cref{rev_files}, \cref{rev_lines}, and \cref{rev_changes}), there is significant difference between the amount of changes that happen during a normal and a bug-fix revision, with the later being almost half the size. That is important because the bug fix changes can be better located. There is also a big difference between mean and median values of the collected features, shifting the values of the former to be higher (can be also seen on the box plots on \cref{box:changed_lines} and \cref{box:changed_files}). That means that there are certain revision that are abnormally large compared to others and that negatively impact the quality of the data. 
+As can be seen from the data (\cref{rev_files}, \cref{rev_lines}, and \cref{rev_changes}), there is a noticeable difference between the number of changes that happen during a normal and a bug-fix revision, with the latter being almost half the size. That is important because the bug fix changes can be better located. There is also a big difference between mean and median values of the collected features, shifting the values of the former to be higher (can be also seen on the box plots on \cref{box:changed_lines} and \cref{box:changed_files}). That means that there are certain revisions that are abnormally large compared to others and that negatively impacts the quality of the data.
+
 
 \begin{figure}[H]
 	\begin{subfigure}{0.5\textwidth}
@@ -170,18 +172,20 @@ As can be seen from the data (\cref{rev_files}, \cref{rev_lines}, and \cref{rev_
 
 \newpage
 \subsubsection{Closed Alerts}
+\henrique{The tables in this subsection have no number nor a title/caption}
 
 \begin{table}[H]
 	\centering
-	\begin{tabular}{@{}lcccc@{}}
+	\begin{tabular}{@{}lrrrr@{}}
 		\toprule
-		& \textbf{Number of alert} & \textbf{\% of alerts} & \textbf{Number of closed alerts} & \textbf{\% of closed alerts} \\ \midrule
-		\textit{cppcoreguidelines} & 177812                   & 93.8\%                & 78785                            & 95.6\%                       \\
-		\textit{performance}       & 6010                     & 3.2\%                 & 2297                             & 2.8\%                        \\
-		cert                       & 4673                     & 2.5\%                 & 948                              & 1.2\%                        \\
-		\textit{clang}             & 1040                     & 0.5\%                 & 346                              & 0.4\%                        \\ \bottomrule
+		& \textbf{\# of Alerts} & \textbf{\% of Alerts} & \textbf{\# of Closed Alerts} & \textbf{\% of Closed Alerts} \\ \midrule
+		\textit{cppcoreguidelines} & 177,812                   & 93.8\%                & 78,785                            & 95.6\%                       \\
+		\textit{performance}       & 6,010                     & 3.2\%                 & 2,297                             & 2.8\%                        \\
+		cert                       & 4,673                     & 2.5\%                 & 948                              & 1.2\%                        \\
+		\textit{clang}             & 1,040                     & 0.5\%                 & 346                              & 0.4\%                        \\ \bottomrule
 	\end{tabular}
 \end{table}
+
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.4]{./src/data_analysis/pie_alerts.png}
@@ -189,15 +193,15 @@ As can be seen from the data (\cref{rev_files}, \cref{rev_lines}, and \cref{rev_
 	\label{data_analysis:collected_alerts}
 \end{figure}
 
-From the distribution of collected alerts, we can see that it is dominated by the \textit{cppcoreguidelines} checks, while the remaining three categories consist only of 4.4\% of the total alerts.
+From the distribution of collected alerts, \textit{cppcoreguidelines} is the most common occurrence (approximately 95\% of closed alerts), while the remaining three categories consist only of 4.4\% of the closed total.
 
 \begin{table}[H]
 	\centering
-	\begin{tabular}{lcc}
+	\begin{tabular}{lrc}
 		\hline
-		& \textbf{Number of closed alerts} & \textbf{\% of closed alerts inside category} \\ \hline
-		\textit{cppcoreguidelines} & 78785                            & 44\%                                         \\
-		\textit{performance}       & 2297                             & 38\%                                         \\
+		& \textbf{\# of Closed Alerts} & \textbf{\% of Closed Alerts Inside Category} \\ \hline
+		\textit{cppcoreguidelines} & 78,785                            & 44\%                                         \\
+		\textit{performance}       & 2,297                             & 38\%                                         \\
 		cert                       & 948                              & 20\%                                         \\
 		\textit{clang}             & 346                              & 33\%                                         \\ \hline
 	\end{tabular}
@@ -209,9 +213,10 @@ From the distribution of collected alerts, we can see that it is dominated by th
 	\caption{Ratio of closed alerts per category}
 \end{figure}
 
-The ratio of closed alerts inside each category also differs greatly, from 44\% of \textit{cppcoreguidelines} to 20\% of the \textit{cert} alerts.
+The ratio of closed alerts inside each category also differs greatly, from 44\% of \textit{cppcoreguidelines} to 20\% of the \textit{cert} alerts. \henrique{It took me a while to understand what you mean by 'inside category' (you divided the closed alerts by the total alerts for each line in the previous table). I think you should at least explain in text what that is supposed be.}
 
-By analyzing the lifetime of closed alerts, in terms of number of revisions, we can see that alerts take before getting closed (see \cref{closed_alerts:lifetime}). Around a quart of alerts gets closed within 200 first revisions after being opened. That is not a good indication because it may mean that they do not directly disappear from targeted action from developers.
+By analyzing the lifetime of closed alerts, in terms of number of revisions, we can see that alerts take before getting closed (see \cref{closed_alerts:lifetime}). \henrique{I think you are missing something (possible a verb) on the last part of the sentence. I do not understand what 'alerts take before closing'.}
+Around a quart of alerts gets closed within 200 first revisions after being opened. That is not a good indication because it may mean that they do not directly disappear from targeted action from developers.
 
 \begin{figure}[h]
 	\begin{subfigure}{1\textwidth}
@@ -367,7 +372,7 @@ From the plots in \cref{most_open_alerts} and \cref{most_open_packages}, we can 
 
 \subsection{Dealing with unbalanced and noisy data}
 
-Our automatically collected data suffers from two main problems, imbalance and noise. 
+Our automatically collected data is hindered by two issues: imbalance and noise.
 
 Kim et al. \cite{noise_defect} propose a method for dealing with noisy data in the context of defect prediction algorithms. They also provide guidelines for acceptable noise levels and study the impact of different amounts of noise on the prediction performance.
 They found out that performance, in terms of f-measure, is affected more by the presence of false positives and that the tested algorithms were robust to the presence of false negatives. When noise levels reach 20-35\% of both FP and FN, the performance decreases significantly, especially on small datasets.
@@ -375,7 +380,7 @@ The proposed algorithm for cleaning noisy data by \cite{noise_defect}, calculate
 
 Batista et al. \cite{balancing_comparison}, perform a comparative evaluation of different dataset balancing techniques. They claim that imbalance alone is not the only reason for poor classifier results, but that it is also related to noisy/overlapping data. According to their experiments, over-sampling methods perform generally better and \textit{SMOTE} + Tomek/ENN provide good results for datasets with few positive examples.
 
-Given the nature of our approach to detecting actionable alerts, it seems plausible that the amount of false positives will be non negligible, and thus there is a high risk that there will be a significant performance impact. Since, the number of examples of the positive class is also smaller than the negative one, there seems to be a necessity to apply a combination of balancing and cleaning to the dataset.
+Given the nature of our approach to detecting actionable alerts, it seems plausible that the number of false positives will be non-negligible, and thus there is a risk that there will be a noticeable performance impact. Since the number of examples of the positive class is also smaller than the negative one, it is necessary to apply a combination of balancing and cleaning to the dataset.
 
 The \textit{imblearn} library (\cite{imblearn}) contains different techniques to clean the dataset by performing under-sampling (see also \cref{under_sampling_ex}):
 
@@ -398,14 +403,14 @@ The following table counts the number of samples cleaned by each method (default
 
 \begin{table}[H]
 	\centering
-	\begin{tabular}{cc}
+	\begin{tabular}{lr}
 		\hline
-		& \textbf{Removed samples} \\ \hline
+		 \multicolumn{2}{r}{ \textbf{Removed Samples} } \\ \hline
 		\textit{Tomek's Links}                      & 1                        \\
 		\textit{Edited Nearest Neighbours}          & 34                       \\
 		\textit{Repeated Edited Nearest Neighbours} & 38                       \\
 		\textit{AllKNN}                             & 37                       \\
-		\textit{Condensed Nearest Neighbors}        & 106949                   \\
+		\textit{Condensed Nearest Neighbors}        & 106,949                   \\
 		\textit{One Sided Selection}                & 204                      \\
 		\textit{Neighbourhood Cleaning Rule}        & 95                       \\ \hline
 	\end{tabular}
