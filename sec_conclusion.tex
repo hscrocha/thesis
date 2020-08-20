@@ -48,8 +48,8 @@ By inspecting the metrics achieved by different balancing/cleaning techniques (\
 %-got these results, because...\\
 %-importance on preprocessing\\
 %-initial results may be slightly better that normal, but the nature of data collection is limiting, need to be used in continuance\\ 
-\henrique{For a conclusion, you start by doing quick summarization of what you did (here you can describe everything you did that you think is important. Be sure to cite numbers as results as you describe them.}
-\henrique{It is a good start for a conclusion. We usually do not reference other sections as often as you did in this conclusion, but it is not a problem. My main concern is that you should put some actual results numbers here as well. I know they are better described in the refering sections, but anyone looking at the conclusion wants to see a quick wrap up.}
+%\henrique{For a conclusion, you start by doing quick summarization of what you did (here you can describe everything you did that you think is important. Be sure to cite numbers as results as you describe them.}
+%\henrique{It is a good start for a conclusion. We usually do not reference other sections as often as you did in this conclusion, but it is not a problem. My main concern is that you should put some actual results numbers here as well. I know they are better described in the refering sections, but anyone looking at the conclusion wants to see a quick wrap up.}
 
 We started by collecting two different datasets, one related to SA alerts and their change with time, the other about buggy methods and the changes within them (\cref{data_collection:overview}). By using those datasets we evaluated four different techniques, two which are directly concerned with finding actionable alerts (\cref{method:fbrank}, \cref{method:actalerts}), which the other two mainly focus on the bug prediction aspect (\cref{method:brls}, \cref{method:bugprediction}).
 On top of that, an ensemble approach that combines both types of methods was evaluated.
@@ -77,12 +77,13 @@ This thesis provides the following contributions:
 %\kleidi{The thesis is made in the context of an internship, where in my opinion the focus is higher on implementation than a normal research. Since a considerable amount of time was put into extraction of the data (more difficult in a restricted company environment than a typical research), it is also meant as a justification that an adequate amount of time was spent in the making of this thesis. I do agree that in the research point of view it is not something considered valuable. I do not mind if it is removed, but don't want to give the wrong impression that the thesis might be something hacked together in little time.}
 %\henrique{One contribution will not be the sole cause that gives the impression of 'thesis hacked together in little time'. It is overacting to say so. I understand that you may be stressed out due to the deadline, but try to keep a cool head. Moreover, it does not matter if you chose to focus on implementation or research, a contribution in the thesis will be the same nonetheless. On that note, not everything you worked on is a contribution. I do not deny that you put a lot of work on extracting data. Now saying that is a contribution is a completely different thing. Workflows (most often) are not contributions. The process or method on a workflow could be a contribution, but I do not think yours is. The extracted data could be a contribution if it was a public dataset useful for other researchers to conduct comparative experiments, and it is not the case for your data either. Therefore, I do not see anything here that can be classified as a contribution. In the end, this is YOUR thesis, if you want to leave this as a contribution go ahead. You are more than free to follow my suggestions or not.}
 
+\item Comparison of pre-processing methods to deal with imbalanced and noisy data.
+
 \item The evaluation of different SA ranking techniques on an industrial codebase, namely: Actionable Alerts (ranking alerts depending on their historical usefulness), Method Bug Prediction (ranking alerts based on how bug-prone is the method where they are located), Bug-Related Lines (ranking alerts based on type weights calculated on bug-related and actionable alerts) and an Ensemble method (ranking alerts based on a combination of the three aforementioned methods).
 %\henrique{I think you are missing a little more detail to make this into a proper contribution.}
 %\kleidi{For example? I have results for each tool.}
 %\henrique{For example, which ranking technique were used?}
-\item Comparison of pre-processing methods to deal with imbalanced and noisy data.
-\item We conducted a comparative study of different approaches on a common codebase.
+\item A comparative study of different approaches on a common codebase.
 %\item We demonstrate the utility of combining different ranking methods into an ensemble. \henrique{by using a Bayesian network?}
 %\kleidi{this is unfortunately a to do for the moment, hope to finish it tonight/tomorrow}
 %\henrique{I was wondering if the ensemble was performed by using a Bayesian network. If it is then it should be detailed in the contribution. }
